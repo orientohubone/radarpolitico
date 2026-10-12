@@ -8,7 +8,7 @@ async function fetchPing() {
 }
 
 export default function Home() {
-  const { data, isLoading, error } = useQuery(['ping'], fetchPing)
+  const { data, isLoading, error } = useQuery({ queryKey: ['ping'], queryFn: fetchPing })
 
   return (
     <div className="min-h-screen bg-gray-50 flex items-center justify-center">
@@ -17,7 +17,7 @@ export default function Home() {
         {isLoading ? (
           <p>Carregando...</p>
         ) : error ? (
-          <p>Erro: {(error as any).message}</p>
+          <p role="alert">Erro: {error.message}</p>
         ) : (
           <pre className="bg-gray-100 p-4 rounded">{JSON.stringify(data, null, 2)}</pre>
         )}
