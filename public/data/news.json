@@ -1,0 +1,83 @@
+{
+  "items": [
+    {
+      "id": "agencia-brasil-1705129",
+      "title": "Em Aparecida, Alckmin pede isenção da Justiça Eleitoral",
+      "description": "Vice-presidente também defendeu a liberdade religiosa após participar da missa solene em louvor à Nossa Senhora Aparecida.",
+      "url": "https://agenciabrasil.ebc.com.br/politica/noticia/2026-10/em-aparecida-alckmin-pede-isencao-da-justica-eleitoral",
+      "image": "https://imagens.ebc.com.br/4NONYJ80PcbnR8XqYdQzdyEHeHw=/1600x800/https://agenciabrasil.ebc.com.br/sites/default/files/thumbnails/image/2026/10/12/geraldo_alckmin.jpg?itok=uaov-p6p",
+      "publishedAt": "2026-10-12T16:18:00-03:00",
+      "source": "Agência Brasil",
+      "sourceId": "agencia-brasil",
+      "category": "Política"
+    },
+    {
+      "id": "camara-1306357",
+      "title": "Projeto pune empresas que atrasarem pagamento de médicos",
+      "description": "Proposta em análise na Câmara estabelece medidas para proteger profissionais contra atrasos de pagamento.",
+      "url": "https://www.camara.leg.br/noticias/1306357-projeto-pune-empresas-que-atrasarem-pagamento-de-medicos",
+      "image": "/images/committee.jpg",
+      "publishedAt": "",
+      "source": "Agência Câmara",
+      "sourceId": "agencia-camara",
+      "category": "Câmara"
+    },
+    {
+      "id": "senado-fim-6x1",
+      "title": "Fim da escala 6x1: votação em primeiro turno é marcada no Senado",
+      "description": "A proposta de emenda à Constituição precisa passar por sessões de discussão antes da votação em Plenário.",
+      "url": "https://www12.senado.leg.br/noticias/materias/2026/10/09/fim-da-6-x-1-senado-pode-concluir-1o-turno-da-votacao-em-mais-duas-sessoes",
+      "image": "https://www12.senado.leg.br/noticias/materias/2026/10/09/fim-da-6-x-1-senado-pode-concluir-1o-turno-da-votacao-em-mais-duas-sessoes/20261006_00423t.jpg",
+      "publishedAt": "2026-10-09T12:00:00-03:00",
+      "source": "Agência Senado",
+      "sourceId": "agencia-senado",
+      "category": "Senado"
+    },
+    {
+      "id": "agencia-brasil-1705103",
+      "title": "Lula defende respeito às religiões no Dia de Nossa Senhora Aparecida",
+      "description": "Presidente destacou a liberdade religiosa e metas de programas habitacionais.",
+      "url": "https://agenciabrasil.ebc.com.br/politica/noticia/2026-10/lula-defende-respeito-religioes-no-dia-de-nossa-senhora-aparecida",
+      "image": "https://imagens.ebc.com.br/3gDnkwO490epD68vwVrK3Pyf7e0=/1600x800/https://agenciabrasil.ebc.com.br/sites/default/files/thumbnails/image/2026/10/12/0d4a2988.jpg?itok=f9E982jd",
+      "publishedAt": "2026-10-12T15:28:00-03:00",
+      "source": "Agência Brasil",
+      "sourceId": "agencia-brasil",
+      "category": "Política"
+    },
+    {
+      "id": "camara-1309819",
+      "title": "Projeto cria programa de educação para proteção animal",
+      "description": "Texto apresentado na Câmara prevê ações educativas e de conscientização sobre proteção animal.",
+      "url": "https://www.camara.leg.br/noticias/1309819-projeto-cria-programa-de-educacao-e-conscientizacao-para-protecao-animal",
+      "image": "/images/chamber.jpg",
+      "publishedAt": "",
+      "source": "Agência Câmara",
+      "sourceId": "agencia-camara",
+      "category": "Câmara"
+    },
+    {
+      "id": "senado-visita-infantil",
+      "title": "Congresso oferece visita guiada com teatro para o público infantil",
+      "description": "A iniciativa usa intervenções teatrais para explicar o caminho de uma lei nos espaços do Congresso Nacional.",
+      "url": "https://www12.senado.leg.br/noticias/materias/2026/10/09/no-mes-da-crianca-congresso-tem-visita-guiada-com-teatro-para-publico-infantil",
+      "image": "https://www12.senado.leg.br/noticias/materias/2026/10/09/no-mes-da-crianca-congresso-tem-visita-guiada-com-teatro-para-publico-infantil/20261009_00074cc.jpg",
+      "publishedAt": "2026-10-09T12:00:00-03:00",
+      "source": "Agência Senado",
+      "sourceId": "agencia-senado",
+      "category": "Senado"
+    },
+    {
+      "id": "agencia-brasil-1705046",
+      "title": "Planos de governo detalham propostas para a cultura",
+      "description": "Programas apresentados à Justiça Eleitoral reúnem medidas de incentivo e preservação do patrimônio histórico.",
+      "url": "https://agenciabrasil.ebc.com.br/politica/noticia/2026-10/conheca-propostas-de-flavio-e-lula-para-cultura",
+      "image": "https://imagens.ebc.com.br/QjlAr0ny4yNlczC7y_q11sz9B3w=/1600x800/https://agenciabrasil.ebc.com.br/sites/default/files/thumbnails/image/sala_de_cinemaagencia_brasilia31122000938.jpg?itok=cln-l4lD",
+      "publishedAt": "2026-10-12T15:00:00-03:00",
+      "source": "Agência Brasil",
+      "sourceId": "agencia-brasil",
+      "category": "Política"
+    }
+  ],
+  "updatedAt": "2026-10-12T16:18:00-03:00",
+  "snapshot": true
+}
