@@ -33,7 +33,7 @@ function Logo({ size = 'normal' }: { size?: 'normal' | 'small' }) {
 type Article = { category: string; title: string; description: string; image: string; alt: string; paragraphs: string[] }
 type LiveNews = { id: string; category: string; title: string; description: string; image: string; url: string; publishedAt: string; source: string }
 const newsFallbackImages = [
-  '/images/chamber.jpg', '/images/committee.jpg', '/images/budget.jpg', '/images/congress-evening.jpg', '/images/ballot.jpg', '/images/congress.jpg',
+  '/images/chamber.jpg', '/images/committee.jpg', '/images/budget.jpg', '/images/congress-evening.jpg', '/images/congress.jpg',
 ]
 const genericImagePatterns = ['imagem-padrao', 'imagem_padrao', 'default', 'placeholder', 'logo-compartilhamento']
 const proxiedImage = (url: string) => url.startsWith('http') ? `/api/image?url=${encodeURIComponent(url)}` : url
@@ -44,7 +44,7 @@ const news: Article[] = [
 ]
 const analyses: Article[] = [
   { category: 'Análise', title: 'Como interpretar uma votação', description: 'Entenda o que está por trás dos números, os diferentes tipos de votação e o que eles significam na prática.', image: 'congress-evening', alt: 'Congresso Nacional ao entardecer', paragraphs: ['Antes de interpretar o resultado, identifique o que estava sendo votado: o texto principal, uma emenda, um destaque ou uma questão de procedimento. Decisões distintas podem aparecer na mesma sessão.', 'Observe o tipo de votação, o quórum exigido e a presença dos parlamentares. Uma ausência não equivale automaticamente a um voto contrário, e uma abstenção é diferente de ambos.', 'Leia a proposta e o registro oficial da sessão. Esses documentos ajudam a relacionar o voto ao conteúdo efetivamente decidido.'] },
-  { category: 'Análise', title: 'O que observar em um plano de governo', description: 'Veja os principais pontos para analisar propostas e identificar o que é viável e o que pode ser prioridade.', image: 'ballot', alt: 'Urna eletrônica da Justiça Eleitoral', paragraphs: ['Um plano de governo pode ser analisado pela clareza dos objetivos, pelos prazos e pela indicação de recursos. Promessas amplas ganham significado quando apresentam metas verificáveis.', 'Confira se a proposta está dentro das competências do cargo disputado. Muitas políticas dependem de outros poderes ou de cooperação entre municípios, estados e União.', 'Busque o documento oficial e compare os compromissos ao longo do tempo. O Radar Político propõe uma leitura do conteúdo, sem substituir sua avaliação.'] },
+  { category: 'Análise', title: 'O que observar em um plano de governo', description: 'Veja os principais pontos para analisar propostas e identificar o que é viável e o que pode ser prioridade.', image: 'committee', alt: 'Reunião de trabalho parlamentar', paragraphs: ['Um plano de governo pode ser analisado pela clareza dos objetivos, pelos prazos e pela indicação de recursos. Promessas amplas ganham significado quando apresentam metas verificáveis.', 'Confira se a proposta está dentro das competências do cargo disputado. Muitas políticas dependem de outros poderes ou de cooperação entre municípios, estados e União.', 'Busque o documento oficial e compare os compromissos ao longo do tempo. O Radar Político propõe uma leitura do conteúdo, sem substituir sua avaliação.'] },
 ]
 const topics: { title: string; description: string; icon: IconName; color: string }[] = [
   { title: 'Educação', description: 'Acompanhe propostas que tratam da educação no Brasil.', icon: 'book', color: 'blue' },
@@ -76,14 +76,14 @@ export default function Home({ onNavigate, onOpenNews }: { onNavigate?: (page: '
   const [showNewsSearch, setShowNewsSearch] = useState(false)
   const searchInput = useRef<HTMLInputElement>(null)
   const dialogRef = useRef<HTMLDialogElement>(null)
-  const { data: liveNewsData, isLoading: newsLoading, isError: newsError } = useQuery<{ items: LiveNews[]; updatedAt: string }>({ queryKey: ['live-news-v2'], queryFn: () => fetchWithLocalCache('/api/news', 'news-v2'), initialData: () => loadLocalCache('news-v2'), staleTime: 5 * 60 * 1000, refetchInterval: 5 * 60 * 1000, retry: 2 })
+  const { data: liveNewsData, isLoading: newsLoading, isError: newsError } = useQuery<{ items: LiveNews[]; updatedAt: string }>({ queryKey: ['live-news-v6'], queryFn: () => fetchWithLocalCache('/api/news', 'news-v6'), initialData: () => loadLocalCache('news-v6'), staleTime: 5 * 60 * 1000, refetchInterval: 5 * 60 * 1000, retry: 2 })
   function navigate(label: string, id: string) { setActive(label); setMenu(false); document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' }) }
   function openModal(content: NonNullable<typeof modal>) { setModal(content); dialogRef.current?.showModal() }
   function articleModal(article: Article) { openModal({ title: article.title, paragraphs: article.paragraphs, image: article.image }) }
   function topicModal(_title: string) { onNavigate?.('proposals') }
   const liveNews = liveNewsData?.items || []
-  const heroNews = liveNews[0]
-  const displayNews: LiveNews[] = liveNews.slice(1, 13)
+  const heroNews = liveNews.find(article => /(?:escala\s*)?6\s*x\s*1/i.test(article.title)) || liveNews[0]
+  const displayNews: LiveNews[] = liveNews.filter(article => article.id !== heroNews?.id).slice(0, 12)
   const filteredNews = displayNews.filter(article => `${article.title} ${article.description} ${article.category}`.toLocaleLowerCase('pt-BR').normalize('NFD').replace(/[\u0300-\u036f]/g, '').includes(newsSearch.toLocaleLowerCase('pt-BR').normalize('NFD').replace(/[\u0300-\u036f]/g, '')))
   const usedImages = new Set(heroNews?.image ? [heroNews.image] : [])
   let fallbackCursor = 0

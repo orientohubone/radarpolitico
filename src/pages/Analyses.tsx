@@ -6,13 +6,13 @@ import { fetchWithLocalCache, loadLocalCache } from '../lib/apiCache'
 type ContentType = 'Análise' | 'Opinião' | 'Explicador'
 type AnalysisItem = { id: number | string; type: ContentType; title: string; description: string; image: string; theme: string; institution: string; url?: string; source?: string }
 type LiveNews = { id: string; category: string; title: string; description: string; image: string; url: string; source: string }
-const analysisFallbackImages = ['/images/congress.jpg', '/images/chamber.jpg', '/images/committee.jpg', '/images/budget.jpg', '/images/congress-evening.jpg', '/images/ballot.jpg']
+const analysisFallbackImages = ['/images/congress.jpg', '/images/chamber.jpg', '/images/committee.jpg', '/images/budget.jpg', '/images/congress-evening.jpg']
 
 const publications: AnalysisItem[] = [
   { id: 1, type: 'Análise', title: 'Orçamento público: escolhas e prioridades', description: 'Entenda como as decisões sobre o orçamento impactam políticas públicas.', image: 'budget', theme: 'Orçamento', institution: 'Congresso' },
   { id: 2, type: 'Explicador', title: 'Como funciona uma comissão parlamentar', description: 'Conheça o papel, a composição e como as comissões atuam no processo legislativo.', image: 'committee', theme: 'Legislativo', institution: 'Congresso' },
   { id: 3, type: 'Opinião', title: 'Transparência precisa fazer parte da rotina', description: 'Acesso à informação fortalece a democracia e melhora as decisões públicas.', image: 'chamber', theme: 'Transparência', institution: 'Câmara' },
-  { id: 4, type: 'Análise', title: 'Propostas e execução: o que acompanhar', description: 'Saiba como identificar o estágio das propostas e o que observar na execução.', image: 'ballot', theme: 'Propostas', institution: 'Congresso' },
+  { id: 4, type: 'Análise', title: 'Propostas e execução: o que acompanhar', description: 'Saiba como identificar o estágio das propostas e o que observar na execução.', image: 'committee', theme: 'Propostas', institution: 'Congresso' },
   { id: 5, type: 'Explicador', title: 'O papel de cada poder da República', description: 'Entenda as funções do Executivo, Legislativo e Judiciário e como eles se relacionam.', image: 'congress-evening', theme: 'Instituições', institution: 'República' },
   { id: 6, type: 'Análise', title: 'Como ler um plano de governo', description: 'Veja o que observar em um plano de governo e como comparar propostas.', image: 'budget', theme: 'Eleições', institution: 'Executivo' },
 ]
@@ -31,7 +31,7 @@ export default function Analyses({ onNavigate }: { onNavigate: (page: PageName) 
   const [type, setType] = useState<'Todos' | ContentType>('Todos')
   const [email, setEmail] = useState('')
   const [message, setMessage] = useState('')
-  const { data: newsData, isLoading, isError } = useQuery<{ items: LiveNews[]; updatedAt: string }>({ queryKey: ['live-news-v2'], queryFn: () => fetchWithLocalCache('/api/news', 'news-v2'), initialData: () => loadLocalCache('news-v2'), staleTime: 5 * 60 * 1000, refetchInterval: 5 * 60 * 1000, retry: 2 })
+  const { data: newsData, isLoading, isError } = useQuery<{ items: LiveNews[]; updatedAt: string }>({ queryKey: ['live-news-v6'], queryFn: () => fetchWithLocalCache('/api/news', 'news-v6'), initialData: () => loadLocalCache('news-v6'), staleTime: 5 * 60 * 1000, refetchInterval: 5 * 60 * 1000, retry: 2 })
   const analysisItems: AnalysisItem[] = newsData?.items?.map((item, index) => ({ id: item.id, type: index % 3 === 0 ? 'Explicador' : index % 3 === 1 ? 'Análise' : 'Opinião', title: item.title, description: item.description, image: item.image || analysisFallbackImages[index % analysisFallbackImages.length], theme: item.category || 'Política', institution: item.source, url: item.url, source: item.source })) || []
   const featured = analysisItems[0]
 

@@ -4,8 +4,9 @@ import Powers from './pages/Powers'
 import Proposals from './pages/Proposals'
 import Analyses from './pages/Analyses'
 import NewsArticle from './pages/NewsArticle'
+import EditorialAdmin from './pages/EditorialAdmin'
 
-export type PageName = 'home' | 'powers' | 'proposals' | 'analyses' | 'newsArticle'
+export type PageName = 'home' | 'powers' | 'proposals' | 'analyses' | 'newsArticle' | 'editorialAdmin'
 
 function pageFromPath(): PageName {
   const path = window.location.pathname.replace(/\/+$/, '') || '/'
@@ -15,6 +16,7 @@ function pageFromPath(): PageName {
   if (path === '/analises') return 'analyses'
   if (path.startsWith('/analises/')) return 'analyses'
   if (path.startsWith('/noticias/')) return 'newsArticle'
+  if (path === '/admin/editorial') return 'editorialAdmin'
   return 'home'
 }
 
@@ -38,5 +40,6 @@ export default function App() {
   if (page === 'proposals') return <Proposals onNavigate={navigate} />
   if (page === 'analyses') return <Analyses onNavigate={navigate} />
   if (page === 'newsArticle') return <NewsArticle onNavigate={navigate} />
+  if (page === 'editorialAdmin') return <EditorialAdmin onNavigate={navigate} />
   return <Home onNavigate={navigate} onOpenNews={id => { window.history.pushState({}, '', `/noticias/${encodeURIComponent(id)}`); setPage('newsArticle'); window.scrollTo({ top: 0 }) }} />
 }
