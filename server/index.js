@@ -126,18 +126,15 @@ app.get('/api/proposals', async (_req, res) => {
 app.get('/api/representatives', async (_req, res) => {
   try {
     if (!databaseEnabled) return res.status(503).json({ error: 'DATABASE_URL não configurada.' })
-    const result = await staleWhileRevalidate('representatives-v7', async () => {
-      const items = await listPublicFigures()
-      return { items, updatedAt: items[0]?.syncedAt || new Date().toISOString(), sources: ['Planalto', 'Câmara dos Deputados', 'Senado Federal', 'Supremo Tribunal Federal'] }
-    })
-    res.json(result)
+    const items = await listPublicFigures()
+    res.set('cache-control', 'no-store').json({ items, updatedAt: items[0]?.syncedAt || new Date().toISOString(), sources: ['Planalto', 'Câmara dos Deputados', 'Senado Federal', 'Supremo Tribunal Federal'] })
   } catch (error) { res.status(502).json({ error: 'Não foi possível consultar os representantes.', detail: error.message }) }
 })
 
 app.post('/api/admin/figures-sync', async (req, res) => {
   if (!databaseEnabled) return res.status(503).json({ error: 'DATABASE_URL não configurada.' })
   if (!isAdmin(req)) return res.status(401).json({ error: 'Não autorizado.' })
-  try { const result = await syncPublicFigures(); await clearCache('representatives-v7'); res.json({ ...result, completedAt: new Date().toISOString() }) }
+  try { const result = await syncPublicFigures(); res.json({ ...result, completedAt: new Date().toISOString() }) }
   catch (error) { res.status(502).json({ error: 'Falha ao sincronizar autoridades.', detail: error.message }) }
 })
 
