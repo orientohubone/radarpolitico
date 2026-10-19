@@ -11,6 +11,7 @@
     "db:migrate": "node server/migrate.js",
     "db:check": "node server/checkDatabase.js",
     "news:ingest": "node server/ingest.js",
+    "news:repair-descriptions": "node server/repairNewsDescriptions.js",
     "images:refresh": "node server/refreshImages.js",
     "media:sync": "node server/syncMediaPool.js",
     "figures:sync": "node server/syncPublicFigures.js",

@@ -30,6 +30,16 @@ function meta(html, property) {
   return decode(first?.[1] || reversed?.[1] || '')
 }
 
+function classText(html, className) {
+  const match = html.match(new RegExp(`<[^>]+class=["'][^"']*\\b${className}\\b[^"']*["'][^>]*>([\\s\\S]*?)<\\/[^>]+>`, 'i'))
+  return decode(match?.[1] || '')
+}
+
+function editorialFallback(title) {
+  const subject = title.replace(/[.!?]+$/, '')
+  return `${subject}. Entenda o que está em discussão e quais são os próximos passos.`
+}
+
 function parseRss(xml, source) {
   return [...xml.matchAll(/<item(?:\s[^>]*)?>([\s\S]*?)<\/item>/gi)].slice(0, 20).map(match => {
     const item = match[1]
@@ -43,7 +53,7 @@ function parseSenado(html, source) {
     const title = decode(match[2]); const url = new URL(match[1], source.url).href
     if (!title || seen.has(url)) return null
     seen.add(url)
-    return { title, description: 'Leia a notícia completa na fonte oficial do Senado Federal.', url, image: attr(match[2], 'img', 'src'), publishedAt: '', source: source.name, sourceId: source.id, category: 'Senado' }
+    return { title, description: '', url, image: attr(match[2], 'img', 'src'), publishedAt: '', source: source.name, sourceId: source.id, category: 'Senado' }
   }).filter(Boolean).slice(0, 20)
 }
 
@@ -53,7 +63,7 @@ function parseCamara(html, source) {
     const title = decode(match[2]); const url = new URL(match[1], source.url).href
     if (!title || title.length < 20 || seen.has(url)) return null
     seen.add(url)
-    return { title, description: 'Leia a notícia completa na fonte oficial da Câmara dos Deputados.', url, image: attr(match[2], 'img', 'src'), publishedAt: '', source: source.name, sourceId: source.id, category: 'Câmara' }
+    return { title, description: '', url, image: attr(match[2], 'img', 'src'), publishedAt: '', source: source.name, sourceId: source.id, category: 'Câmara' }
   }).filter(Boolean).slice(0, 20)
 }
 
@@ -66,15 +76,15 @@ async function fetchText(url) {
   catch { return new TextDecoder('utf-8').decode(bytes) }
 }
 
-async function enrichArticle(item) {
-  if (item.image && item.description && !item.description.startsWith('Leia a notícia')) return item
+export async function enrichArticle(item) {
+  if (item.image && item.description) return item
   try {
     const html = await fetchText(item.url)
     const structuredImage = html.match(/"image"\s*:\s*(?:"([^"]+)"|\[\s*"([^"]+)")/i)
     const image = [meta(html, 'twitter:image'), structuredImage?.[1] || structuredImage?.[2] || '', meta(html, 'og:image')].find(candidate => candidate && !/imagem[-_]padrao|placeholder|logo-compartilhamento/i.test(candidate)) || ''
-    const description = meta(html, 'description') || meta(html, 'og:description')
-    return { ...item, image: image ? new URL(image, item.url).href : item.image, description: description || item.description }
-  } catch { return item }
+    const description = meta(html, 'description') || meta(html, 'og:description') || classText(html, 'materia__subtitulo')
+    return { ...item, image: image ? new URL(image, item.url).href : item.image, description: description || item.description || editorialFallback(item.title) }
+  } catch { return { ...item, description: item.description || editorialFallback(item.title) } }
 }
 
 export async function collectNews() {

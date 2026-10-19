@@ -61,6 +61,11 @@ export async function ingestNews(items) {
             'Novas informações serão incorporadas após verificação pela equipe editorial.', item.category || 'Política', item.image || '', item.publishedAt || null])
         articleId = createdArticle.rows[0].id
       }
+      await client.query(`update articles set
+        summary=case when summary like 'Leia a notícia completa%' or summary='' then $2 else summary end,
+        what_happened=case when what_happened like 'Leia a notícia completa%' or what_happened='' then $2 else what_happened end,
+        updated_at=now()
+        where id=$1 and $2<>''`, [articleId, item.description || ''])
       await client.query(`insert into article_sources (article_id, source_item_id, is_primary) values ($1,$2,$3) on conflict do nothing`, [articleId, sourceItemId, !article.rowCount])
     }
     return { inserted, updated, grouped, total: items.length }
