@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import type { PageName } from '../App'
 
-type QueueItem = { id: string; headline: string; category: string; source: string; editorialStatus: string; publishedAt: string }
+type QueueItem = { id: string; headline: string; category: string; source: string; editorialStatus: string; status: string; publishedAt: string }
 type Editorial = { id: string; headline: string; summary: string; whatHappened: string; whyItMatters: string; whoIsAffected: string; argumentsFor: string; argumentsAgainst: string; openQuestions: string; whatNext: string; radarView: string; keyPoints: string[]; editorialStatus: string; authorName: string; reviewedBy: string; source: string; sourceTitle: string; sourceDescription: string; sourceUrl: string }
 
 const blank: Editorial = { id: '', headline: '', summary: '', whatHappened: '', whyItMatters: '', whoIsAffected: '', argumentsFor: '', argumentsAgainst: '', openQuestions: '', whatNext: '', radarView: '', keyPoints: [], editorialStatus: 'draft', authorName: 'Redação Radar Político', reviewedBy: '', source: '', sourceTitle: '', sourceDescription: '', sourceUrl: '' }
+const statusLabel: Record<string, string> = { raw: 'Conteúdo bruto', draft: 'Rascunho', review: 'Em revisão', ready: 'Editorial pronto' }
 
 export default function EditorialAdmin({ onNavigate }: { onNavigate: (page: PageName) => void }) {
   const [token, setToken] = useState(() => sessionStorage.getItem('radar:editorial-token') || '')
@@ -13,16 +14,34 @@ export default function EditorialAdmin({ onNavigate }: { onNavigate: (page: Page
   const [article, setArticle] = useState<Editorial>(blank)
   const [message, setMessage] = useState('')
   const [loading, setLoading] = useState(false)
+  const [query, setQuery] = useState('')
+  const [filter, setFilter] = useState('all')
+  const [importOpen, setImportOpen] = useState(false)
+  const [importJson, setImportJson] = useState('')
   const headers = { 'content-type': 'application/json', authorization: `Bearer ${token}` }
 
   async function loadQueue() {
     if (!token) return
     setLoading(true)
-    try { const response = await fetch('/api/admin/articles', { headers }); if (!response.ok) throw new Error('Token inválido ou sessão expirada.'); setItems((await response.json()).items) }
-    catch (error) { setMessage(error instanceof Error ? error.message : 'Falha ao carregar.'); setToken(''); sessionStorage.removeItem('radar:editorial-token') }
-    finally { setLoading(false) }
+    try {
+      const response = await fetch('/api/admin/articles', { headers })
+      if (!response.ok) throw new Error('Token inválido ou sessão expirada.')
+      setItems((await response.json()).items)
+    } catch (error) {
+      setMessage(error instanceof Error ? error.message : 'Falha ao carregar.')
+      setToken(''); sessionStorage.removeItem('radar:editorial-token')
+    } finally { setLoading(false) }
   }
   useEffect(() => { loadQueue() }, [token])
+
+  const filtered = useMemo(() => items.filter(item => {
+    const matchesStatus = filter === 'all' || item.editorialStatus === filter
+    const normalized = `${item.headline} ${item.category} ${item.source}`.toLocaleLowerCase('pt-BR')
+    return matchesStatus && normalized.includes(query.toLocaleLowerCase('pt-BR').trim())
+  }), [items, filter, query])
+  const counts = useMemo(() => Object.fromEntries(['raw','draft','review','ready'].map(status => [status, items.filter(item => item.editorialStatus === status).length])), [items])
+  const required = [article.headline, article.summary, article.whatHappened, article.whyItMatters, article.whoIsAffected, article.whatNext, article.keyPoints.length ? 'ok' : '']
+  const completeness = article.id ? Math.round(required.filter(value => String(value).trim()).length / required.length * 100) : 0
 
   async function select(id: string) {
     setMessage('Carregando matéria…')
@@ -36,9 +55,32 @@ export default function EditorialAdmin({ onNavigate }: { onNavigate: (page: Page
     if (!response.ok) { const data = await response.json(); return setMessage(data.error || 'Não foi possível salvar.') }
     setMessage('Alterações salvas no Neon.'); await loadQueue()
   }
-  const field = (key: keyof Editorial, label: string, rows = 5) => <label><span>{label}</span><textarea rows={rows} value={String(article[key] || '')} onChange={event => setArticle({ ...article, [key]: event.target.value })} /></label>
+  async function importDraft() {
+    try {
+      const draft = JSON.parse(importJson)
+      const response = await fetch('/api/admin/articles', { method: 'POST', headers, body: JSON.stringify(draft) })
+      const data = await response.json()
+      if (!response.ok) throw new Error(data.error || 'Não foi possível importar.')
+      setImportOpen(false); setImportJson(''); await loadQueue(); await select(data.id)
+      setMessage(data.existing ? 'A fonte já estava na fila; o artigo existente foi aberto.' : 'Rascunho da IA enviado para revisão humana.')
+    } catch (error) { setMessage(error instanceof Error ? error.message : 'JSON inválido.') }
+  }
+  const field = (key: keyof Editorial, label: string, help: string, rows = 5) => <label className="editorial-field"><span>{label}</span><small>{help}</small><textarea rows={rows} value={String(article[key] || '')} onChange={event => setArticle({ ...article, [key]: event.target.value })} /><em>{String(article[key] || '').trim().split(/\s+/).filter(Boolean).length} palavras</em></label>
 
-  if (!token) return <main className="editorial-login"><form onSubmit={event => { event.preventDefault(); sessionStorage.setItem('radar:editorial-token', inputToken); setToken(inputToken) }}><img src="/logo-radar.png" alt="Radar Político" /><h1>Painel editorial</h1><p>Use o token editorial configurado no servidor.</p><input type="password" value={inputToken} onChange={event => setInputToken(event.target.value)} placeholder="Token de acesso" required /><button className="button yellow">Entrar</button>{message && <small>{message}</small>}</form></main>
+  if (!token) return <main className="editorial-login"><form onSubmit={event => { event.preventDefault(); sessionStorage.setItem('radar:editorial-token', inputToken); setToken(inputToken) }}><img src="/logo-radar.png" alt="Radar Político" /><span className="editorial-login-kicker">Área restrita</span><h1>Mesa editorial</h1><p>Revise fontes, aprimore rascunhos e prepare conteúdos antes da publicação.</p><input type="password" value={inputToken} onChange={event => setInputToken(event.target.value)} placeholder="Token editorial" required /><button className="button yellow">Entrar no painel</button>{message && <small>{message}</small>}</form></main>
 
-  return <div className="editorial-admin"><header><button onClick={() => onNavigate('home')}><img src="/logo-radar.png" alt="Radar Político" /></button><div><strong>Painel editorial</strong><button onClick={() => { sessionStorage.removeItem('radar:editorial-token'); setToken('') }}>Sair</button></div></header><main><aside><h1>Fila editorial</h1><p>{loading ? 'Atualizando…' : `${items.length} matérias`}</p><div>{items.map(item => <button className={article.id === item.id ? 'active' : ''} key={item.id} onClick={() => select(item.id)}><span>{item.category} · {item.source}</span><strong>{item.headline}</strong><em>{item.editorialStatus}</em></button>)}</div></aside><section className="editorial-workspace">{!article.id ? <div className="editorial-empty"><h2>Selecione uma matéria</h2><p>Comece pelas matérias marcadas como conteúdo bruto.</p></div> : <><div className="editorial-toolbar"><div><span>{article.source}</span><h2>{article.sourceTitle}</h2><a href={article.sourceUrl} target="_blank" rel="noreferrer">Abrir fonte original ↗</a></div><div><select value={article.editorialStatus} onChange={event => setArticle({ ...article, editorialStatus: event.target.value })}><option value="raw">Conteúdo bruto</option><option value="draft">Rascunho</option><option value="review">Em revisão</option><option value="ready">Editorial pronto</option></select><button className="button yellow" onClick={save}>Salvar</button></div></div><p className="source-excerpt">{article.sourceDescription}</p><div className="editorial-form"><label><span>Título do Radar</span><input value={article.headline} onChange={event => setArticle({ ...article, headline: event.target.value })} /></label>{field('summary','Resumo em 30 segundos',3)}<label><span>Pontos essenciais — um por linha</span><textarea rows={5} value={article.keyPoints.join('\n')} onChange={event => setArticle({ ...article, keyPoints: event.target.value.split('\n') })} /></label>{field('whatHappened','O que aconteceu')}{field('whyItMatters','Por que importa')}{field('whoIsAffected','Quem é afetado')}{field('argumentsFor','Argumentos favoráveis')}{field('argumentsAgainst','Argumentos contrários')}{field('openQuestions','O que ainda não sabemos')}{field('whatNext','O que acompanhar agora')}{field('radarView','Visão do Radar — opinião editorial')}<div className="editorial-row"><label><span>Autor</span><input value={article.authorName} onChange={event => setArticle({ ...article, authorName: event.target.value })} /></label><label><span>Revisado por</span><input value={article.reviewedBy} onChange={event => setArticle({ ...article, reviewedBy: event.target.value })} /></label></div></div>{message && <p className="editorial-message">{message}</p>}</>}</section></main></div>
+  return <div className="editorial-admin">
+    <header><button className="editorial-brand" onClick={() => onNavigate('home')}><img src="/logo-radar.png" alt="Radar Político" /></button><div><span>Mesa editorial</span><button className="editorial-import-trigger" onClick={() => setImportOpen(true)}>+ Importar rascunho IA</button><button onClick={() => { sessionStorage.removeItem('radar:editorial-token'); setToken('') }}>Sair</button></div></header>
+    <section className="editorial-overview"><div><span>Fila total</span><strong>{items.length}</strong></div>{(['raw','draft','review','ready'] as const).map(status => <button key={status} className={filter === status ? 'active' : ''} onClick={() => setFilter(filter === status ? 'all' : status)}><span>{statusLabel[status]}</span><strong>{counts[status] || 0}</strong></button>)}</section>
+    <main>
+      <aside><div className="queue-heading"><div><h1>Conteúdos</h1><p>{loading ? 'Atualizando…' : `${filtered.length} itens exibidos`}</p></div><button onClick={loadQueue} aria-label="Atualizar fila">↻</button></div><input className="queue-search" type="search" placeholder="Buscar título, tema ou fonte" value={query} onChange={event => setQuery(event.target.value)} /><div className="queue-filters"><button className={filter === 'all' ? 'active' : ''} onClick={() => setFilter('all')}>Todos</button>{Object.keys(statusLabel).map(status => <button className={filter === status ? 'active' : ''} key={status} onClick={() => setFilter(status)}>{statusLabel[status]}</button>)}</div><div className="queue-list">{filtered.map(item => <button className={article.id === item.id ? 'active' : ''} key={item.id} onClick={() => select(item.id)}><span><b>{item.category}</b>{item.source}</span><strong>{item.headline}</strong><em className={`status-${item.editorialStatus}`}>{statusLabel[item.editorialStatus] || item.editorialStatus}</em></button>)}</div></aside>
+      <section className="editorial-workspace">{!article.id ? <div className="editorial-empty"><span>✦</span><h2>Selecione uma matéria</h2><p>Abra um item da fila ou importe um rascunho criado pela skill Radar Editorial.</p><button className="button yellow" onClick={() => setImportOpen(true)}>Importar rascunho IA</button></div> : <>
+        <div className="editorial-toolbar"><div><span>{article.source}</span><h2>{article.sourceTitle}</h2><a href={article.sourceUrl} target="_blank" rel="noreferrer">Conferir fonte original ↗</a></div><div><label><span>Etapa</span><select value={article.editorialStatus} onChange={event => setArticle({ ...article, editorialStatus: event.target.value })}><option value="raw">Conteúdo bruto</option><option value="draft">Rascunho</option><option value="review">Em revisão</option><option value="ready">Editorial pronto</option></select></label><button className="button yellow" onClick={save}>Salvar alterações</button></div></div>
+        <div className="editorial-progress"><div><span>Completude editorial</span><strong>{completeness}%</strong></div><i><b style={{ width: `${completeness}%` }} /></i><p>{completeness < 100 ? 'Complete os campos essenciais antes de marcar como pronto.' : 'Estrutura completa para revisão final.'}</p></div>
+        <div className="source-excerpt"><span>Material de origem</span><p>{article.sourceDescription}</p></div>
+        <div className="editorial-form"><section><div className="form-section-title"><span>01</span><div><h3>Enquadramento</h3><p>Defina a promessa editorial e os fatos centrais.</p></div></div><label className="editorial-field"><span>Título do Radar</span><small>Factual, específico e sem clickbait.</small><input value={article.headline} onChange={event => setArticle({ ...article, headline: event.target.value })} /></label>{field('summary','Resumo em 30 segundos','Síntese clara em até três frases.',3)}<label className="editorial-field"><span>Pontos essenciais</span><small>Um ponto verificável por linha.</small><textarea rows={5} value={article.keyPoints.join('\n')} onChange={event => setArticle({ ...article, keyPoints: event.target.value.split('\n').filter(Boolean) })} /></label></section><section><div className="form-section-title"><span>02</span><div><h3>Contexto e impacto</h3><p>Ajude o leitor a entender o que muda na prática.</p></div></div>{field('whatHappened','O que aconteceu','Relato verificado, com atores e decisões.')}{field('whyItMatters','Por que importa','Consequências institucionais, políticas ou sociais.')}{field('whoIsAffected','Quem é afetado','Públicos, territórios e instituições alcançados.')}</section><section><div className="form-section-title"><span>03</span><div><h3>Contraditório</h3><p>Registre argumentos e limites com atribuição.</p></div></div><div className="editorial-row">{field('argumentsFor','Argumentos favoráveis','Quem apoia e por quê.',4)}{field('argumentsAgainst','Argumentos contrários','Quem contesta e por quê.',4)}</div>{field('openQuestions','O que ainda não sabemos','Lacunas que exigem apuração adicional.',4)}</section><section><div className="form-section-title"><span>04</span><div><h3>Fechamento editorial</h3><p>Indique o que acompanhar e separe análise de fato.</p></div></div>{field('whatNext','O que acompanhar agora','Próximas etapas, prazos e responsáveis.',4)}{field('radarView','Visão do Radar','Análise editorial explicitamente identificada.',4)}<div className="editorial-row"><label className="editorial-field"><span>Autor</span><input value={article.authorName} onChange={event => setArticle({ ...article, authorName: event.target.value })} /></label><label className="editorial-field"><span>Revisado por</span><input value={article.reviewedBy} onChange={event => setArticle({ ...article, reviewedBy: event.target.value })} /></label></div></section></div>{message && <p className="editorial-message" role="status">{message}</p>}</>}
+      </section>
+    </main>
+    {importOpen && <div className="editorial-import-backdrop" role="presentation" onMouseDown={event => { if (event.target === event.currentTarget) setImportOpen(false) }}><section className="editorial-import" role="dialog" aria-modal="true" aria-labelledby="import-title"><button className="editorial-import-close" onClick={() => setImportOpen(false)} aria-label="Fechar">×</button><span>Radar Editorial</span><h2 id="import-title">Importar rascunho da IA</h2><p>Cole o JSON produzido pela skill. O conteúdo entrará como rascunho em revisão e não será publicado automaticamente.</p><textarea rows={16} value={importJson} onChange={event => setImportJson(event.target.value)} placeholder={'{\n  "headline": "...",\n  "summary": "..."\n}'} /><div><button onClick={() => setImportOpen(false)}>Cancelar</button><button className="button yellow" onClick={importDraft} disabled={!importJson.trim()}>Enviar para revisão</button></div></section></div>}
+  </div>
 }
