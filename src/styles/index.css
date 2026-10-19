@@ -270,10 +270,10 @@ h1 { font-size: 38px; letter-spacing: -1.5px; line-height: 1.08; color: #0f172a 
   height: clamp(200px, 18vw, 340px);
   object-fit: cover;
 }
-.article-body { display: flex; flex-direction: column; padding: 14px 16px 20px; flex: 1 }
+.article-body { display: flex; flex-direction: column; padding: 16px 16px 18px; flex: 1; min-height: 218px }
 .article-body .eyebrow { font-size: 10.5px; letter-spacing: 1.4px; color: #0f3f8c; margin-bottom: 8px }
-.article-body h3 { font-size: 18px; letter-spacing: -.5px; line-height: 1.22; margin-bottom: 8px; font-weight: 700 }
-.article-body p { font-size: 14px; color: var(--text-muted); line-height: 1.5; flex: 1 }
+.article-body h3 { display: -webkit-box; overflow: hidden; min-height: 2.44em; font-size: 18px; letter-spacing: -.5px; line-height: 1.22; margin-bottom: 8px; font-weight: 700; -webkit-box-orient: vertical; -webkit-line-clamp: 2; line-clamp: 2 }
+.article-body p { display: -webkit-box; overflow: hidden; min-height: 4.5em; font-size: 14px; color: var(--text-muted); line-height: 1.5; flex: 1; -webkit-box-orient: vertical; -webkit-line-clamp: 3; line-clamp: 3 }
 .news-date { display: block; margin-top: 14px; color: #718096; font-size: 12px }
 
 .news-search { padding: 16px 18px; background: #f8fafc; border-radius: 6px; margin-bottom: 16px; border: 1px solid var(--border) }
@@ -1045,11 +1045,12 @@ select { color: #475569; padding-right: 28px; cursor: pointer }
 .main-content .article-card:hover { transform: none; box-shadow: none }
 .main-content .article-card img { height: auto; aspect-ratio: 1.62; border-radius: 0; transition: filter .25s, transform .25s }
 .main-content .article-card:hover img { filter: brightness(.88); transform: translateY(-2px) }
-.main-content .article-body { padding: 17px 0 12px; border-bottom: 1px solid #cdd6df }
+.main-content .article-body { min-height: 218px; padding: 17px 0 12px; border-bottom: 1px solid #cdd6df }
 .main-content .article-body .eyebrow { width: fit-content; margin-bottom: 10px; color: #0b4d90; letter-spacing: .12em }
-.main-content .article-body h3 { font-size: clamp(19px, 1.7vw, 27px); line-height: 1.08; letter-spacing: -.035em; text-wrap: balance }
-.main-content .article-card:nth-child(1) h3, .main-content .article-card:nth-child(2) h3 { font-size: clamp(25px, 2.5vw, 38px) }
-.main-content .article-body p { margin-top: 4px; color: #486078; font-size: 14px; line-height: 1.48 }
+.main-content .article-body h3,
+.main-content .article-card:nth-child(1) h3,
+.main-content .article-card:nth-child(2) h3 { display: -webkit-box; overflow: hidden; min-height: 2.32em; font-size: 21px; line-height: 1.16; letter-spacing: -.025em; text-wrap: pretty; -webkit-box-orient: vertical; -webkit-line-clamp: 2; line-clamp: 2 }
+.main-content .article-body p { display: -webkit-box; overflow: hidden; min-height: 4.44em; margin-top: 4px; color: #486078; font-size: 14px; line-height: 1.48; -webkit-box-orient: vertical; -webkit-line-clamp: 3; line-clamp: 3 }
 .main-content .news-date { font-size: 11px; letter-spacing: .04em; text-transform: uppercase }
 
 /* Direção editorial — página de leitura */
@@ -1152,8 +1153,6 @@ select { color: #475569; padding-right: 28px; cursor: pointer }
 .main-content .article-card:nth-child(1),
 .main-content .article-card:nth-child(2) { grid-column: auto }
 .main-content .article-card img { width: 100%; height: clamp(190px, 18vw, 280px); aspect-ratio: auto; object-fit: cover }
-.main-content .article-card:nth-child(1) h3,
-.main-content .article-card:nth-child(2) h3 { font-size: clamp(19px, 1.7vw, 27px) }
 
 @media (max-width: 900px) {
   .main-content .news-grid { grid-template-columns: repeat(2, minmax(0, 1fr)) }

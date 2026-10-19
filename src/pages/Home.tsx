@@ -76,7 +76,7 @@ export default function Home({ onNavigate, onOpenNews }: { onNavigate?: (page: '
   const [showNewsSearch, setShowNewsSearch] = useState(false)
   const searchInput = useRef<HTMLInputElement>(null)
   const dialogRef = useRef<HTMLDialogElement>(null)
-  const { data: liveNewsData, isLoading: newsLoading, isError: newsError } = useQuery<{ items: LiveNews[]; updatedAt: string }>({ queryKey: ['live-news-v6'], queryFn: () => fetchWithLocalCache('/api/news', 'news-v6'), initialData: () => loadLocalCache('news-v6'), staleTime: 5 * 60 * 1000, refetchInterval: 5 * 60 * 1000, retry: 2 })
+  const { data: liveNewsData, isLoading: newsLoading, isError: newsError } = useQuery<{ items: LiveNews[]; updatedAt: string }>({ queryKey: ['live-news-v7'], queryFn: () => fetchWithLocalCache('/api/news', 'news-v7'), initialData: () => loadLocalCache('news-v7'), staleTime: 5 * 60 * 1000, refetchInterval: 5 * 60 * 1000, retry: 2 })
   function navigate(label: string, id: string) { setActive(label); setMenu(false); document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' }) }
   function openModal(content: NonNullable<typeof modal>) { setModal(content); dialogRef.current?.showModal() }
   function articleModal(article: Article) { openModal({ title: article.title, paragraphs: article.paragraphs, image: article.image }) }

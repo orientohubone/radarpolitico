@@ -5,7 +5,12 @@ export const NEWS_SOURCES = [
 ]
 
 function decode(value = '') {
-  return value.replace(/<!\[CDATA\[([\s\S]*?)\]\]>/g, '$1').replace(/<[^>]+>/g, ' ').replace(/&nbsp;/g, ' ').replace(/&amp;/g, '&').replace(/&quot;/g, '"').replace(/&#39;|&apos;/g, "'").replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/\s+/g, ' ').trim()
+  return value.replace(/<!\[CDATA\[([\s\S]*?)\]\]>/g, '$1').replace(/<[^>]+>/g, ' ')
+    .replace(/&#(\d+);/g, (_, code) => String.fromCodePoint(Number(code)))
+    .replace(/&#x([\da-f]+);/gi, (_, code) => String.fromCodePoint(Number.parseInt(code, 16)))
+    .replace(/&nbsp;/gi, ' ').replace(/&amp;/gi, '&').replace(/&quot;/gi, '"')
+    .replace(/&#39;|&apos;/gi, "'").replace(/&lt;/gi, '<').replace(/&gt;/gi, '>')
+    .replace(/\s+/g, ' ').trim()
 }
 
 function tag(xml, name) {
@@ -55,7 +60,10 @@ function parseCamara(html, source) {
 async function fetchText(url) {
   const response = await fetch(url, { headers: { 'user-agent': 'RadarPolitico/1.0 (+https://radarpolitico.com.br)', accept: 'application/rss+xml, application/xml, text/xml, text/html' }, signal: AbortSignal.timeout(12_000) })
   if (!response.ok) throw new Error(`Fonte respondeu ${response.status}`)
-  return response.text()
+  const charset = response.headers.get('content-type')?.match(/charset=([^;\s]+)/i)?.[1]?.replace(/["']/g, '') || 'utf-8'
+  const bytes = await response.arrayBuffer()
+  try { return new TextDecoder(charset).decode(bytes) }
+  catch { return new TextDecoder('utf-8').decode(bytes) }
 }
 
 async function enrichArticle(item) {
