@@ -90,7 +90,7 @@ export async function listEditorialArticles() {
   const result = await query(`select a.id::text, a.headline, a.category, a.editorial_status as "editorialStatus",
     a.status, a.published_at as "publishedAt", ns.name as source
     from articles a join source_items si on si.id=a.primary_source_item_id join news_sources ns on ns.id=si.source_id
-    order by case a.editorial_status when 'raw' then 0 when 'draft' then 1 when 'review' then 2 else 3 end,
+    order by case a.editorial_status when 'update' then 0 when 'raw' then 1 when 'draft' then 2 when 'review' then 3 else 4 end,
     a.published_at desc nulls last`)
   return result.rows
 }

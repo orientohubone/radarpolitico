@@ -126,7 +126,7 @@ app.get('/api/admin/articles/:id', async (req, res) => {
 app.put('/api/admin/articles/:id', async (req, res) => {
   if (!isAdmin(req)) return res.status(401).json({ error: 'Não autorizado.' })
   const text = value => String(value || '').trim().slice(0, 12_000)
-  const editorialStatus = ['raw','draft','review','ready'].includes(req.body.editorialStatus) ? req.body.editorialStatus : 'draft'
+  const editorialStatus = ['update','raw','draft','review','ready'].includes(req.body.editorialStatus) ? req.body.editorialStatus : 'draft'
   const keyPoints = Array.isArray(req.body.keyPoints) ? req.body.keyPoints.map(text).filter(Boolean).slice(0, 8) : []
   const input = { headline: text(req.body.headline), summary: text(req.body.summary), whatHappened: text(req.body.whatHappened), whyItMatters: text(req.body.whyItMatters), whoIsAffected: text(req.body.whoIsAffected), argumentsFor: text(req.body.argumentsFor), argumentsAgainst: text(req.body.argumentsAgainst), openQuestions: text(req.body.openQuestions), whatNext: text(req.body.whatNext), radarView: text(req.body.radarView), keyPoints, editorialStatus, authorName: text(req.body.authorName) || 'Redação Radar Político', reviewedBy: text(req.body.reviewedBy) }
   if (!input.headline || !input.summary) return res.status(400).json({ error: 'Título e síntese são obrigatórios.' })

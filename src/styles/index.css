@@ -1174,7 +1174,7 @@ select { color: #475569; padding-right: 28px; cursor: pointer }
 .editorial-admin > header div { font-size: 13px }
 .editorial-admin > header div > span { color: #afc3d9; font-weight: 700; letter-spacing: .08em; text-transform: uppercase }
 .editorial-import-trigger { padding: 10px 14px !important; color: #061a3d !important; font-weight: 800; background: var(--yellow) !important }
-.editorial-overview { display: grid; grid-template-columns: repeat(5, minmax(130px, 1fr)); gap: 1px; padding: 0 24px; color: white; background: #071b43 }
+.editorial-overview { display: grid; grid-template-columns: repeat(6, minmax(120px, 1fr)); gap: 1px; padding: 0 24px; color: white; background: #071b43 }
 .editorial-overview > div, .editorial-overview > button { display: flex; justify-content: space-between; align-items: end; min-height: 88px; padding: 18px 20px; color: inherit; text-align: left; background: rgba(255,255,255,.035); border-bottom: 3px solid transparent }
 .editorial-overview > button:hover, .editorial-overview > button.active { background: rgba(255,255,255,.09); border-color: var(--yellow) }
 .editorial-overview span { max-width: 100px; color: #aabed4; font-size: 11px; font-weight: 700; letter-spacing: .07em; text-transform: uppercase }
@@ -1199,6 +1199,7 @@ select { color: #475569; padding-right: 28px; cursor: pointer }
 .queue-list button > strong { display: -webkit-box; overflow: hidden; font-size: 14px; -webkit-box-orient: vertical; -webkit-line-clamp: 2 }
 .queue-list button > em { width: fit-content; padding: 4px 7px; border-radius: 2px; font-size: 9px !important; font-weight: 800; letter-spacing: .05em; text-transform: uppercase }
 .queue-list .status-raw { color: #805a16; background: #fff4cf }
+.queue-list .status-update { color: #7a4011; background: #ffe8cc }
 .queue-list .status-draft { color: #465d74; background: #e8edf2 }
 .queue-list .status-review { color: #07599d; background: #dbeeff }
 .queue-list .status-ready { color: #17633a; background: #ddf4e6 }
