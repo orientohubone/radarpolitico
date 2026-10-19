@@ -6,7 +6,7 @@ import fs from 'node:fs/promises'
 import sharp from 'sharp'
 import { databaseEnabled } from './db.js'
 import { collectNews, NEWS_SOURCES } from './newsSources.js'
-import { createEditorialArticle, getDatabaseHealth, getEditorialArticle, ingestNews, listEditorialArticles, listPublishedNews, updateEditorialArticle } from './newsRepository.js'
+import { createEditorialArticle, getDatabaseHealth, getEditorialArticle, ingestNews, listEditorialArticles, listPublishedNews, setArticlePublication, updateEditorialArticle } from './newsRepository.js'
 import { reconcileArticleImages, syncCamaraMediaPool } from './imageDedup.js'
 import { listPublicFigures, syncPublicFigures } from './publicFigures.js'
 
@@ -135,6 +135,18 @@ app.put('/api/admin/articles/:id', async (req, res) => {
     if (!saved) return res.status(404).json({ error: 'Matéria não encontrada.' })
     await clearCache('news-v8'); res.json({ ok: true, id: saved.id })
   } catch (error) { res.status(500).json({ error: 'Falha ao salvar a matéria.', detail: error.message }) }
+})
+
+app.post('/api/admin/articles/:id/publication', async (req, res) => {
+  if (!isAdmin(req)) return res.status(401).json({ error: 'Não autorizado.' })
+  const publish = req.body.action === 'publish'
+  if (!publish && req.body.action !== 'unpublish') return res.status(400).json({ error: 'Ação de publicação inválida.' })
+  try {
+    const saved = await setArticlePublication(req.params.id, publish)
+    if (!saved) return res.status(409).json({ error: publish ? 'Marque e salve o conteúdo como Editorial pronto antes de publicar.' : 'Matéria não encontrada.' })
+    await clearCache('news-v8')
+    res.json({ ok: true, ...saved })
+  } catch (error) { res.status(500).json({ error: 'Falha ao alterar a publicação.', detail: error.message }) }
 })
 
 app.get('/api/proposals', async (_req, res) => {

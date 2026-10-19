@@ -128,7 +128,8 @@ export async function createEditorialArticle(input) {
 export async function getEditorialArticle(id) {
   const result = await query(`select a.id::text, a.headline, a.summary, a.what_happened as "whatHappened",
     a.why_it_matters as "whyItMatters", a.what_next as "whatNext", a.radar_view as "radarView",
-    a.key_points as "keyPoints", a.who_is_affected as "whoIsAffected", a.arguments_for as "argumentsFor",
+    a.key_points as "keyPoints", a.status, a.slug, a.published_at as "publishedAt",
+    a.who_is_affected as "whoIsAffected", a.arguments_for as "argumentsFor",
     a.arguments_against as "argumentsAgainst", a.open_questions as "openQuestions",
     a.editorial_status as "editorialStatus", a.author_name as "authorName", a.reviewed_by as "reviewedBy",
     si.title as "sourceTitle", si.description as "sourceDescription", si.canonical_url as "sourceUrl", ns.name as source
@@ -147,6 +148,15 @@ export async function updateEditorialArticle(id, input) {
     who_is_affected=$6, arguments_for=$7, arguments_against=$8, open_questions=$9, what_next=$10,
     radar_view=$11, key_points=$12::jsonb, editorial_status=$13, author_name=$14, reviewed_by=nullif($15,''),
     editorial_updated_at=now(), updated_at=now() where id=$1 returning id::text`, values)
+  return result.rows[0] || null
+}
+
+export async function setArticlePublication(id, publish) {
+  const result = await query(`update articles set status=$2,
+    published_at=case when $2='published' then coalesce(published_at,now()) else null end,
+    updated_at=now()
+    where id=$1 and ($2<>'published' or editorial_status='ready')
+    returning id::text, status, published_at as "publishedAt"`, [id, publish ? 'published' : 'draft'])
   return result.rows[0] || null
 }
 
