@@ -52,7 +52,7 @@ async function staleWhileRevalidate(key, loader) {
 
 app.get('/api/news', async (_req, res) => {
   try {
-    const result = await staleWhileRevalidate('news-v7', async () => {
+    const result = await staleWhileRevalidate('news-v8', async () => {
       if (databaseEnabled) {
         return { items: await listPublishedNews(36), errors: [], updatedAt: new Date().toISOString(), storage: 'neon', sources: NEWS_SOURCES.map(({ name, url }) => ({ name, url })) }
       }
@@ -70,7 +70,7 @@ app.post('/api/admin/ingest', async (req, res) => {
     const collected = await collectNews()
     const result = await ingestNews(collected.items)
     const images = await reconcileArticleImages()
-    await clearCache('news-v7')
+    await clearCache('news-v8')
     res.json({ ...result, images, errors: collected.errors, completedAt: new Date().toISOString() })
   } catch (error) { res.status(502).json({ error: 'Falha na ingestão.', detail: error.message }) }
 })
@@ -107,7 +107,7 @@ app.put('/api/admin/articles/:id', async (req, res) => {
   try {
     const saved = await updateEditorialArticle(req.params.id, input)
     if (!saved) return res.status(404).json({ error: 'Matéria não encontrada.' })
-    await clearCache('news-v7'); res.json({ ok: true, id: saved.id })
+    await clearCache('news-v8'); res.json({ ok: true, id: saved.id })
   } catch (error) { res.status(500).json({ error: 'Falha ao salvar a matéria.', detail: error.message }) }
 })
 

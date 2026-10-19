@@ -14,9 +14,9 @@ export default function NewsArticle({ onNavigate }: { onNavigate: (page: PageNam
   const encodedId = window.location.pathname.split('/noticias/')[1] || ''
   const id = decodeURIComponent(encodedId)
   const { data: payload, isLoading } = useQuery<NewsPayload>({
-    queryKey: ['live-news-v7'],
-    queryFn: () => fetchWithLocalCache('/api/news', 'news-v7'),
-    initialData: () => loadLocalCache<NewsPayload>('news-v7'),
+    queryKey: ['live-news-v8'],
+    queryFn: () => fetchWithLocalCache('/api/news', 'news-v8'),
+    initialData: () => loadLocalCache<NewsPayload>('news-v8'),
     staleTime: 5 * 60 * 1000,
   })
   const article = payload?.items.find(item => item.id === id)

@@ -8,7 +8,7 @@ export function loadLocalCache<T>(key: string): T | undefined {
 export async function fetchWithLocalCache<T>(url: string, key: string): Promise<T> {
   const isValid = (value: unknown): value is T => {
     if (!value || typeof value !== 'object') return false
-    if (key === 'news-v7') return Array.isArray((value as { items?: unknown }).items) && (value as { items: unknown[] }).items.length > 0
+    if (key.startsWith('news-v')) return Array.isArray((value as { items?: unknown }).items) && (value as { items: unknown[] }).items.length > 0
     if (key === 'representatives-v6') {
       const items = (value as { items?: unknown }).items
       return Array.isArray(items) && items.length > 0 && items.every(item => {
@@ -32,7 +32,7 @@ export async function fetchWithLocalCache<T>(url: string, key: string): Promise<
   } catch (error) {
     const cached = loadLocalCache<T>(key)
     if (cached && isValid(cached)) return cached
-    if (key === 'news-v7') {
+    if (key.startsWith('news-v')) {
       const snapshotResponse = await fetch('/data/news.json')
       if (snapshotResponse.ok) {
         const snapshot = await snapshotResponse.json() as T

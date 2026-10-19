@@ -45,6 +45,11 @@ function cardText(value: string, maxLength: number) {
   const boundary = punctuation >= maxLength * .65 ? punctuation + 1 : preview.lastIndexOf(' ')
   return `${preview.slice(0, boundary > 0 ? boundary : maxLength).replace(/[,:;.!?\s]+$/, '')}…`
 }
+function cardDescription(article: LiveNews) {
+  const description = article.description.replace(/\s+/g, ' ').trim()
+  if (description && !/^leia a notícia completa na fonte oficial/i.test(description)) return description
+  return `${article.title.replace(/[.!?]+$/, '')}. Confira os principais pontos e os próximos passos.`
+}
 const news: Article[] = [
   { category: 'Congresso', title: 'Como uma proposta vira lei', description: 'Entenda as etapas que um projeto precisa percorrer até se tornar uma lei no Brasil.', image: 'chamber', alt: 'Plenário do Congresso Nacional em sessão', paragraphs: ['Uma proposta de lei começa com a apresentação de um projeto. Deputados, senadores, o presidente da República e outros atores previstos na Constituição podem iniciar esse processo, conforme o assunto.', 'O texto passa pela análise das comissões, que examinam seu conteúdo e sua constitucionalidade. Dependendo do procedimento, pode ser votado nas próprias comissões ou seguir para o plenário.', 'Em geral, Câmara e Senado precisam aprovar o texto. Depois, ele segue para sanção ou veto do presidente. Emendas à Constituição e outras espécies de propostas têm regras próprias. Acompanhar cada etapa ajuda a distinguir uma ideia apresentada de uma lei em vigor.'] },
   { category: 'Legislativo', title: 'O papel das comissões no Congresso', description: 'Saiba como funcionam as comissões temáticas e por que elas são importantes no processo legislativo.', image: 'committee', alt: 'Reunião de comissão legislativa no Congresso', paragraphs: ['As comissões são grupos de parlamentares que examinam assuntos específicos, como educação, saúde e orçamento. Elas permitem uma análise mais detalhada das propostas antes da decisão final.', 'O relator estuda o texto e apresenta um parecer. As comissões também podem realizar audiências públicas e ouvir especialistas e representantes da sociedade.', 'Nem toda proposta precisa passar pelo plenário: algumas podem ser decididas nas comissões, conforme as regras de cada Casa e os recursos apresentados. Consulte sempre a tramitação oficial para entender a situação de cada projeto.'] },
@@ -84,7 +89,7 @@ export default function Home({ onNavigate, onOpenNews }: { onNavigate?: (page: '
   const [showNewsSearch, setShowNewsSearch] = useState(false)
   const searchInput = useRef<HTMLInputElement>(null)
   const dialogRef = useRef<HTMLDialogElement>(null)
-  const { data: liveNewsData, isLoading: newsLoading, isError: newsError } = useQuery<{ items: LiveNews[]; updatedAt: string }>({ queryKey: ['live-news-v7'], queryFn: () => fetchWithLocalCache('/api/news', 'news-v7'), initialData: () => loadLocalCache('news-v7'), staleTime: 5 * 60 * 1000, refetchInterval: 5 * 60 * 1000, retry: 2 })
+  const { data: liveNewsData, isLoading: newsLoading, isError: newsError } = useQuery<{ items: LiveNews[]; updatedAt: string }>({ queryKey: ['live-news-v8'], queryFn: () => fetchWithLocalCache('/api/news', 'news-v8'), initialData: () => loadLocalCache('news-v8'), staleTime: 5 * 60 * 1000, refetchInterval: 5 * 60 * 1000, retry: 2 })
   function navigate(label: string, id: string) { setActive(label); setMenu(false); document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' }) }
   function openModal(content: NonNullable<typeof modal>) { setModal(content); dialogRef.current?.showModal() }
   function articleModal(article: Article) { openModal({ title: article.title, paragraphs: article.paragraphs, image: article.image }) }
@@ -103,7 +108,7 @@ export default function Home({ onNavigate, onOpenNews }: { onNavigate?: (page: '
     return {
       ...article,
       cardTitle: cardText(article.title, 96),
-      cardDescription: cardText(article.description, 160),
+      cardDescription: cardText(cardDescription(article), 160),
       visualImage: image,
       fallbackImage: newsFallbackImages[index % newsFallbackImages.length],
     }
