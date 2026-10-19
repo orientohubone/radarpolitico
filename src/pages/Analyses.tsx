@@ -47,13 +47,13 @@ export default function Analyses({ onNavigate }: { onNavigate: (page: PageName) 
     <header className="site-header"><div className="header-inner container">
       <a className="brand" href="/" onClick={e => { e.preventDefault(); onNavigate('home') }}><Logo /></a>
       <nav className={menu ? 'navigation open' : 'navigation'} aria-label="Navegação principal">
-        <a href="/" onClick={e => { e.preventDefault(); onNavigate('home') }}>Notícias</a><a href="/poderes" onClick={e => { e.preventDefault(); onNavigate('powers') }}>Poderes</a><a href="/propostas" onClick={e => { e.preventDefault(); onNavigate('proposals') }}>Propostas</a><a className="active" href="/analises">Análises</a>
+        <a href="/" onClick={e => { e.preventDefault(); onNavigate('home') }}>Notícias</a><a href="/poderes" onClick={e => { e.preventDefault(); onNavigate('powers') }}>Poderes</a><a href="/propostas" onClick={e => { e.preventDefault(); onNavigate('proposals') }}>Propostas</a><a className="active" href="/analises">Análises</a><a href="/impostometro" onClick={e => { e.preventDefault(); onNavigate('taxMeter') }}>Impostômetro</a>
       </nav>
       <div className="header-actions"><button className="header-search" aria-label="Buscar"><SearchIcon /></button><button className="mobile-menu" aria-label={menu ? 'Fechar menu' : 'Abrir menu'} onClick={() => setMenu(!menu)}><span aria-hidden="true">{menu ? '×' : '☰'}</span></button></div>
     </div></header>
 
     <main>
-      <section className="powers-hero analyses-hero"><div className="powers-shell powers-hero-inner"><div className="powers-intro"><p className="breadcrumb"><a href="/" onClick={e => { e.preventDefault(); onNavigate('home') }}>Início</a><span>/</span>Análises</p><h1>Análises</h1><p>Contexto para compreender os fatos e seus desdobramentos.</p></div><div className="powers-ribbon" aria-hidden="true"><i /><i /></div></div></section>
+      <section className="powers-hero analyses-hero"><div className="powers-shell powers-hero-inner"><div className="powers-intro"><p className="breadcrumb"><a href="/" onClick={e => { e.preventDefault(); onNavigate('home') }}>Início</a><span>/</span>Análises</p><h1>Análises</h1><p>Contexto para compreender os fatos e seus desdobramentos.</p></div><div className="powers-ribbon hero-radar-element" aria-hidden="true"><img src="/elemento-radar.png" alt="" /></div></div></section>
 
       <section className="powers-shell analyses-content">
         <form className="analysis-filters" onSubmit={e => { e.preventDefault(); setSubmittedQuery(query) }}>

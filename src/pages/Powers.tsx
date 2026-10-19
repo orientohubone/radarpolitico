@@ -41,7 +41,7 @@ function Logo() {
   return <img src="/logo-radar.png" alt="Radar Político" className="logo-img" />
 }
 
-export default function Powers({ onNavigate }: { onNavigate: (page: 'home' | 'powers' | 'proposals' | 'analyses') => void }) {
+export default function Powers({ onNavigate }: { onNavigate: (page: 'home' | 'powers' | 'proposals' | 'analyses' | 'taxMeter') => void }) {
   const [menu, setMenu] = useState(false)
   const [activeInstitution, setActiveInstitution] = useState<'Todos' | Institution>('Todos')
   const [query, setQuery] = useState('')
@@ -103,6 +103,7 @@ export default function Powers({ onNavigate }: { onNavigate: (page: 'home' | 'po
           <a className="active" href="/poderes">Poderes</a>
           <a href="/propostas" onClick={e => { e.preventDefault(); onNavigate('proposals') }}>Propostas</a>
           <a href="/analises" onClick={e => { e.preventDefault(); onNavigate('analyses') }}>Análises</a>
+          <a href="/impostometro" onClick={e => { e.preventDefault(); onNavigate('taxMeter') }}>Impostômetro</a>
         </nav>
         <div className="header-actions">
           <button className="header-search" aria-label="Buscar"><SearchIcon /></button>
@@ -119,7 +120,7 @@ export default function Powers({ onNavigate }: { onNavigate: (page: 'home' | 'po
             <h1>Poderes e representantes</h1>
             <p>Conheça as instituições e acompanhe a atuação de seus integrantes.</p>
           </div>
-          <div className="powers-ribbon" aria-hidden="true"><i /><i /></div>
+          <div className="powers-ribbon hero-radar-element" aria-hidden="true"><img src="/elemento-radar.png" alt="" /></div>
         </div>
       </section>
 

@@ -517,7 +517,7 @@ select { color: #475569; padding-right: 28px; cursor: pointer }
    ════════════════════════════════════════ */
 .tax-page { min-height: 100vh; background: #f7f9fc; color: #10213b }
 .tax-hero { overflow: hidden; position: relative; background: var(--navy); color: #fff; padding: 64px 16px 52px }
-.tax-hero::after { content: ''; position: absolute; width: 560px; height: 560px; right: -230px; top: -300px; border: 92px solid rgba(245,200,0,.95); border-radius: 50% }
+.tax-hero-element { position: absolute; z-index: 0; width: min(47vw, 600px); height: auto; right: -75px; top: 50%; transform: translateY(-48%) rotate(-5deg); opacity: .96; pointer-events: none; user-select: none }
 .tax-hero-inner { position: relative; z-index: 1 }
 .tax-kicker { display: flex; align-items: center; gap: 9px; text-transform: uppercase; font-size: 12px; font-weight: 800; letter-spacing: 1.6px; color: #a9bad1 }
 .tax-kicker span { width: 8px; height: 8px; border-radius: 50%; background: var(--yellow); box-shadow: 0 0 0 5px rgba(245,200,0,.12) }
@@ -579,6 +579,7 @@ select { color: #475569; padding-right: 28px; cursor: pointer }
   .tax-ticker-meta { display: none }
   .tax-ticker-link { font-size: 0; margin-left: 0 }
   .tax-ticker-link b { font-size: 18px }
+  .tax-hero-element { width: 430px; right: -250px; opacity: .16 }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -611,6 +612,8 @@ select { color: #475569; padding-right: 28px; cursor: pointer }
 .powers-ribbon i { position: absolute; display: block; width: 430px; height: 80px; right: -70px; background: linear-gradient(90deg, #ffd51b, #ffca05); transform: rotate(-20deg); border-radius: 70px 0 0 70px }
 .powers-ribbon i:first-child { top: 53px }
 .powers-ribbon i:last-child { top: 180px }
+.powers-ribbon.hero-radar-element { display: flex; align-items: center; justify-content: flex-end; overflow: hidden }
+.powers-ribbon.hero-radar-element img { display: block; width: min(34vw, 420px); height: auto; margin-right: -34px; transform: rotate(-5deg); object-fit: contain }
 
 .powers-content { padding-block: 32px 38px }
 .institution-tabs { display: grid; grid-template-columns: .9fr 1.05fr .95fr 1.2fr .78fr; gap: 12px }
@@ -1133,16 +1136,17 @@ select { color: #475569; padding-right: 28px; cursor: pointer }
 /* Direção editorial — página de leitura */
 .news-reading-page { background: #fff }
 .news-reading-page .reading-content { padding-top: 42px }
-.news-reading-page .reading-content > .breadcrumb { max-width: 1120px; margin: 0 auto 52px; color: #52708f; font-size: 13px }
-.news-reading-page .article-header { max-width: 1120px; margin: 0 auto; padding-right: 10% }
+.news-reading-page .reading-content { width: min(1440px, calc(100% - 64px)); margin-inline: auto }
+.news-reading-page .reading-content > .breadcrumb { max-width: none; margin: 0 0 42px; color: #52708f; font-size: 13px }
+.news-reading-page .article-header { max-width: 1360px; margin: 0; padding-right: 5% }
 .article-kicker { display: flex; align-items: center; gap: 12px; color: #59718a; font-size: 12px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase }
 .article-kicker span { padding: 7px 10px; color: #082348; background: var(--yellow) }
 .article-kicker i { width: 34px; height: 1px; background: #9baabb }
-.news-reading-page .article-header h1 { max-width: 1040px; margin: 24px 0 18px; font-size: clamp(48px, 6.1vw, 86px); line-height: .95; letter-spacing: -.055em; text-wrap: balance }
-.news-reading-page .article-dek { max-width: 850px; color: #405b77; font-size: clamp(20px, 2vw, 28px); line-height: 1.36 }
+.news-reading-page .article-header h1 { max-width: 1240px; margin: 24px 0 18px; font-size: clamp(48px, 5.5vw, 82px); line-height: .97; letter-spacing: -.052em; text-wrap: balance }
+.news-reading-page .article-dek { max-width: 1020px; color: #405b77; font-size: clamp(20px, 2vw, 28px); line-height: 1.36 }
 .news-reading-page .article-byline { margin: 34px 0 42px; padding-top: 20px; border-top: 1px solid #d6dee6 }
-.news-reading-page .editorial-note { max-width: 1120px; margin: 0 auto 24px; border-left: 3px solid #1473e6; border-radius: 0; background: #f0f7fd }
-.news-reading-page .article-layout { max-width: 1120px; margin: 0 auto; grid-template-columns: minmax(0, 760px) minmax(250px, 1fr); gap: clamp(44px, 7vw, 90px) }
+.news-reading-page .editorial-note { max-width: 1360px; margin: 0 0 24px; border-left: 3px solid #1473e6; border-radius: 0; background: #f0f7fd }
+.news-reading-page .article-layout { max-width: 1360px; margin: 0; grid-template-columns: minmax(0, 980px) minmax(260px, 320px); gap: clamp(36px, 5vw, 64px) }
 .news-reading-page .article-body-content figure { margin-bottom: 40px }
 .news-reading-page .article-body-content figure img { aspect-ratio: 1.55; border-radius: 0 }
 .news-reading-page .article-body-content figcaption { padding-top: 8px; border-bottom: 1px solid #d5dee6; padding-bottom: 12px }
@@ -1150,6 +1154,7 @@ select { color: #475569; padding-right: 28px; cursor: pointer }
 .news-reading-page .article-body-content > section:not(.source-reference) { margin: 0 0 48px }
 .news-reading-page .article-body-content h2 { margin-bottom: 14px; color: #071b43; font-size: clamp(29px, 3vw, 42px); line-height: 1.02; letter-spacing: -.045em }
 .news-reading-page .article-body-content section > p { color: #304d69; font-size: 18px; line-height: 1.72 }
+.news-reading-page .article-body-content > section:not(.article-summary):not(.source-reference) > p { max-width: 78ch }
 .news-reading-page .article-sidebar { top: 110px }
 .news-reading-page .article-sidebar > nav { padding: 0 0 0 22px; border: 0; border-left: 1px solid #b9c8d5; border-radius: 0 }
 .news-reading-page .article-sidebar h2 { margin-bottom: 18px; font-size: 14px; letter-spacing: .08em; text-transform: uppercase }
@@ -1172,6 +1177,7 @@ select { color: #475569; padding-right: 28px; cursor: pointer }
   .main-content .quick-section, .main-content .news-section, .main-content .proposals-section, .main-content .analysis-section { padding-inline: 16px }
   .main-content .news-grid { grid-template-columns: 1fr; gap: 30px }
   .news-reading-page .reading-content { padding-top: 26px }
+  .news-reading-page .reading-content { width: calc(100% - 32px) }
   .news-reading-page .reading-content > .breadcrumb { margin-bottom: 34px }
   .news-reading-page .article-header h1 { font-size: 44px }
   .news-reading-page .article-byline { align-items: flex-start }

@@ -57,6 +57,7 @@ export default function Proposals({ onNavigate }: { onNavigate: (page: PageName)
           <a href="/poderes" onClick={e => { e.preventDefault(); onNavigate('powers') }}>Poderes</a>
           <a className="active" href="/propostas">Propostas</a>
           <a href="/analises" onClick={e => { e.preventDefault(); onNavigate('analyses') }}>Análises</a>
+          <a href="/impostometro" onClick={e => { e.preventDefault(); onNavigate('taxMeter') }}>Impostômetro</a>
         </nav>
         <div className="header-actions">
           <button className="header-search" aria-label="Buscar"><SearchIcon /></button>
@@ -73,7 +74,7 @@ export default function Proposals({ onNavigate }: { onNavigate: (page: PageName)
             <h1>Propostas</h1>
             <p>Acompanhe o que é proposto e como cada iniciativa avança.</p>
           </div>
-          <div className="powers-ribbon" aria-hidden="true"><i /><i /></div>
+          <div className="powers-ribbon hero-radar-element" aria-hidden="true"><img src="/elemento-radar.png" alt="" /></div>
         </div>
       </section>
 
