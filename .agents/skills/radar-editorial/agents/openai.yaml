@@ -1,0 +1,6 @@
+interface:
+  display_name: "Radar Editorial"
+  short_description: "Cria rascunhos jornalísticos para revisão humana"
+  default_prompt: "Use $radar-editorial para transformar fontes verificadas em um rascunho jornalístico no painel editorial."
+policy:
+  allow_implicit_invocation: true

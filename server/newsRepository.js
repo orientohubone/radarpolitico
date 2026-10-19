@@ -95,6 +95,36 @@ export async function listEditorialArticles() {
   return result.rows
 }
 
+export async function createEditorialArticle(input) {
+  return withTransaction(async client => {
+    const source = await client.query(`insert into news_sources (key, name, feed_url, source_type, active)
+      values ('radar-editorial','Radar Editorial',$1,'manual',true)
+      on conflict (key) do update set updated_at=now() returning id`, [input.sourceUrl])
+    const normalized = normalizeTitle(input.sourceTitle || input.headline)
+    const contentHash = digest(`${normalized}|${normalizeTitle(input.sourceDescription || input.summary)}`)
+    const sourceItem = await client.query(`insert into source_items
+      (source_id, canonical_url, title, normalized_title, description, category, image_url, content_hash, raw_payload)
+      values ($1,$2,$3,$4,$5,$6,'',$7,$8)
+      on conflict (canonical_url) do update set title=excluded.title, description=excluded.description,
+      raw_payload=excluded.raw_payload, updated_at=now() returning id`, [source.rows[0].id, input.sourceUrl,
+      input.sourceTitle || input.headline, normalized, input.sourceDescription || input.summary,
+      input.category, contentHash, input])
+    const linked = await client.query('select article_id::text as id from article_sources where source_item_id=$1 limit 1', [sourceItem.rows[0].id])
+    if (linked.rowCount) return { id: linked.rows[0].id, existing: true }
+    const created = await client.query(`insert into articles
+      (primary_source_item_id, slug, headline, summary, what_happened, why_it_matters, who_is_affected,
+       arguments_for, arguments_against, open_questions, what_next, radar_view, key_points, category,
+       content_type, status, editorial_status, author_name)
+      values ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13::jsonb,$14,$15,'draft','review',$16)
+      returning id::text`, [sourceItem.rows[0].id, slug(`${input.headline}-${Date.now()}`), input.headline,
+      input.summary, input.whatHappened, input.whyItMatters, input.whoIsAffected, input.argumentsFor,
+      input.argumentsAgainst, input.openQuestions, input.whatNext, input.radarView,
+      JSON.stringify(input.keyPoints), input.category, input.contentType, input.authorName])
+    await client.query('insert into article_sources (article_id, source_item_id, is_primary) values ($1,$2,true)', [created.rows[0].id, sourceItem.rows[0].id])
+    return { id: created.rows[0].id, existing: false }
+  })
+}
+
 export async function getEditorialArticle(id) {
   const result = await query(`select a.id::text, a.headline, a.summary, a.what_happened as "whatHappened",
     a.why_it_matters as "whyItMatters", a.what_next as "whatNext", a.radar_view as "radarView",

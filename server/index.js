@@ -6,7 +6,7 @@ import fs from 'node:fs/promises'
 import sharp from 'sharp'
 import { databaseEnabled } from './db.js'
 import { collectNews, NEWS_SOURCES } from './newsSources.js'
-import { getDatabaseHealth, getEditorialArticle, ingestNews, listEditorialArticles, listPublishedNews, updateEditorialArticle } from './newsRepository.js'
+import { createEditorialArticle, getDatabaseHealth, getEditorialArticle, ingestNews, listEditorialArticles, listPublishedNews, updateEditorialArticle } from './newsRepository.js'
 import { reconcileArticleImages, syncCamaraMediaPool } from './imageDedup.js'
 import { listPublicFigures, syncPublicFigures } from './publicFigures.js'
 
@@ -86,6 +86,32 @@ app.get('/api/admin/articles', async (req, res) => {
   if (!isAdmin(req)) return res.status(401).json({ error: 'Não autorizado.' })
   try { res.json({ items: await listEditorialArticles() }) }
   catch (error) { res.status(500).json({ error: 'Falha ao carregar a fila editorial.', detail: error.message }) }
+})
+
+app.post('/api/admin/articles', async (req, res) => {
+  if (!isAdmin(req)) return res.status(401).json({ error: 'Não autorizado.' })
+  const text = value => String(value || '').trim().slice(0, 12_000)
+  const sourceUrl = text(req.body.sourceUrl)
+  try {
+    const parsed = new URL(sourceUrl)
+    if (!['http:', 'https:'].includes(parsed.protocol)) throw new Error('protocolo')
+  } catch { return res.status(400).json({ error: 'Informe uma URL HTTP(S) válida para a fonte principal.' }) }
+  const contentType = ['noticia','explicador','analise','opiniao'].includes(req.body.contentType) ? req.body.contentType : 'noticia'
+  const keyPoints = Array.isArray(req.body.keyPoints) ? req.body.keyPoints.map(text).filter(Boolean).slice(0, 8) : []
+  const input = {
+    headline: text(req.body.headline), summary: text(req.body.summary), whatHappened: text(req.body.whatHappened),
+    whyItMatters: text(req.body.whyItMatters), whoIsAffected: text(req.body.whoIsAffected),
+    argumentsFor: text(req.body.argumentsFor), argumentsAgainst: text(req.body.argumentsAgainst),
+    openQuestions: text(req.body.openQuestions), whatNext: text(req.body.whatNext), radarView: text(req.body.radarView),
+    keyPoints, category: text(req.body.category) || 'Política', contentType,
+    authorName: text(req.body.authorName) || 'Redação Radar Político', sourceTitle: text(req.body.sourceTitle),
+    sourceDescription: text(req.body.sourceDescription), sourceUrl,
+  }
+  if (!input.headline || !input.summary || !input.whatHappened) return res.status(400).json({ error: 'Título, síntese e relato do acontecimento são obrigatórios.' })
+  try {
+    const created = await createEditorialArticle(input)
+    res.status(created.existing ? 200 : 201).json({ ok: true, ...created, editorialStatus: 'review', status: 'draft' })
+  } catch (error) { res.status(500).json({ error: 'Falha ao criar o rascunho editorial.', detail: error.message }) }
 })
 
 app.get('/api/admin/articles/:id', async (req, res) => {

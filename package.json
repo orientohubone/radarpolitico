@@ -12,6 +12,7 @@
     "db:check": "node server/checkDatabase.js",
     "news:ingest": "node server/ingest.js",
     "news:repair-descriptions": "node server/repairNewsDescriptions.js",
+    "editorial:submit": "node .agents/skills/radar-editorial/scripts/submit-draft.mjs",
     "images:refresh": "node server/refreshImages.js",
     "media:sync": "node server/syncMediaPool.js",
     "figures:sync": "node server/syncPublicFigures.js",
