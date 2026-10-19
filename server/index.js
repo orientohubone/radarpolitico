@@ -9,6 +9,7 @@ import { collectNews, NEWS_SOURCES } from './newsSources.js'
 import { createEditorialArticle, getDatabaseHealth, getEditorialArticle, ingestNews, listEditorialArticles, listPublishedNews, setArticlePublication, updateEditorialArticle } from './newsRepository.js'
 import { reconcileArticleImages, syncCamaraMediaPool } from './imageDedup.js'
 import { listPublicFigures, syncPublicFigures } from './publicFigures.js'
+import { loadTaxMeter } from './taxMeter.js'
 
 const app = express()
 app.use(express.json({ limit: '100kb' }))
@@ -61,6 +62,13 @@ app.get('/api/news', async (_req, res) => {
     })
     res.json(result)
   } catch (error) { res.status(502).json({ error: 'Não foi possível consultar as notícias.', detail: error.message }) }
+})
+
+app.get('/api/tax-meter', async (_req, res) => {
+  try {
+    const result = await staleWhileRevalidate('tax-meter-v1', loadTaxMeter)
+    res.set('cache-control', 'public, max-age=300, stale-while-revalidate=86400').json(result)
+  } catch (error) { res.status(502).json({ error: 'Não foi possível consultar a arrecadação.', detail: error.message }) }
 })
 
 app.post('/api/admin/ingest', async (req, res) => {

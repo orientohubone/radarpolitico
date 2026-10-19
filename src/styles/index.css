@@ -90,6 +90,13 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
 .header-search:hover { color: #fff }
 .header-search .icon { width: 22px; height: 22px }
 .mobile-menu { display: none; padding: 10px }
+.tax-ticker { width: 100%; min-height: 34px; padding: 6px max(16px, calc((100% - 1200px) / 2)); display: flex; align-items: center; justify-content: center; gap: 15px; background: var(--yellow); color: #09192e; font-size: 12px; border-bottom: 1px solid rgba(0,0,0,.14) }
+.tax-ticker:hover { background: var(--yellow-hover) }
+.tax-ticker-label { display: inline-flex; align-items: center; gap: 7px; font-weight: 800; text-transform: uppercase; letter-spacing: .7px }
+.tax-ticker-label i { width: 7px; height: 7px; border-radius: 50%; background: #16834b; box-shadow: 0 0 0 3px rgba(22,131,75,.14) }
+.tax-ticker strong { font-size: 15px; font-variant-numeric: tabular-nums; white-space: nowrap }
+.tax-ticker-meta { color: #3e4651 }
+.tax-ticker-link { margin-left: 8px; font-weight: 800; white-space: nowrap }
 
 /* ════════════════════════════════════════
    HERO
@@ -452,6 +459,7 @@ select { color: #475569; padding-right: 28px; cursor: pointer }
     gap: 0;
   }
   .navigation.open { display: flex }
+  .home-header-with-ticker .navigation { top: 104px }
   .navigation a { padding: 13px 4px; font-size: 15px; width: 100%; border-radius: 0 }
   .navigation a::after { bottom: 4px; left: 4px; right: 4px }
   .mobile-menu { display: flex }
@@ -502,6 +510,75 @@ select { color: #475569; padding-right: 28px; cursor: pointer }
   .dialog-body { padding: 22px 20px 28px }
   .dialog-body h2 { font-size: 24px }
   .dialog-image { height: 180px }
+}
+
+/* ════════════════════════════════════════
+   IMPOSTÔMETRO
+   ════════════════════════════════════════ */
+.tax-page { min-height: 100vh; background: #f7f9fc; color: #10213b }
+.tax-hero { overflow: hidden; position: relative; background: var(--navy); color: #fff; padding: 64px 16px 52px }
+.tax-hero::after { content: ''; position: absolute; width: 560px; height: 560px; right: -230px; top: -300px; border: 92px solid rgba(245,200,0,.95); border-radius: 50% }
+.tax-hero-inner { position: relative; z-index: 1 }
+.tax-kicker { display: flex; align-items: center; gap: 9px; text-transform: uppercase; font-size: 12px; font-weight: 800; letter-spacing: 1.6px; color: #a9bad1 }
+.tax-kicker span { width: 8px; height: 8px; border-radius: 50%; background: var(--yellow); box-shadow: 0 0 0 5px rgba(245,200,0,.12) }
+.tax-hero h1 { color: #fff; font-size: clamp(40px, 6vw, 72px); letter-spacing: -3px; margin-top: 18px }
+.tax-lead { max-width: 720px; margin-top: 12px; color: #ced8e6; font-size: clamp(17px, 2vw, 21px) }
+.tax-counter { margin-top: 42px; padding: 26px 30px; max-width: 950px; background: rgba(5,20,40,.72); border: 1px solid rgba(255,255,255,.15); border-left: 5px solid var(--yellow); border-radius: 8px; box-shadow: 0 18px 55px rgba(0,0,0,.23) }
+.tax-counter > span { display: block; color: #c3cfdd; font-size: 14px; font-weight: 700 }
+.tax-counter strong { display: block; margin: 8px 0 10px; color: #fff; font-size: clamp(31px, 5.2vw, 63px); letter-spacing: -2.5px; line-height: 1; font-variant-numeric: tabular-nums }
+.tax-counter small { display: flex; align-items: center; gap: 8px; color: #9fb0c5 }
+.tax-counter small i { width: 8px; height: 8px; border-radius: 50%; background: #36d17c; box-shadow: 0 0 0 4px rgba(54,209,124,.14) }
+.tax-disclaimer { max-width: 950px; margin-top: 12px; color: #b8c6d7; font-size: 13px }
+.tax-disclaimer b { color: #fff }
+.tax-loading { margin-top: 38px; padding: 24px; border: 1px solid rgba(255,255,255,.15); border-radius: 8px; max-width: 780px }
+.tax-error { border-color: #ef7777 }
+.tax-content { padding-top: 28px; padding-bottom: 72px }
+.tax-stats { display: grid; grid-template-columns: repeat(3,1fr); gap: 14px; margin-bottom: 20px }
+.tax-stats article { background: #fff; border: 1px solid #dfe6ef; border-radius: 8px; padding: 22px 24px; box-shadow: 0 4px 18px rgba(13,34,64,.04) }
+.tax-stats span, .tax-panel-heading span, .tax-method > span, .tax-source span { display: block; color: #64748b; font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 1.2px }
+.tax-stats strong { display: block; font-size: clamp(25px,3vw,36px); letter-spacing: -1.3px; margin: 8px 0 3px }
+.tax-stats small { color: #64748b }
+.tax-grid { display: grid; grid-template-columns: minmax(0,1.7fr) minmax(290px,.8fr); gap: 20px }
+.tax-panel { background: #fff; border: 1px solid #dfe6ef; border-radius: 8px; padding: 26px; box-shadow: 0 4px 18px rgba(13,34,64,.04) }
+.tax-panel-heading { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px }
+.tax-panel h2, .tax-source h2, .tax-scope h2 { margin-top: 5px; font-size: 22px; letter-spacing: -.6px }
+.tax-panel-heading .tax-unit { text-transform: none; letter-spacing: 0; font-weight: 600 }
+.tax-chart { height: 290px; display: flex; align-items: flex-end; gap: clamp(8px,2vw,22px); border-bottom: 1px solid #ccd6e2; padding: 42px 12px 0; margin-top: 24px; background: repeating-linear-gradient(to top, transparent 0, transparent 71px, #edf1f6 72px) }
+.tax-bar-group { height: 100%; min-width: 0; flex: 1; display: flex; flex-direction: column; justify-content: flex-end; align-items: stretch; position: relative }
+.tax-bar { min-height: 8px; background: linear-gradient(180deg, #f5c800, #dbae00); border-radius: 4px 4px 0 0; transition: height .35s }
+.tax-bar-group small { color: #64748b; font-weight: 700; text-align: center; margin: 8px 0 -28px }
+.tax-bar-value { display: block; font-size: 10px; font-weight: 700; color: #52647a; text-align: center; margin-bottom: 6px; white-space: nowrap }
+.tax-method { background: #102748; color: #fff }
+.tax-method > span { color: #f5c800 }
+.tax-method h2 { color: #fff }
+.tax-method ol { list-style: none; padding: 0; margin: 26px 0 0; counter-reset: method }
+.tax-method li { position: relative; padding: 0 0 24px 48px; counter-increment: method }
+.tax-method li:not(:last-child)::after { content: ''; position: absolute; left: 17px; top: 34px; bottom: 5px; border-left: 1px solid #47617f }
+.tax-method li::before { content: counter(method); position: absolute; left: 0; top: -4px; width: 35px; height: 35px; display: grid; place-items: center; border-radius: 50%; background: var(--yellow); color: #10213b; font-weight: 800 }
+.tax-method p { margin-top: 5px; color: #b8c8da; font-size: 13px }
+.tax-source { display: flex; align-items: center; justify-content: space-between; gap: 24px; margin-top: 20px; background: #fff; border: 1px solid #dfe6ef; border-radius: 8px; padding: 26px }
+.tax-source p { max-width: 760px; color: #526176; margin-top: 8px; font-size: 14px }
+.tax-source small { display: block; color: #9a6100; margin-top: 8px }
+.tax-source a { flex: 0 0 auto; background: var(--yellow); color: #10213b; border-radius: 5px; padding: 12px 17px; font-weight: 800 }
+.tax-source a:hover { background: var(--yellow-hover) }
+.tax-scope { padding: 30px 4px 0; max-width: 900px }
+.tax-scope p { color: #526176; margin-top: 10px }
+.tax-footer { min-height: 84px; display: flex; align-items: center; gap: 28px; color: #b7c4d5; font-size: 13px }
+
+@media (max-width: 768px) {
+  .tax-hero { padding-block: 42px }
+  .tax-counter { padding: 20px 18px }
+  .tax-counter strong { letter-spacing: -1.3px; overflow-wrap: anywhere }
+  .tax-stats, .tax-grid { grid-template-columns: 1fr }
+  .tax-chart-panel { overflow-x: auto }
+  .tax-chart { min-width: 590px }
+  .tax-source { align-items: flex-start; flex-direction: column }
+  .tax-ticker { min-height: 42px; justify-content: space-between; gap: 8px; padding-inline: 16px }
+  .tax-ticker-label { font-size: 10px }
+  .tax-ticker strong { font-size: 12px }
+  .tax-ticker-meta { display: none }
+  .tax-ticker-link { font-size: 0; margin-left: 0 }
+  .tax-ticker-link b { font-size: 18px }
 }
 
 @media (prefers-reduced-motion: reduce) {

@@ -1,6 +1,7 @@
 import React, { useRef, useState } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import { fetchWithLocalCache, loadLocalCache } from '../lib/apiCache'
+import TaxTicker from '../components/TaxTicker'
 
 type IconName = 'arrow' | 'search' | 'document' | 'chart' | 'person' | 'book' | 'health' | 'shield' | 'mail' | 'close' | 'menu'
 function Icon({ name, className = '' }: { name: IconName; className?: string }) {
@@ -75,7 +76,7 @@ const footerInfo: Record<string, string> = {
   'Privacidade': 'Esta versão não envia nem armazena os dados dos formulários em um servidor. O cadastro de atualizações ainda não está conectado a um serviço de envio. A política completa será apresentada antes de ativar a coleta de dados.',
 }
 
-export default function Home({ onNavigate, onOpenNews }: { onNavigate?: (page: 'home' | 'powers' | 'proposals' | 'analyses') => void; onOpenNews?: (id: string) => void }) {
+export default function Home({ onNavigate, onOpenNews }: { onNavigate?: (page: 'home' | 'powers' | 'proposals' | 'analyses' | 'taxMeter') => void; onOpenNews?: (id: string) => void }) {
   const [active, setActive] = useState('Notícias')
   const [menu, setMenu] = useState(false)
   const [modal, setModal] = useState<{ title: string; paragraphs: string[]; image?: string } | null>(null)
@@ -115,14 +116,15 @@ export default function Home({ onNavigate, onOpenNews }: { onNavigate?: (page: '
   })
   return <>
     <a className="skip-link" href="#conteudo">Pular para o conteúdo</a>
-    <header className="site-header">
+    <header className="site-header home-header-with-ticker">
+      <TaxTicker onOpen={() => onNavigate?.('taxMeter')} />
       <div className="header-inner container">
         <a className="brand" href="#conteudo" aria-label="Radar Político, início"><Logo /></a>
         <nav className={menu ? 'navigation open' : 'navigation'} aria-label="Navegação principal">
-          {(['Notícias', 'Poderes', 'Propostas', 'Análises'] as const).map((label) => {
-            const id = label === 'Notícias' ? 'noticias' : label === 'Poderes' ? 'poderes' : label === 'Propostas' ? 'propostas' : 'analises'
-            const href = label === 'Poderes' ? '/poderes' : label === 'Propostas' ? '/propostas' : label === 'Análises' ? '/analises' : `#${id}`
-            return <a key={id} href={href} className={active === label ? 'active' : ''} onClick={e => { e.preventDefault(); label === 'Poderes' ? onNavigate?.('powers') : label === 'Propostas' ? onNavigate?.('proposals') : label === 'Análises' ? onNavigate?.('analyses') : navigate(label, id) }}>{label}</a>
+          {(['Notícias', 'Poderes', 'Propostas', 'Análises', 'Impostômetro'] as const).map((label) => {
+            const id = label === 'Notícias' ? 'noticias' : label === 'Poderes' ? 'poderes' : label === 'Propostas' ? 'propostas' : label === 'Análises' ? 'analises' : 'impostometro'
+            const href = label === 'Poderes' ? '/poderes' : label === 'Propostas' ? '/propostas' : label === 'Análises' ? '/analises' : label === 'Impostômetro' ? '/impostometro' : `#${id}`
+            return <a key={id} href={href} className={active === label ? 'active' : ''} onClick={e => { e.preventDefault(); label === 'Poderes' ? onNavigate?.('powers') : label === 'Propostas' ? onNavigate?.('proposals') : label === 'Análises' ? onNavigate?.('analyses') : label === 'Impostômetro' ? onNavigate?.('taxMeter') : navigate(label, id) }}>{label}</a>
           })}
         </nav>
         <div className="header-actions">
