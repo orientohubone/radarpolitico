@@ -1049,7 +1049,7 @@ select { color: #475569; padding-right: 28px; cursor: pointer }
 .main-content .article-body .eyebrow { width: fit-content; margin-bottom: 10px; color: #0b4d90; letter-spacing: .12em }
 .main-content .article-body h3,
 .main-content .article-card:nth-child(1) h3,
-.main-content .article-card:nth-child(2) h3 { display: -webkit-box; overflow: hidden; min-height: 2.32em; font-size: 21px; line-height: 1.16; letter-spacing: -.025em; text-wrap: pretty; -webkit-box-orient: vertical; -webkit-line-clamp: 2; line-clamp: 2 }
+.main-content .article-card:nth-child(2) h3 { display: -webkit-box; overflow: hidden; min-height: 3.48em; font-size: 21px; line-height: 1.16; letter-spacing: -.025em; text-wrap: pretty; -webkit-box-orient: vertical; -webkit-line-clamp: 3; line-clamp: 3 }
 .main-content .article-body p { display: -webkit-box; overflow: hidden; min-height: 4.44em; margin-top: 4px; color: #486078; font-size: 14px; line-height: 1.48; -webkit-box-orient: vertical; -webkit-line-clamp: 3; line-clamp: 3 }
 .main-content .news-date { font-size: 11px; letter-spacing: .04em; text-transform: uppercase }
 

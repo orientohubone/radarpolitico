@@ -37,6 +37,14 @@ const newsFallbackImages = [
 ]
 const genericImagePatterns = ['imagem-padrao', 'imagem_padrao', 'default', 'placeholder', 'logo-compartilhamento']
 const proxiedImage = (url: string) => url.startsWith('http') ? `/api/image?url=${encodeURIComponent(url)}` : url
+function cardText(value: string, maxLength: number) {
+  const normalized = value.replace(/\s+/g, ' ').trim()
+  if (normalized.length <= maxLength) return normalized
+  const preview = normalized.slice(0, maxLength + 1)
+  const punctuation = Math.max(preview.lastIndexOf('.'), preview.lastIndexOf('!'), preview.lastIndexOf('?'), preview.lastIndexOf(';'))
+  const boundary = punctuation >= maxLength * .65 ? punctuation + 1 : preview.lastIndexOf(' ')
+  return `${preview.slice(0, boundary > 0 ? boundary : maxLength).replace(/[,:;.!?\s]+$/, '')}…`
+}
 const news: Article[] = [
   { category: 'Congresso', title: 'Como uma proposta vira lei', description: 'Entenda as etapas que um projeto precisa percorrer até se tornar uma lei no Brasil.', image: 'chamber', alt: 'Plenário do Congresso Nacional em sessão', paragraphs: ['Uma proposta de lei começa com a apresentação de um projeto. Deputados, senadores, o presidente da República e outros atores previstos na Constituição podem iniciar esse processo, conforme o assunto.', 'O texto passa pela análise das comissões, que examinam seu conteúdo e sua constitucionalidade. Dependendo do procedimento, pode ser votado nas próprias comissões ou seguir para o plenário.', 'Em geral, Câmara e Senado precisam aprovar o texto. Depois, ele segue para sanção ou veto do presidente. Emendas à Constituição e outras espécies de propostas têm regras próprias. Acompanhar cada etapa ajuda a distinguir uma ideia apresentada de uma lei em vigor.'] },
   { category: 'Legislativo', title: 'O papel das comissões no Congresso', description: 'Saiba como funcionam as comissões temáticas e por que elas são importantes no processo legislativo.', image: 'committee', alt: 'Reunião de comissão legislativa no Congresso', paragraphs: ['As comissões são grupos de parlamentares que examinam assuntos específicos, como educação, saúde e orçamento. Elas permitem uma análise mais detalhada das propostas antes da decisão final.', 'O relator estuda o texto e apresenta um parecer. As comissões também podem realizar audiências públicas e ouvir especialistas e representantes da sociedade.', 'Nem toda proposta precisa passar pelo plenário: algumas podem ser decididas nas comissões, conforme as regras de cada Casa e os recursos apresentados. Consulte sempre a tramitação oficial para entender a situação de cada projeto.'] },
@@ -92,7 +100,13 @@ export default function Home({ onNavigate, onOpenNews }: { onNavigate?: (page: '
     const remoteIsUsable = Boolean(normalizedImage) && !genericImagePatterns.some(pattern => normalizedImage.includes(pattern)) && !usedImages.has(article.image)
     const image = remoteIsUsable ? article.image : newsFallbackImages[fallbackCursor++ % newsFallbackImages.length]
     usedImages.add(image)
-    return { ...article, visualImage: image, fallbackImage: newsFallbackImages[index % newsFallbackImages.length] }
+    return {
+      ...article,
+      cardTitle: cardText(article.title, 96),
+      cardDescription: cardText(article.description, 160),
+      visualImage: image,
+      fallbackImage: newsFallbackImages[index % newsFallbackImages.length],
+    }
   })
   return <>
     <a className="skip-link" href="#conteudo">Pular para o conteúdo</a>
@@ -176,8 +190,8 @@ export default function Home({ onNavigate, onOpenNews }: { onNavigate?: (page: '
                 <img src={proxiedImage(article.visualImage)} onError={event => { event.currentTarget.onerror = null; event.currentTarget.src = article.fallbackImage }} alt={article.title} loading="lazy" />
                 <span className="article-body">
                   <span className="eyebrow">{article.category}</span>
-                  <h3>{article.title}</h3>
-                  <p>{article.description}</p>
+                  <h3>{article.cardTitle}</h3>
+                  <p>{article.cardDescription}</p>
                   {article.publishedAt && <time className="news-date" dateTime={article.publishedAt}>{new Date(article.publishedAt).toLocaleDateString('pt-BR')}</time>}
                 </span>
               </button>
