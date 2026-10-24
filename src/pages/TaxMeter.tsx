@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useQuery } from '@tanstack/react-query'
+import DossiersMenu from '../components/DossiersMenu'
 
 type TaxData = {
   scope: string; year: number; officialTotal: number; estimatedTotal: number; dailyPace: number
@@ -32,6 +33,7 @@ export default function TaxMeter({ onNavigate }: { onNavigate?: (page: 'home' | 
         <a href="/poderes" onClick={e => { e.preventDefault(); onNavigate?.('powers') }}>Poderes</a>
         <a href="/propostas" onClick={e => { e.preventDefault(); onNavigate?.('proposals') }}>Propostas</a>
         <a href="/analises" onClick={e => { e.preventDefault(); onNavigate?.('analyses') }}>Análises</a>
+        <DossiersMenu />
         <a className="active" href="/impostometro">Impostômetro</a>
       </nav>
       <div className="header-actions">

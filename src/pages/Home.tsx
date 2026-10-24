@@ -2,6 +2,7 @@ import React, { useRef, useState } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import { fetchWithLocalCache, loadLocalCache } from '../lib/apiCache'
 import TaxTicker from '../components/TaxTicker'
+import DossiersMenu from '../components/DossiersMenu'
 
 type IconName = 'arrow' | 'search' | 'document' | 'chart' | 'person' | 'book' | 'health' | 'shield' | 'mail' | 'close' | 'menu'
 function Icon({ name, className = '' }: { name: IconName; className?: string }) {
@@ -121,11 +122,13 @@ export default function Home({ onNavigate, onOpenNews }: { onNavigate?: (page: '
       <div className="header-inner container">
         <a className="brand" href="#conteudo" aria-label="Radar Político, início"><Logo /></a>
         <nav className={menu ? 'navigation open' : 'navigation'} aria-label="Navegação principal">
-          {(['Notícias', 'Poderes', 'Propostas', 'Análises', 'Impostômetro'] as const).map((label) => {
-            const id = label === 'Notícias' ? 'noticias' : label === 'Poderes' ? 'poderes' : label === 'Propostas' ? 'propostas' : label === 'Análises' ? 'analises' : 'impostometro'
-            const href = label === 'Poderes' ? '/poderes' : label === 'Propostas' ? '/propostas' : label === 'Análises' ? '/analises' : label === 'Impostômetro' ? '/impostometro' : `#${id}`
-            return <a key={id} href={href} className={active === label ? 'active' : ''} onClick={e => { e.preventDefault(); label === 'Poderes' ? onNavigate?.('powers') : label === 'Propostas' ? onNavigate?.('proposals') : label === 'Análises' ? onNavigate?.('analyses') : label === 'Impostômetro' ? onNavigate?.('taxMeter') : navigate(label, id) }}>{label}</a>
+          {(['Notícias', 'Poderes', 'Propostas', 'Análises'] as const).map((label) => {
+            const id = label === 'Notícias' ? 'noticias' : label === 'Poderes' ? 'poderes' : label === 'Propostas' ? 'propostas' : 'analises'
+            const href = label === 'Poderes' ? '/poderes' : label === 'Propostas' ? '/propostas' : label === 'Análises' ? '/analises' : `#${id}`
+            return <a key={id} href={href} className={active === label ? 'active' : ''} onClick={e => { e.preventDefault(); label === 'Poderes' ? onNavigate?.('powers') : label === 'Propostas' ? onNavigate?.('proposals') : label === 'Análises' ? onNavigate?.('analyses') : navigate(label, id) }}>{label}</a>
           })}
+          <DossiersMenu />
+          <a href="/impostometro" className={active === 'Impostômetro' ? 'active' : ''} onClick={e => { e.preventDefault(); onNavigate?.('taxMeter') }}>Impostômetro</a>
         </nav>
         <div className="header-actions">
           <button className="header-search" aria-label="Buscar notícias" onClick={() => { setShowNewsSearch(true); navigate('Notícias', 'noticias'); setTimeout(() => searchInput.current?.focus(), 50) }}><Icon name="search" /></button>

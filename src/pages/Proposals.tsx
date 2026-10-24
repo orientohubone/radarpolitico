@@ -2,6 +2,7 @@ import React, { useMemo, useState } from 'react'
 import type { PageName } from '../App'
 import { useQuery } from '@tanstack/react-query'
 import { fetchWithLocalCache, loadLocalCache } from '../lib/apiCache'
+import DossiersMenu from '../components/DossiersMenu'
 
 type Proposal = {
   id: number
@@ -140,6 +141,7 @@ export default function Proposals({ onNavigate }: { onNavigate: (page: PageName)
           <a href="/poderes" onClick={e => { e.preventDefault(); onNavigate('powers') }}>Poderes</a>
           <a className="active" href="/propostas">Propostas</a>
           <a href="/analises" onClick={e => { e.preventDefault(); onNavigate('analyses') }}>Análises</a>
+          <DossiersMenu />
           <a href="/impostometro" onClick={e => { e.preventDefault(); onNavigate('taxMeter') }}>Impostômetro</a>
         </nav>
         <div className="header-actions">

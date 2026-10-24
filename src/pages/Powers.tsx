@@ -1,5 +1,6 @@
 import React, { useMemo, useState } from 'react'
 import { useQuery } from '@tanstack/react-query'
+import DossiersMenu from '../components/DossiersMenu'
 
 type Institution = 'Presidência' | 'Senado' | 'Câmara dos Deputados' | 'STF'
 type Profile = {
@@ -138,6 +139,7 @@ export default function Powers({ onNavigate }: { onNavigate: (page: 'home' | 'po
           <a className="active" href="/poderes">Poderes</a>
           <a href="/propostas" onClick={e => { e.preventDefault(); onNavigate('proposals') }}>Propostas</a>
           <a href="/analises" onClick={e => { e.preventDefault(); onNavigate('analyses') }}>Análises</a>
+          <DossiersMenu />
           <a href="/impostometro" onClick={e => { e.preventDefault(); onNavigate('taxMeter') }}>Impostômetro</a>
         </nav>
         <div className="header-actions">

@@ -268,6 +268,7 @@ app.get('/api/image', async (req, res) => {
 })
 
 const distDir = path.resolve(currentDir, '..', 'dist')
+app.get('/dossies/esquerda-brasileira', (_req, res) => res.sendFile(path.resolve(currentDir, '..', 'dossi_a_esquerda_brasileira_radar_pol_tico.html')))
 app.use(express.static(distDir))
 app.get('*', (_req, res) => res.sendFile(path.join(distDir, 'index.html')))
 const port = process.env.RADAR_PORT || process.env.PORT || 4000

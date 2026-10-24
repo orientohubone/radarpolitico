@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import type { PageName } from '../App'
 import { useQuery } from '@tanstack/react-query'
 import { fetchWithLocalCache, loadLocalCache } from '../lib/apiCache'
+import DossiersMenu from '../components/DossiersMenu'
 
 type LiveNews = { id: string; slug: string; category: string; title: string; description: string; image: string; url: string; publishedAt: string; source: string; whatHappened?: string; whyItMatters?: string; whatNext?: string; radarView?: string; whoIsAffected?: string; argumentsFor?: string; argumentsAgainst?: string; openQuestions?: string; keyPoints?: string[]; editorialStatus?: string; contentType?: string; imageAuthor?: string; imageLicense?: string; imageLicenseUrl?: string; imagePageUrl?: string; imageAlt?: string; imageIllustrative?: boolean }
 type NewsPayload = { items: LiveNews[]; updatedAt: string }
@@ -32,7 +33,7 @@ export default function NewsArticle({ onNavigate }: { onNavigate: (page: PageNam
   return <div className="powers-page news-reading-page">
     <header className="site-header"><div className="header-inner container">
       <a className="brand" href="/" onClick={event => { event.preventDefault(); onNavigate('home') }}><Logo /></a>
-      <nav className={menu ? 'navigation open' : 'navigation'} aria-label="Navegação principal"><a href="/" className="active" onClick={event => { event.preventDefault(); onNavigate('home') }}>Notícias</a><a href="/poderes" onClick={event => { event.preventDefault(); onNavigate('powers') }}>Poderes</a><a href="/propostas" onClick={event => { event.preventDefault(); onNavigate('proposals') }}>Propostas</a><a href="/analises" onClick={event => { event.preventDefault(); onNavigate('analyses') }}>Análises</a><a href="/impostometro" onClick={event => { event.preventDefault(); onNavigate('taxMeter') }}>Impostômetro</a></nav>
+      <nav className={menu ? 'navigation open' : 'navigation'} aria-label="Navegação principal"><a href="/" className="active" onClick={event => { event.preventDefault(); onNavigate('home') }}>Notícias</a><a href="/poderes" onClick={event => { event.preventDefault(); onNavigate('powers') }}>Poderes</a><a href="/propostas" onClick={event => { event.preventDefault(); onNavigate('proposals') }}>Propostas</a><a href="/analises" onClick={event => { event.preventDefault(); onNavigate('analyses') }}>Análises</a><DossiersMenu /><a href="/impostometro" onClick={event => { event.preventDefault(); onNavigate('taxMeter') }}>Impostômetro</a></nav>
       <div className="header-actions"><button className="header-search" aria-label="Buscar notícias" onClick={() => onNavigate('home')}><svg className="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><circle cx="10.5" cy="10.5" r="7" /><path d="m16 16 5 5" /></svg></button><button className="mobile-menu" aria-label={menu ? 'Fechar menu' : 'Abrir menu'} aria-expanded={menu} onClick={() => setMenu(!menu)}><span aria-hidden="true">{menu ? '×' : '☰'}</span></button></div>
     </div></header>
 

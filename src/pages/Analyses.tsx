@@ -2,6 +2,7 @@ import React, { useMemo, useState } from 'react'
 import type { PageName } from '../App'
 import { useQuery } from '@tanstack/react-query'
 import { fetchWithLocalCache, loadLocalCache } from '../lib/apiCache'
+import DossiersMenu from '../components/DossiersMenu'
 
 type ContentType = 'Análise' | 'Opinião' | 'Explicador'
 type AnalysisItem = { id: number | string; type: ContentType; title: string; description: string; image: string; fallbackImage: string; theme: string; institution: string; url?: string; source?: string }
@@ -67,7 +68,7 @@ export default function Analyses({ onNavigate }: { onNavigate: (page: PageName) 
     <header className="site-header"><div className="header-inner container">
       <a className="brand" href="/" onClick={e => { e.preventDefault(); onNavigate('home') }}><Logo /></a>
       <nav className={menu ? 'navigation open' : 'navigation'} aria-label="Navegação principal">
-        <a href="/" onClick={e => { e.preventDefault(); onNavigate('home') }}>Notícias</a><a href="/poderes" onClick={e => { e.preventDefault(); onNavigate('powers') }}>Poderes</a><a href="/propostas" onClick={e => { e.preventDefault(); onNavigate('proposals') }}>Propostas</a><a className="active" href="/analises">Análises</a><a href="/impostometro" onClick={e => { e.preventDefault(); onNavigate('taxMeter') }}>Impostômetro</a>
+        <a href="/" onClick={e => { e.preventDefault(); onNavigate('home') }}>Notícias</a><a href="/poderes" onClick={e => { e.preventDefault(); onNavigate('powers') }}>Poderes</a><a href="/propostas" onClick={e => { e.preventDefault(); onNavigate('proposals') }}>Propostas</a><a className="active" href="/analises">Análises</a><DossiersMenu /><a href="/impostometro" onClick={e => { e.preventDefault(); onNavigate('taxMeter') }}>Impostômetro</a>
       </nav>
       <div className="header-actions"><button className="header-search" aria-label="Buscar"><SearchIcon /></button><button className="mobile-menu" aria-label={menu ? 'Fechar menu' : 'Abrir menu'} onClick={() => setMenu(!menu)}><span aria-hidden="true">{menu ? '×' : '☰'}</span></button></div>
     </div></header>
