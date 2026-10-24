@@ -92,6 +92,28 @@
         .chapter-controls button { min-height: 44px; border: 1px solid #cbd5e1; border-radius: .6rem; padding: .7rem 1rem; color: #07192f; background: white; font-weight: 800; font-size: .8rem; }
         .chapter-controls button:hover:not(:disabled) { border-color: #1d4ed8; color: #1d4ed8; }
         .chapter-controls button:disabled { opacity: .35; cursor: not-allowed; }
+        .historical-portrait { width: 100%; aspect-ratio: 16/9; object-fit: cover; object-position: center 24%; border-radius: .65rem; margin: .75rem 0 1rem; border: 1px solid #e2e8f0; }
+        .leader-portraits { display: flex; flex-wrap: wrap; gap: .75rem; margin: .9rem 0 1.1rem; }
+        .leader-portraits figure { position: relative; width: 118px; overflow: hidden; border: 1px solid #dbe3ec; border-radius: .7rem; background: #f8fafc; box-shadow: 0 5px 15px rgba(7,25,47,.08); }
+        .leader-portraits.single figure { width: 148px; }
+        .leader-portraits img { display: block; width: 100%; aspect-ratio: 1; object-fit: cover; }
+        .leader-portraits figcaption { padding: .45rem .5rem; color: #334155; background: white; font-size: .65rem; line-height: 1.2; font-weight: 800; text-align: center; }
+        .case-header { display: grid; grid-template-columns: auto minmax(0,1fr) auto; align-items: center; gap: 1rem; padding: 1.15rem 1.25rem; color: white; background: #0d2240; }
+        .case-index { display: grid; place-items: center; width: 2.7rem; height: 2.7rem; border: 1px solid rgba(255,255,255,.2); border-radius: .7rem; color: #f5c800; background: rgba(255,255,255,.06); font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800; }
+        .case-meta { display: flex; flex-wrap: wrap; align-items: center; gap: .45rem; margin-bottom: .3rem; color: #cbd5e1; font-size: .62rem; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; }
+        .case-meta span + span::before { content: '•'; margin-right: .45rem; color: #f5c800; }
+        .case-header h3 { color: white; font-size: 1.05rem; line-height: 1.25; }
+        .case-header p { margin-top: .25rem; color: #cbd5e1; font-size: .72rem; line-height: 1.4; }
+        .case-status { max-width: 12.5rem; padding: .45rem .65rem; border: 1px solid rgba(255,255,255,.16); border-radius: 9999px; color: #e2e8f0; background: rgba(255,255,255,.07); font-size: .62rem; line-height: 1.25; font-weight: 800; text-align: center; text-transform: uppercase; letter-spacing: .04em; }
+        .case-status--ongoing { color: #fef3c7; border-color: rgba(245,200,0,.35); background: rgba(245,200,0,.1); }
+        .case-metrics { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); border-bottom: 1px solid #e2e8f0; background: #f8fafc; }
+        .case-metric { min-width: 0; padding: 1rem 1.25rem; border-right: 1px solid #e2e8f0; }
+        .case-metric:last-child { border-right: 0; }
+        .case-metric strong { display: block; color: #0d2240; font-family: 'Plus Jakarta Sans', sans-serif; font-size: clamp(1.35rem,2vw,1.8rem); line-height: 1; letter-spacing: -.04em; }
+        .case-metric span { display: block; margin-top: .35rem; color: #64748b; font-size: .68rem; line-height: 1.25; font-weight: 700; }
+        .case-metrics-note { grid-column: 1 / -1; padding: .45rem 1.25rem; border-top: 1px solid #e2e8f0; color: #94a3b8; background: white; font-size: .62rem; }
+        @media (max-width: 620px) { .case-metrics { grid-template-columns: 1fr; } .case-metric { border-right: 0; border-bottom: 1px solid #e2e8f0; } }
+        @media (max-width: 700px) { .case-header { grid-template-columns: auto minmax(0,1fr); } .case-status { grid-column: 1 / -1; max-width: none; justify-self: start; } }
         @media (max-width: 1023px) {
             .chapter-guide { top: 74px; }
             .chapter-guide-scroll { scrollbar-width: none; }
@@ -412,13 +434,26 @@
                         Para medir o tamanho da guinada atual, é necessário registrar as duas matrizes que moldaram o pensamento trabalhista e nacional-popular antes da hegemonia petista:
                     </p>
 
+                    <figure class="relative overflow-hidden rounded-2xl border border-slate-200 bg-[#0d2240] shadow-sm">
+                        <img src="/images/dossie-raizes-brizola-arraes.webp" alt="Ilustração editorial de Leonel Brizola e Miguel Arraes" class="w-full aspect-[2.5/1] object-cover" loading="lazy">
+                        <figcaption class="absolute inset-x-0 bottom-0 px-5 py-3 bg-gradient-to-t from-[#0d2240] to-transparent text-[11px] text-white/80">Ilustração editorial: Leonel Brizola e Miguel Arraes, duas matrizes históricas do campo trabalhista e nacional-popular.</figcaption>
+                    </figure>
+
+                    <div class="grid grid-cols-2 lg:grid-cols-4 gap-3" aria-label="Números das raízes históricas">
+                        <div class="rounded-xl border border-slate-200 bg-white p-4"><strong class="block text-3xl font-display text-radar-navy"><span class="metric-counter" data-count="2">0</span></strong><span class="text-xs text-slate-500">matrizes históricas</span></div>
+                        <div class="rounded-xl border border-slate-200 bg-white p-4"><strong class="block text-3xl font-display text-radar-navy"><span class="metric-counter" data-count="6">0</span></strong><span class="text-xs text-slate-500">mandatos estaduais somados</span></div>
+                        <div class="rounded-xl border border-slate-200 bg-white p-4"><strong class="block text-3xl font-display text-radar-navy"><span class="metric-counter" data-count="2">0</span></strong><span class="text-xs text-slate-500">regiões como base política</span></div>
+                        <div class="rounded-xl border border-slate-200 bg-[#0d2240] p-4"><strong class="block text-3xl font-display text-[#f5c800]">1961–79</strong><span class="text-xs text-slate-300">marcos da linha histórica</span></div>
+                    </div>
+
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-5 pt-2">
                         <!-- Card Brizola -->
                         <div class="border border-slate-200 rounded-xl p-5 bg-white shadow-sm hover:border-blue-300 transition">
                             <div class="flex items-center justify-between mb-2">
                                 <span class="text-[11px] font-bold uppercase tracking-wider bg-amber-100 text-amber-900 px-2.5 py-0.5 rounded">Matriz Trabalhista • PDT</span>
                                 <span class="text-xs text-slate-400 font-medium">1922–2004</span>
-                            </div>
+                             </div>
+                            <img src="/images/dossie/portraits/leonel-brizola.webp" alt="Caricatura editorial de Leonel Brizola" class="historical-portrait" loading="lazy">
                             <h3 class="text-lg font-extrabold text-radar-navy mb-2">Leonel Brizola</h3>
                             <p class="text-xs sm:text-sm text-slate-600 mb-3 leading-relaxed">
                                 <strong>Biografia:</strong> Engenheiro civil gaúcho, herdeiro político de Getúlio Vargas e João Goulart. Único político eleito governador por dois estados distintos (RS e RJ). Liderou a Campanha da Legalidade (1961) e fundou o PDT após o exílio.
@@ -435,7 +470,8 @@
                             <div class="flex items-center justify-between mb-2">
                                 <span class="text-[11px] font-bold uppercase tracking-wider bg-orange-100 text-orange-900 px-2.5 py-0.5 rounded">Matriz Nacional-Popular • PSB</span>
                                 <span class="text-xs text-slate-400 font-medium">1916–2005</span>
-                            </div>
+                             </div>
+                            <img src="/images/dossie/portraits/miguel-arraes.webp" alt="Caricatura editorial de Miguel Arraes" class="historical-portrait" loading="lazy">
                             <h3 class="text-lg font-extrabold text-radar-navy mb-2">Miguel Arraes</h3>
                             <p class="text-xs sm:text-sm text-slate-600 mb-3 leading-relaxed">
                                 <strong>Biografia:</strong> Advogado e economista cearense radicado em Pernambuco. Governador por três mandatos (deposto pelo golpe de 1964, exilado na Argélia) e líder histórico do PSB. Patriarca do clã que inclui Eduardo Campos e João Campos.
@@ -460,6 +496,18 @@
                                 Selecione uma corrente abaixo para filtrar os protagonistas que comandam a esquerda institucional, urbana, trabalhista e digital.
                             </p>
                         </div>
+                    </div>
+
+                    <figure class="relative overflow-hidden rounded-2xl border border-slate-200 bg-[#0d2240] shadow-sm">
+                        <img src="/images/dossie-liderancas-mosaico.webp" alt="Mosaico editorial de lideranças brasileiras de esquerda e centro-esquerda" class="w-full aspect-[2.5/1] object-cover" loading="lazy">
+                        <figcaption class="px-5 py-3 text-[11px] text-slate-300 bg-[#0d2240] flex flex-wrap items-center justify-between gap-2"><span>Caricatura editorial ilustrativa; a identificação nominal permanece nos perfis abaixo.</span><span class="font-bold text-[#f5c800]">Ilustração, não fotografia</span></figcaption>
+                    </figure>
+
+                    <div class="grid grid-cols-2 lg:grid-cols-4 gap-3" aria-label="Números do painel de lideranças">
+                        <div class="rounded-xl border border-slate-200 bg-white p-4"><strong class="block text-3xl font-display text-radar-navy"><span class="metric-counter" data-count="11">0</span></strong><span class="text-xs text-slate-500">perfis e grupos mapeados</span></div>
+                        <div class="rounded-xl border border-slate-200 bg-white p-4"><strong class="block text-3xl font-display text-radar-navy"><span class="metric-counter" data-count="5">0</span></strong><span class="text-xs text-slate-500">correntes analisadas</span></div>
+                        <div class="rounded-xl border border-slate-200 bg-white p-4"><strong class="block text-3xl font-display text-radar-navy"><span class="metric-counter" data-count="4">0</span></strong><span class="text-xs text-slate-500">filtros comparativos</span></div>
+                        <button type="button" id="openAllLeadersBtn" class="rounded-xl bg-[#0d2240] p-4 text-left hover:bg-[#173657] transition"><strong class="block text-sm text-[#f5c800]">Explorar painel</strong><span class="text-xs text-slate-300">Filtrar lideranças por corrente →</span></button>
                     </div>
 
                     <!-- Interactive Category Filter Tabs -->
@@ -1204,15 +1252,11 @@
 
                         <!-- CASO 1: MENSALÃO (AP 470) -->
                         <div class="inv-card rounded-xl border border-slate-200 bg-white overflow-hidden shadow-xs" data-inv-cat="mensalao">
-                            <div class="bg-slate-900 text-white px-5 py-3.5 flex flex-wrap items-center justify-between gap-2">
-                                <div class="flex items-center gap-2.5">
-                                    <span class="px-2.5 py-0.5 rounded bg-radar-yellow text-radar-navy font-extrabold text-xs">2005–2013</span>
-                                    <h3 class="font-display font-extrabold text-base sm:text-lg text-white">
-                                        1. O Escândalo do Mensalão (Ação Penal 470 no STF)
-                                    </h3>
-                                </div>
-                                <span class="text-[11px] font-bold uppercase px-2.5 py-0.5 rounded bg-red-500/20 text-red-200 border border-red-400/30">Compra de Apoio Parlamentar</span>
+                            <div class="case-header">
+                                <span class="case-index">01</span><div><div class="case-meta"><span>2005–2013</span><span>Ação Penal 470</span></div><h3>Mensalão e julgamento no STF</h3><p>Origem, funcionamento atribuído e responsabilização dos núcleos julgados.</p></div>
+                                <span class="case-status">Julgamento concluído</span>
                             </div>
+                            <div class="case-metrics" aria-label="Números do caso Mensalão"><div class="case-metric"><strong>24</strong><span>réus condenados pelo STF</span></div><div class="case-metric"><strong>AP 470</strong><span>ação penal de referência</span></div><div class="case-metric"><strong>8 anos</strong><span>entre denúncia pública e julgamento</span></div><small class="case-metrics-note">Indicadores extraídos do relato do caso; consulte as decisões na fonte primária.</small></div>
                             <div class="p-5 space-y-3 text-xs sm:text-sm">
                                 <p class="text-slate-700 leading-relaxed">
                                     <strong>A Engrenagem do Esquema:</strong> Deflagrado em 2005 após denúncias do então deputado Roberto Jefferson (PTB) e julgado pelo Supremo Tribunal Federal na histórica <strong>Ação Penal 470</strong> (sob relatoria de Joaquim Barbosa), o Mensalão consistiu em um esquema de desvio de recursos públicos (como do fundo Visanet/Banco do Brasil) e empréstimos fraudulentos simulados junto aos bancos <strong>Rural e BMG</strong>, operados pelo publicitário Marcos Valério, para pagar mesadas políticas a parlamentares da base aliada em troca de votos favoráveis a projetos do primeiro governo Lula.
@@ -1239,15 +1283,11 @@
 
                         <!-- CASO 2: PETROLÃO E FUNDOS DE PENSÃO (LAVA JATO) -->
                         <div class="inv-card rounded-xl border border-slate-200 bg-white overflow-hidden shadow-xs" data-inv-cat="petrolao">
-                            <div class="bg-slate-900 text-white px-5 py-3.5 flex flex-wrap items-center justify-between gap-2">
-                                <div class="flex items-center gap-2.5">
-                                    <span class="px-2.5 py-0.5 rounded bg-radar-yellow text-radar-navy font-extrabold text-xs">2014–2021</span>
-                                    <h3 class="font-display font-extrabold text-base sm:text-lg text-white">
-                                        2. O Petrolão (Operação Lava Jato), BNDES e Fundos de Pensão (Operação Greenfield)
-                                    </h3>
-                                </div>
-                                <span class="text-[11px] font-bold uppercase px-2.5 py-0.5 rounded bg-red-500/20 text-red-200 border border-red-400/30">Aparelhamento de Estatais</span>
+                            <div class="case-header">
+                                <span class="case-index">02</span><div><div class="case-meta"><span>2014–2021</span><span>Lava Jato e Greenfield</span></div><h3>Petrobras, contratos públicos e fundos de pensão</h3><p>Investigações conexas, agentes envolvidos e diferentes desfechos processuais.</p></div>
+                                <span class="case-status">Desfechos diversos</span>
                             </div>
+                            <div class="case-metrics" aria-label="Números dos casos Lava Jato e Greenfield"><div class="case-metric"><strong>1%–5%</strong><span>percentual atribuído aos pagamentos</span></div><div class="case-metric"><strong>R$ 6 bi+</strong><span>valores devolvidos, segundo o relato</span></div><div class="case-metric"><strong>4 fundos</strong><span>Previ, Petros, Funcef e Postalis</span></div><small class="case-metrics-note">Valores e percentuais reproduzem o levantamento do dossiê e permanecem sujeitos à conferência documental.</small></div>
                             <div class="p-5 space-y-3 text-xs sm:text-sm">
                                 <p class="text-slate-700 leading-relaxed">
                                     <strong>A Engrenagem do Esquema:</strong> A investigação iniciada em 2014 revelou que as principais diretorias da <strong>Petrobras</strong> (Abastecimento, Serviços e Internacional) foram fatiadas entre o PT, o PP e o MDB. Um cartel de grandes empreiteiras (Odebrecht, OAS, Andrade Gutierrez, Camargo Corrêa, UTC) superfaturava contratos de refinarias (como Abreu e Lima e Comperj) e pagava de <strong>1% a 5% de propina</strong> sobre cada contrato, operada por doleiros (Alberto Youssef) e pelo "Setor de Operações Estruturadas" da Odebrecht. Paralelamente, a <strong>Operação Greenfield</strong> mirou rombos bilionários nos fundos de pensão das estatais (<strong>Previ, Petros, Funcef e Postalis</strong>).
@@ -1274,15 +1314,11 @@
 
                         <!-- CASO 3: AS INVESTIGAÇÕES E PROCESSOS CONTRA LULA -->
                         <div class="inv-card rounded-xl border border-slate-200 bg-white overflow-hidden shadow-xs" data-inv-cat="lula-processos">
-                            <div class="bg-slate-900 text-white px-5 py-3.5 flex flex-wrap items-center justify-between gap-2">
-                                <div class="flex items-center gap-2.5">
-                                    <span class="px-2.5 py-0.5 rounded bg-radar-yellow text-radar-navy font-extrabold text-xs">DOSSIÊ INDIVIDUAL</span>
-                                    <h3 class="font-display font-extrabold text-base sm:text-lg text-white">
-                                        3. Todos os Processos e Investigações contra Luiz Inácio Lula da Silva
-                                    </h3>
-                                </div>
-                                <span class="text-[11px] font-bold uppercase px-2.5 py-0.5 rounded bg-blue-500/20 text-blue-200 border border-blue-400/30">Condenações Anuladas & Prescrição</span>
+                            <div class="case-header">
+                                <span class="case-index">03</span><div><div class="case-meta"><span>2016–2021</span><span>Dossiê individual</span></div><h3>Processos e investigações envolvendo Lula</h3><p>Separação entre acusações, decisões de mérito, anulações e encerramentos.</p></div>
+                                <span class="case-status">Condenações anuladas</span>
                             </div>
+                            <div class="case-metrics" aria-label="Números dos processos de Lula"><div class="case-metric"><strong>580 dias</strong><span>período de prisão mencionado</span></div><div class="case-metric"><strong>3 instâncias</strong><span>decisões citadas no caso do triplex</span></div><div class="case-metric"><strong>4 frentes</strong><span>grupos processuais resumidos abaixo</span></div><small class="case-metrics-note">Anulação processual não equivale a absolvição de mérito; consulte o histórico de cada ação.</small></div>
                             <div class="p-5 space-y-3 text-xs sm:text-sm">
                                 <p class="text-slate-700 leading-relaxed">
                                     O presidente Lula respondeu a mais de uma dezena de ações penais e inquéritos entre 2016 e 2021. É fundamental para a precisão analítica distinguir <strong>o que foi julgado no mérito</strong> (com condenações em 1ª, 2ª e 3ª instâncias) da <strong>forma como os processos foram encerrados</strong> (anulação processual por foro/suspeição seguida de prescrição pela idade superior a 70 anos, e não por revisão das provas de mérito das instâncias inferiores):
@@ -1313,15 +1349,11 @@
 
                         <!-- CASO 4: ESCÂNDALO DO INSS / OPERAÇÃO SEM DESCONTO (2025–2026) -->
                         <div class="inv-card rounded-xl border-2 border-red-200 bg-white overflow-hidden shadow-xs" data-inv-cat="inss">
-                            <div class="bg-red-950 text-white px-5 py-3.5 flex flex-wrap items-center justify-between gap-2">
-                                <div class="flex items-center gap-2.5">
-                                    <span class="px-2.5 py-0.5 rounded bg-radar-yellow text-radar-navy font-extrabold text-xs">2025–2026 • ATUAL</span>
-                                    <h3 class="font-display font-extrabold text-base sm:text-lg text-white">
-                                        4. A Farra dos Descontos no INSS ("Operação Sem Desconto") e os Sindicatos Aliados
-                                    </h3>
-                                </div>
-                                <span class="text-[11px] font-bold uppercase px-2.5 py-0.5 rounded bg-red-500 text-white">Rombo de R$ 6,3 Bilhões</span>
+                            <div class="case-header">
+                                <span class="case-index">04</span><div><div class="case-meta"><span>2025–2026</span><span>Operação Sem Desconto</span></div><h3>Descontos associativos em benefícios do INSS</h3><p>Autorizações contestadas, entidades investigadas e resposta institucional.</p></div>
+                                <span class="case-status case-status--ongoing">Investigação em curso</span>
                             </div>
+                            <div class="case-metrics" aria-label="Números da Operação Sem Desconto"><div class="case-metric"><strong>R$ 6,3 bi</strong><span>descontos investigados no período</span></div><div class="case-metric"><strong>4,7 milhões</strong><span>beneficiários citados como ressarcidos</span></div><div class="case-metric"><strong>R$ 3,2 bi+</strong><span>ressarcimento informado no relato</span></div><small class="case-metrics-note">Investigação em curso: valores podem mudar e não constituem decisão judicial definitiva.</small></div>
                             <div class="p-5 space-y-3 text-xs sm:text-sm">
                                 <p class="text-slate-700 leading-relaxed">
                                     <strong>A Engrenagem do Esquema:</strong> Deflagrada pela Polícia Federal e pela CGU em abril de 2025 (com desdobramentos no STF sob relatoria do ministro André Mendonça e na CPMI do INSS até 2026), a <strong>Operação Sem Desconto</strong> revelou que associações e sindicatos de fachada assinaram Acordos de Cooperação Técnica (ACTs) com o INSS e passaram a descontar mensalidades diretamente na folha de milhões de aposentados e pensionistas <strong>sem autorização das vítimas</strong>, desviando cerca de <strong>R$ 6,3 bilhões</strong> (tendo o governo já ressarcido mais de R$ 3,2 bilhões a 4,7 milhões de idosos lesados até meados de 2026).
@@ -1349,15 +1381,11 @@
 
                         <!-- CASO 5: ESCÂNDALO DO BANCO MASTER, BRB E FUNDOS DE PENSÃO (2025–2026) -->
                         <div class="inv-card rounded-xl border-2 border-amber-200 bg-white overflow-hidden shadow-xs" data-inv-cat="master">
-                            <div class="bg-slate-900 text-white px-5 py-3.5 flex flex-wrap items-center justify-between gap-2">
-                                <div class="flex items-center gap-2.5">
-                                    <span class="px-2.5 py-0.5 rounded bg-radar-yellow text-radar-navy font-extrabold text-xs">2025–2026 • OPERAÇÃO COMPLIANCE ZERO</span>
-                                    <h3 class="font-display font-extrabold text-base sm:text-lg text-white">
-                                        5. O Caso Banco Master / BRB, Fundos de Pensão de Servidores e Bastidores de Brasília
-                                    </h3>
-                                </div>
-                                <span class="text-[11px] font-bold uppercase px-2.5 py-0.5 rounded bg-amber-500 text-radar-navy">R$ 52 Bi no FGC / R$ 12,2 Bi no BRB</span>
+                            <div class="case-header">
+                                <span class="case-index">05</span><div><div class="case-meta"><span>2025–2026</span><span>Operação Compliance Zero</span></div><h3>Banco Master, BRB e fundos de previdência</h3><p>Operações financeiras, exposição institucional e valores ainda sob apuração.</p></div>
+                                <span class="case-status case-status--ongoing">Investigação em curso</span>
                             </div>
+                            <div class="case-metrics" aria-label="Números do caso Banco Master e BRB"><div class="case-metric"><strong>R$ 52 bi</strong><span>exposição estimada atribuída ao FGC</span></div><div class="case-metric"><strong>R$ 12,2 bi</strong><span>operações com o BRB citadas</span></div><div class="case-metric"><strong>R$ 500 mi+</strong><span>aplicações de fundos sob apuração</span></div><small class="case-metrics-note">Estimativas apresentadas no dossiê; investigação em curso e valores sujeitos a revisão.</small></div>
                             <div class="p-5 space-y-3 text-xs sm:text-sm">
                                 <p class="text-slate-700 leading-relaxed">
                                     <strong>A Engrenagem do Esquema:</strong> Considerada a maior crise bancária recente do país (deixando um passivo estimado em até R$ 52 bilhões para o Fundo Garantidor de Créditos após a liquidação do conglomerado de <strong>Daniel Vorcaro</strong>, preso na <em>Operação Compliance Zero</em>), a investigação da Polícia Federal apura a emissão de títulos (CDBs) e créditos sem lastro real, o repasse de <strong>R$ 12,2 bilhões pelo Banco de Brasília (BRB)</strong> para injetar liquidez no Banco Master antes de sua quebra, e o desvio de mais de <strong>R$ 500 milhões de fundos de pensão de servidores públicos estaduais e municipais</strong> aplicados em papéis podres do banco.
@@ -1381,15 +1409,11 @@
 
                         <!-- CASO 6: OUTRAS INVESTIGAÇÕES CONTRA LIDERANÇAS DA ESQUERDA -->
                         <div class="inv-card rounded-xl border border-slate-200 bg-white overflow-hidden shadow-xs" data-inv-cat="outros">
-                            <div class="bg-slate-900 text-white px-5 py-3.5 flex flex-wrap items-center justify-between gap-2">
-                                <div class="flex items-center gap-2.5">
-                                    <span class="px-2.5 py-0.5 rounded bg-radar-yellow text-radar-navy font-extrabold text-xs">OUTROS NOMES</span>
-                                    <h3 class="font-display font-extrabold text-base sm:text-lg text-white">
-                                        6. Outras investigações relacionadas às lideranças mapeadas
-                                    </h3>
-                                </div>
-                                <span class="text-[11px] font-bold uppercase px-2.5 py-0.5 rounded bg-slate-700 text-slate-200">Rui Costa, Haddad, Ciro, Boulos e Janones</span>
+                            <div class="case-header">
+                                <span class="case-index">06</span><div><div class="case-meta"><span>Painel complementar</span><span>Casos distintos</span></div><h3>Outras investigações relacionadas a lideranças</h3><p>Registros organizados individualmente, com situação processual própria.</p></div>
+                                <span class="case-status">Consultar cada registro</span>
                             </div>
+                            <div class="case-metrics" aria-label="Números do painel complementar"><div class="case-metric"><strong>R$ 48,7 mi</strong><span>compra de respiradores citada</span></div><div class="case-metric"><strong>R$ 2,6 mi</strong><span>valor atribuído ao caso eleitoral descrito</span></div><div class="case-metric"><strong>R$ 157 mil</strong><span>devolução mencionada em acordo</span></div><small class="case-metrics-note">Os números pertencem a casos independentes; cada registro possui partes e desfecho próprios.</small></div>
                             <div class="p-5 grid grid-cols-1 md:grid-cols-2 gap-4 text-xs sm:text-sm">
                                 <div class="p-3.5 rounded-lg bg-slate-50 border border-slate-200">
                                     <strong class="text-radar-navy block mb-1">Rui Costa (PT • Casa Civil) — Caso dos Respiradores (Operação Ragnarok):</strong>
@@ -1939,11 +1963,8 @@
 
                 <!-- Box 2: Dark Navy Promo Card with Yellow Ribbon (Exact replica of "Explore as propostas" card) -->
                 <div class="radar-ribbon-bg rounded-xl p-6 text-white shadow-md border border-slate-800">
-                    <!-- Decorative Yellow Ribbon SVG in bottom-right corner -->
-                    <svg class="absolute -right-6 -bottom-6 w-44 h-44 pointer-events-none opacity-95" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M190 25C130 45 85 95 140 125C185 150 110 185 60 195" stroke="#f5b800" stroke-width="26" stroke-linecap="round" stroke-linejoin="round"/>
-                        <path d="M210 75C155 95 115 140 165 170" stroke="#dca400" stroke-width="16" stroke-linecap="round" opacity="0.6"/>
-                    </svg>
+                    <!-- Elemento oficial da identidade Radar -->
+                    <img src="/elemento-radar.png" alt="" aria-hidden="true" class="absolute w-56 max-w-none -right-20 -bottom-20 pointer-events-none opacity-90">
 
                     <div class="relative z-10 max-w-[220px]">
                         <h3 class="font-display font-extrabold text-xl text-white leading-snug mb-2">
@@ -1991,73 +2012,74 @@
 
         </div>
 
-        <!-- Continue a leitura Section (Identical structure to reference screenshot) -->
+        <!-- Leituras relacionadas -->
         <section class="mt-16 pt-10 border-t border-slate-200">
-            <h2 class="font-display font-extrabold text-2xl text-radar-navy mb-6">
-                Continue a leitura no Radar Político
-            </h2>
+            <div class="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-3 mb-7">
+                <div><span class="text-[10px] font-extrabold uppercase tracking-[.15em] text-blue-700">Aprofunde o tema</span><h2 class="font-display font-extrabold text-2xl sm:text-[28px] text-radar-navy mt-1">Continue a leitura no Radar Político</h2></div>
+                <p class="max-w-md text-sm text-slate-500 sm:text-right">Três caminhos para avançar pelo dossiê sem perder o contexto.</p>
+            </div>
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <!-- Card 1 -->
-                <a href="#mutacao" class="group border border-slate-200 rounded-xl overflow-hidden bg-white shadow-sm hover:shadow-md transition flex flex-col">
-                    <div class="h-44 bg-gradient-to-tr from-slate-900 via-slate-800 to-amber-900 relative overflow-hidden flex items-center justify-center p-6">
-                        <svg class="w-20 h-20 text-amber-400/30 group-hover:scale-105 transition-transform" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+                <a href="#mutacao" class="group border border-slate-200 rounded-xl overflow-hidden bg-white transition duration-200 flex flex-col hover:-translate-y-1 hover:border-blue-300 hover:shadow-[0_16px_35px_rgba(7,25,47,.10)]">
+                    <div class="h-24 bg-gradient-to-r from-slate-950 to-amber-900 relative overflow-hidden flex items-center p-6 border-t-4 border-amber-400">
+                        <span class="absolute right-5 text-6xl font-display font-extrabold text-white/10" aria-hidden="true">01</span><svg class="hidden" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
                         </svg>
-                        <span class="absolute bottom-3 left-3 text-[11px] text-white/80 font-mono">PLP 12/2024 • PEC 6x1</span>
+                        <span class="text-[10px] text-amber-200 font-extrabold uppercase tracking-[.13em]">Trabalho e representação</span>
                     </div>
-                    <div class="p-4 flex-grow flex flex-col justify-between">
+                    <div class="p-6 flex-grow flex flex-col justify-between">
                         <div>
                             <span class="inline-block bg-blue-50 text-blue-700 text-[10px] font-bold uppercase px-2 py-0.5 rounded mb-2">
-                                EXPLICADOR
+                                CAPÍTULO 04 · 6 MIN
                             </span>
-                            <h3 class="font-display font-extrabold text-base text-radar-navy group-hover:text-blue-700 transition">
-                                Por que a esquerda perdeu o trabalhador de aplicativo e os MEIs?
+                            <h3 class="font-display font-extrabold text-xl leading-snug text-radar-navy group-hover:text-blue-700 transition">
+                                Do sindicalismo industrial ao trabalho por aplicativos
                             </h3>
                         </div>
-                        <p class="text-xs text-slate-500 mt-2">O embate entre a CLT sindical tradicional e a busca por autonomia financeira imediata.</p>
+                        <p class="text-sm leading-relaxed text-slate-600 mt-3">Como informalidade, empreendedorismo e plataformas digitais alteraram a relação da esquerda com trabalhadores e MEIs.</p><strong class="mt-6 pt-4 border-t border-slate-100 text-xs text-blue-700">Ler análise <span aria-hidden="true">→</span></strong>
                     </div>
                 </a>
 
                 <!-- Card 2 -->
-                <a href="#protagonistas" class="group border border-slate-200 rounded-xl overflow-hidden bg-white shadow-sm hover:shadow-md transition flex flex-col">
-                    <div class="h-44 bg-gradient-to-tr from-slate-900 via-blue-950 to-blue-800 relative overflow-hidden flex items-center justify-center p-6">
-                        <svg class="w-20 h-20 text-blue-300/30 group-hover:scale-105 transition-transform" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+                <a href="#protagonistas" class="group border border-slate-200 rounded-xl overflow-hidden bg-white transition duration-200 flex flex-col hover:-translate-y-1 hover:border-blue-300 hover:shadow-[0_16px_35px_rgba(7,25,47,.10)]">
+                    <div class="h-24 bg-gradient-to-r from-slate-950 to-blue-800 relative overflow-hidden flex items-center p-6 border-t-4 border-blue-500">
+                        <span class="absolute right-5 text-6xl font-display font-extrabold text-white/10" aria-hidden="true">02</span><svg class="hidden" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
                         </svg>
-                        <span class="absolute bottom-3 left-3 text-[11px] text-white/80 font-mono">ARCABOUÇO • IVA DUAL</span>
+                        <span class="text-[10px] text-blue-200 font-extrabold uppercase tracking-[.13em]">Economia e governo</span>
                     </div>
-                    <div class="p-4 flex-grow flex flex-col justify-between">
+                    <div class="p-6 flex-grow flex flex-col justify-between">
                         <div>
                             <span class="inline-block bg-blue-50 text-blue-700 text-[10px] font-bold uppercase px-2 py-0.5 rounded mb-2">
-                                EXPLICADOR
+                                CAPÍTULO 03 · 8 MIN
                             </span>
-                            <h3 class="font-display font-extrabold text-base text-radar-navy group-hover:text-blue-700 transition">
-                                Do desenvolvimentismo ao fiscalismo: A economia de Haddad
+                            <h3 class="font-display font-extrabold text-xl leading-snug text-radar-navy group-hover:text-blue-700 transition">
+                                Do desenvolvimentismo às novas regras fiscais
                             </h3>
                         </div>
-                        <p class="text-xs text-slate-500 mt-2">Como a bancarização social e o aumento da arrecadação substituíram o modelo estatal clássico.</p>
+                        <p class="text-sm leading-relaxed text-slate-600 mt-3">As diferenças entre expansão estatal, responsabilidade fiscal, reforma tributária e políticas de renda.</p><strong class="mt-6 pt-4 border-t border-slate-100 text-xs text-blue-700">Comparar perfis <span aria-hidden="true">→</span></strong>
                     </div>
                 </a>
 
                 <!-- Card 3 -->
-                <a href="#matriz" class="group border border-slate-200 rounded-xl overflow-hidden bg-white shadow-sm hover:shadow-md transition flex flex-col">
-                    <div class="h-44 bg-gradient-to-tr from-[#07192f] via-[#1e3a8a] to-sky-700 relative overflow-hidden flex items-center justify-center p-6">
-                        <svg class="w-20 h-20 text-sky-200/30 group-hover:scale-105 transition-transform" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+                <a href="#matriz" class="group border border-slate-200 rounded-xl overflow-hidden bg-white transition duration-200 flex flex-col hover:-translate-y-1 hover:border-blue-300 hover:shadow-[0_16px_35px_rgba(7,25,47,.10)]">
+                    <div class="h-24 bg-gradient-to-r from-slate-950 to-blue-900 relative overflow-hidden flex items-center p-6 border-t-4 border-[#f5c800]">
+                        <span class="absolute right-5 text-6xl font-display font-extrabold text-white/10" aria-hidden="true">03</span><svg class="hidden" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/>
                         </svg>
-                        <span class="absolute bottom-3 left-3 text-[11px] text-white/80 font-mono">SUCESSÃO • REDES SOCIAIS</span>
+                        <span class="text-[10px] text-[#f5c800] font-extrabold uppercase tracking-[.13em]">Cenários e sucessão</span>
                     </div>
-                    <div class="p-4 flex-grow flex flex-col justify-between">
+                    <div class="p-6 flex-grow flex flex-col justify-between">
                         <div>
-                            <span class="inline-block bg-blue-50 text-blue-700 text-[10px] font-bold uppercase px-2 py-0.5 rounded mb-2">
-                                ANÁLISE
+                            <span class="inline-block bg-amber-50 text-amber-700 text-[10px] font-bold uppercase px-2 py-0.5 rounded mb-2">
+                                CAPÍTULO 08 · 5 MIN
                             </span>
-                            <h3 class="font-display font-extrabold text-base text-radar-navy group-hover:text-blue-700 transition">
-                                Disputa geracional: João Campos, Boulos e o futuro pós-Lula
+                            <h3 class="font-display font-extrabold text-xl leading-snug text-radar-navy group-hover:text-blue-700 transition">
+                                Lideranças emergentes e os caminhos do campo progressista
                             </h3>
                         </div>
-                        <p class="text-xs text-slate-500 mt-2">O contraste entre a gestão pragmática digital do PSB e o ativismo urbano do PSOL.</p>
+                        <p class="text-sm leading-relaxed text-slate-600 mt-3">Uma comparação entre estilos de gestão, comunicação digital, bases eleitorais e projetos para o período posterior a Lula.</p><strong class="mt-6 pt-4 border-t border-slate-100 text-xs text-blue-700">Abrir comparativo <span aria-hidden="true">→</span></strong>
                     </div>
                 </a>
             </div>
@@ -2230,6 +2252,29 @@
             const initialChapter = chapters.findIndex(chapter => chapter.id === location.hash.slice(1));
             showChapter(initialChapter >= 0 ? initialChapter : 0, { updateHistory: false, scroll: false });
 
+            // Contadores dos infográficos, ativados somente quando entram na área visível.
+            const metricCounters = document.querySelectorAll('.metric-counter');
+            const counterObserver = new IntersectionObserver(entries => {
+                entries.forEach(entry => {
+                    if (!entry.isIntersecting || entry.target.dataset.animated === 'true') return;
+                    const counter = entry.target;
+                    const target = Number(counter.dataset.count || 0);
+                    counter.dataset.animated = 'true';
+                    const startedAt = performance.now();
+                    const animate = now => {
+                        const progress = Math.min((now - startedAt) / 650, 1);
+                        counter.textContent = Math.round(target * (1 - Math.pow(1 - progress, 3)));
+                        if (progress < 1) requestAnimationFrame(animate);
+                    };
+                    requestAnimationFrame(animate);
+                    counterObserver.unobserve(counter);
+                });
+            }, { threshold: .55 });
+            metricCounters.forEach(counter => counterObserver.observe(counter));
+            document.getElementById('openAllLeadersBtn')?.addEventListener('click', () => {
+                document.getElementById('leaderFilterGroup')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            });
+
             // Mobile Menu Toggle
             const mobileMenuBtn = document.getElementById('mobileMenuBtn');
             const mobileMenuContainer = document.getElementById('mobileMenuContainer');
@@ -2249,6 +2294,39 @@
             const clearSearchBtn = document.getElementById('clearSearchBtn');
             const leaderCards = document.querySelectorAll('.leader-card');
             const filterBtns = document.querySelectorAll('.filter-btn');
+
+            const portraitsByCard = {
+                'Luiz Inácio Lula da Silva': [['lula', 'Luiz Inácio Lula da Silva']],
+                'Fernando Haddad': [['fernando-haddad', 'Fernando Haddad']],
+                'Dilma Rousseff & Gleisi Hoffmann': [['dilma-rousseff', 'Dilma Rousseff'], ['gleisi-hoffmann', 'Gleisi Hoffmann']],
+                'Camilo Santana': [['camilo-santana', 'Camilo Santana']],
+                'Guilherme Boulos': [['guilherme-boulos', 'Guilherme Boulos']],
+                'Erika Hilton & Rick Azevedo': [['erika-hilton', 'Erika Hilton'], ['rick-azevedo', 'Rick Azevedo']],
+                'Ciro Gomes': [['ciro-gomes', 'Ciro Gomes']],
+                'João Campos': [['joao-campos', 'João Campos']],
+                'Marina Silva & Sônia Guajajara': [['marina-silva', 'Marina Silva'], ['sonia-guajajara', 'Sônia Guajajara']],
+                'João Pedro Stédile (MST) & O Novo "Webcomunismo" (Jones Manoel / Ian Neves)': [['joao-pedro-stedile', 'João Pedro Stédile'], ['jones-manoel', 'Jones Manoel'], ['ian-neves', 'Ian Neves']]
+            };
+            leaderCards.forEach(card => {
+                const heading = card.querySelector('h3');
+                const people = portraitsByCard[heading?.textContent.trim()];
+                if (!heading || !people) return;
+                const rail = document.createElement('div');
+                rail.className = `leader-portraits${people.length === 1 ? ' single' : ''}`;
+                rail.setAttribute('aria-label', `Retratos editoriais: ${people.map(person => person[1]).join(', ')}`);
+                people.forEach(([slug, name]) => {
+                    const figure = document.createElement('figure');
+                    const image = document.createElement('img');
+                    const caption = document.createElement('figcaption');
+                    image.src = `/images/dossie/portraits/${slug}.webp`;
+                    image.alt = `Caricatura editorial de ${name}`;
+                    image.loading = 'lazy';
+                    caption.textContent = name;
+                    figure.append(image, caption);
+                    rail.appendChild(figure);
+                });
+                heading.insertAdjacentElement('afterend', rail);
+            });
 
             searchToggleBtn.addEventListener('click', () => {
                 searchBarContainer.classList.toggle('hidden');
