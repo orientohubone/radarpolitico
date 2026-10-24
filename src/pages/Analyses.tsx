@@ -4,18 +4,34 @@ import { useQuery } from '@tanstack/react-query'
 import { fetchWithLocalCache, loadLocalCache } from '../lib/apiCache'
 
 type ContentType = 'Análise' | 'Opinião' | 'Explicador'
-type AnalysisItem = { id: number | string; type: ContentType; title: string; description: string; image: string; theme: string; institution: string; url?: string; source?: string }
-type LiveNews = { id: string; category: string; title: string; description: string; image: string; url: string; source: string }
+type AnalysisItem = { id: number | string; type: ContentType; title: string; description: string; image: string; fallbackImage: string; theme: string; institution: string; url?: string; source?: string }
+type LiveNews = { id: string; category: string; title: string; description: string; whyItMatters?: string; image: string; url: string; source: string; contentType?: string }
 const analysisFallbackImages = ['/images/congress.jpg', '/images/chamber.jpg', '/images/committee.jpg', '/images/budget.jpg', '/images/congress-evening.jpg']
+const genericImagePatterns = ['imagem-padrao', 'imagem_padrao', 'default', 'placeholder', 'logo-compartilhamento']
+const proxiedImage = (url: string) => url.startsWith('http') ? `/api/image?url=${encodeURIComponent(url)}` : url
 
-const publications: AnalysisItem[] = [
-  { id: 1, type: 'Análise', title: 'Orçamento público: escolhas e prioridades', description: 'Entenda como as decisões sobre o orçamento impactam políticas públicas.', image: 'budget', theme: 'Orçamento', institution: 'Congresso' },
-  { id: 2, type: 'Explicador', title: 'Como funciona uma comissão parlamentar', description: 'Conheça o papel, a composição e como as comissões atuam no processo legislativo.', image: 'committee', theme: 'Legislativo', institution: 'Congresso' },
-  { id: 3, type: 'Opinião', title: 'Transparência precisa fazer parte da rotina', description: 'Acesso à informação fortalece a democracia e melhora as decisões públicas.', image: 'chamber', theme: 'Transparência', institution: 'Câmara' },
-  { id: 4, type: 'Análise', title: 'Propostas e execução: o que acompanhar', description: 'Saiba como identificar o estágio das propostas e o que observar na execução.', image: 'committee', theme: 'Propostas', institution: 'Congresso' },
-  { id: 5, type: 'Explicador', title: 'O papel de cada poder da República', description: 'Entenda as funções do Executivo, Legislativo e Judiciário e como eles se relacionam.', image: 'congress-evening', theme: 'Instituições', institution: 'República' },
-  { id: 6, type: 'Análise', title: 'Como ler um plano de governo', description: 'Veja o que observar em um plano de governo e como comparar propostas.', image: 'budget', theme: 'Eleições', institution: 'Executivo' },
-]
+function clipAtSentence(value: string, limit: number) {
+  const text = value.replace(/\s+/g, ' ').trim()
+  if (text.length <= limit) return text
+  const preview = text.slice(0, limit + 1)
+  const sentence = Math.max(preview.lastIndexOf('.'), preview.lastIndexOf('!'), preview.lastIndexOf('?'))
+  const boundary = sentence >= limit * .6 ? sentence + 1 : preview.lastIndexOf(' ')
+  return `${preview.slice(0, boundary > 0 ? boundary : limit).replace(/[,:;.!?\s]+$/, '')}…`
+}
+
+function analysisDescription(item: LiveNews, limit: number) {
+  const summary = item.description.replace(/\s+/g, ' ').trim()
+  const context = (item.whyItMatters || '').replace(/\s+/g, ' ').trim()
+  const usefulContext = /contextualização editorial pendente/i.test(context) ? '' : context
+  const combined = summary.length < limit * .55 && usefulContext ? `${summary.replace(/[.!?]+$/, '')}. ${usefulContext}` : summary
+  return clipAtSentence(combined || `${item.title}. Entenda o contexto e os próximos passos.`, limit)
+}
+
+function analysisType(contentType?: string): ContentType {
+  if (contentType === 'opiniao') return 'Opinião'
+  if (contentType === 'explicador') return 'Explicador'
+  return 'Análise'
+}
 
 function SearchIcon() { return <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5" /><path d="m16 16 5 5" /></svg> }
 function Logo() { return <img src="/logo-radar.png" alt="Radar Político" className="logo-img" /> }
@@ -32,7 +48,11 @@ export default function Analyses({ onNavigate }: { onNavigate: (page: PageName) 
   const [email, setEmail] = useState('')
   const [message, setMessage] = useState('')
   const { data: newsData, isLoading, isError } = useQuery<{ items: LiveNews[]; updatedAt: string }>({ queryKey: ['live-news-v9'], queryFn: () => fetchWithLocalCache('/api/news', 'news-v9'), initialData: () => loadLocalCache('news-v9'), staleTime: 5 * 60 * 1000, refetchInterval: 5 * 60 * 1000, retry: 2 })
-  const analysisItems: AnalysisItem[] = newsData?.items?.map((item, index) => ({ id: item.id, type: index % 3 === 0 ? 'Explicador' : index % 3 === 1 ? 'Análise' : 'Opinião', title: item.title, description: item.description, image: item.image || analysisFallbackImages[index % analysisFallbackImages.length], theme: item.category || 'Política', institution: item.source, url: item.url, source: item.source })) || []
+  const analysisItems: AnalysisItem[] = newsData?.items?.map((item, index) => {
+    const fallbackImage = analysisFallbackImages[index % analysisFallbackImages.length]
+    const remoteImage = item.image && !genericImagePatterns.some(pattern => item.image.toLocaleLowerCase('pt-BR').includes(pattern)) ? item.image : fallbackImage
+    return { id: item.id, type: analysisType(item.contentType), title: item.title, description: analysisDescription(item, index === 0 ? 260 : 190), image: proxiedImage(remoteImage), fallbackImage, theme: item.category || 'Política', institution: item.source, url: item.url, source: item.source }
+  }) || []
   const featured = analysisItems[0]
 
   const filtered = useMemo(() => analysisItems.slice(1)
@@ -66,11 +86,11 @@ export default function Analyses({ onNavigate }: { onNavigate: (page: PageName) 
         <p className="demo-notice"><span aria-hidden="true">ⓘ</span> {isLoading ? 'Consultando fontes oficiais…' : newsData ? `Conteúdo publicado pelas fontes indicadas. Consulta atualizada em ${new Date(newsData.updatedAt).toLocaleString('pt-BR')}.` : 'Fontes temporariamente indisponíveis.'}</p>
 
         <h2 className="analyses-title">Em destaque</h2>
-        {featured ? <article className="featured-analysis"><img src={featured.image} alt={featured.title} /><div><span className="content-badge">{featured.theme}</span><h2>{featured.title}</h2><p>{featured.description}</p><button onClick={() => window.open(featured.url, '_blank', 'noopener,noreferrer')}>Ler conteúdo <Arrow /></button></div></article> : <p className="profiles-empty">{isError ? 'Não foi possível consultar as fontes agora.' : 'Carregando destaque…'}</p>}
+        {featured ? <article className="featured-analysis"><img src={featured.image} onError={event => { event.currentTarget.onerror = null; event.currentTarget.src = featured.fallbackImage }} alt={featured.title} /><div><span className="content-badge">{featured.theme}</span><h2>{featured.title}</h2><p>{featured.description}</p><button onClick={() => window.open(featured.url, '_blank', 'noopener,noreferrer')}>Ler conteúdo <Arrow /></button></div></article> : <p className="profiles-empty">{isError ? 'Não foi possível consultar as fontes agora.' : 'Carregando destaque…'}</p>}
 
         <div className="analysis-tabs" role="tablist">{(['Todos', 'Análise', 'Opinião', 'Explicador'] as const).map(item => <button key={item} className={type === item ? 'active' : ''} onClick={() => setType(item)} role="tab" aria-selected={type === item}>{item}</button>)}</div>
         <h2 className="analyses-title latest-title">Últimas publicações</h2>
-        {filtered.length ? <div className="publication-grid">{filtered.map(item => <article className="publication-card" key={item.id}><img src={item.image} alt={item.title} /><div><span className={`content-badge type-${item.type.toLocaleLowerCase('pt-BR').replace('á','a')}`}>{item.theme}</span><h3>{item.title}</h3><p>{item.description}</p><button onClick={() => item.url && window.open(item.url, '_blank', 'noopener,noreferrer')}>Ler conteúdo <Arrow /></button></div></article>)}</div> : <p className="profiles-empty">Nenhum conteúdo encontrado com os filtros selecionados.</p>}
+        {filtered.length ? <div className="publication-grid">{filtered.map(item => <article className="publication-card" key={item.id}><img src={item.image} onError={event => { event.currentTarget.onerror = null; event.currentTarget.src = item.fallbackImage }} alt={item.title} loading="lazy" /><div><span className={`content-badge type-${item.type.toLocaleLowerCase('pt-BR').replace('á','a')}`}>{item.theme}</span><h3>{item.title}</h3><p>{item.description}</p><button onClick={() => item.url && window.open(item.url, '_blank', 'noopener,noreferrer')}>Ler conteúdo <Arrow /></button></div></article>)}</div> : <p className="profiles-empty">Nenhum conteúdo encontrado com os filtros selecionados.</p>}
         <nav className="pagination" aria-label="Paginação"><button disabled><Arrow left /> Anterior</button><button className="active">1</button><button>2</button><button>3</button><button>Próxima <Arrow /></button></nav>
 
         <section className="reading-section"><h2>Como ler nossos conteúdos</h2><div className="reading-grid">{[['▤','Análise','Interpretação dos fatos com contexto e fontes.'], ['▱','Opinião','Argumentos e avaliações identificados como opinião.'], ['▥','Explicador','Conceitos e processos apresentados de forma acessível.']].map(([icon,title,text]) => <article key={title}><span>{icon}</span><div><h3>{title}</h3><p>{text}</p></div></article>)}</div></section>

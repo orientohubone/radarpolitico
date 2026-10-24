@@ -4,6 +4,7 @@ import { useQuery } from '@tanstack/react-query'
 type Institution = 'Presidência' | 'Senado' | 'Câmara dos Deputados' | 'STF'
 type Profile = {
   id: number
+  externalId?: string
   name: string
   fullName?: string
   role: string
@@ -16,6 +17,7 @@ type Profile = {
   sourceUrl: string
 }
 type RepresentativesResponse = { items: Profile[]; updatedAt: string; sources: string[] }
+type AffiliationsResponse = { items: Record<string, string[]>; updatedAt: string }
 type PoliticalSpectrum = 'Esquerda' | 'Centro' | 'Direita'
 
 const institutions: Array<'Todos' | Institution> = ['Todos', 'Presidência', 'Senado', 'Câmara dos Deputados', 'STF']
@@ -27,6 +29,29 @@ const partySpectrum: Record<string, PoliticalSpectrum> = {
 
 function getPoliticalSpectrum(profile: Profile) {
   return profile.party ? partySpectrum[profile.party] : undefined
+}
+
+const knownAffiliations: Record<string, string[]> = {
+  'Geraldo Alckmin': ['MDB', 'PMDB', 'PSDB', 'PSB'],
+  'Luiz Inácio Lula da Silva': ['PT'],
+}
+const partyLogoFiles: Record<string, string> = {
+  CIDADANIA: 'Cidadania (Brasil) logo.svg',
+  DC: 'Christian Democracy (Brazil) logo.png',
+  MDB: 'Movimento Democrático Brasileiro (2017).svg',
+  MISSÃO: 'MISSÃO wordmark.svg',
+  NOVO: 'Partido Novo logo (2023).svg',
+  PL: 'Partido Liberal (Brazil) logo.svg',
+  PRD: 'Partido Renovação Democrática logo.svg',
+  REPUBLICANOS: 'Republicanos (Brazil) wordmark.svg',
+  SOLIDARIEDADE: 'Logo of the Solidariedade.svg',
+  UNIÃO: 'União Brasil logo.svg',
+}
+const partyLogo = (party: string) => {
+  if (party === 'REPUBLICANOS') return `/api/image?url=${encodeURIComponent('https://republicanos10.org.br/img/logo-claro.webp')}`
+  const file = partyLogoFiles[party]
+  const source = file ? `https://commons.wikimedia.org/wiki/Special:Redirect/file/${encodeURIComponent(file)}` : `https://www.camara.leg.br/internet/Deputado/img/partidos/${party}.gif`
+  return `/api/image?url=${encodeURIComponent(source)}`
 }
 
 function Arrow({ left = false }: { left?: boolean }) {
@@ -75,6 +100,16 @@ export default function Powers({ onNavigate }: { onNavigate: (page: 'home' | 'po
   }, [activeInstitution, institutionFilter, profileItems, sort, spectrum, status, submittedQuery])
   const pageCount = Math.max(1, Math.ceil(filteredProfiles.length / pageSize))
   const visibleProfiles = filteredProfiles.slice((page - 1) * pageSize, page * pageSize)
+  const affiliationRequest = visibleProfiles.filter(profile => profile.externalId && ['Câmara dos Deputados', 'Senado'].includes(profile.institution)).map(profile => `${profile.institution === 'Senado' ? 'senado' : 'camara'}:${profile.externalId}:${profile.party || ''}`).join(',')
+  const { data: affiliationsData } = useQuery<AffiliationsResponse>({
+    queryKey: ['party-affiliations', affiliationRequest],
+    queryFn: async () => {
+      const response = await fetch(`/api/party-affiliations?items=${encodeURIComponent(affiliationRequest)}`)
+      if (!response.ok) throw new Error(`HTTP ${response.status}`)
+      return response.json() as Promise<AffiliationsResponse>
+    },
+    enabled: Boolean(affiliationRequest), staleTime: 30 * 60 * 1000, retry: 1,
+  })
   const pageNumbers = Array.from({ length: Math.min(5, pageCount) }, (_, index) => Math.max(1, Math.min(pageCount - 4, page - 2)) + index).filter(value => value <= pageCount)
 
   function updateFilters(action: () => void) { action(); setPage(1) }
@@ -160,8 +195,14 @@ export default function Powers({ onNavigate }: { onNavigate: (page: 'home' | 'po
             <span className={`institution-badge badge-${profile.institution.toLocaleLowerCase('pt-BR').replaceAll(' ', '-').replace('â', 'a')}`}>{profile.institution}</span>
             <div className="profile-summary">
               <div className="profile-avatar">{profile.photo ? <img src={`/api/image?url=${encodeURIComponent(profile.photo)}`} alt={`Foto de ${profile.name}`} loading="lazy" /> : <span />}</div>
-              <div><h3>{profile.name}</h3><p>{profile.role}{profile.party ? ` · ${profile.party}` : ''}{profile.state ? ` — ${profile.state}` : ''}</p>{getPoliticalSpectrum(profile) && <small className={`spectrum spectrum-${getPoliticalSpectrum(profile)?.toLocaleLowerCase('pt-BR')}`}>{getPoliticalSpectrum(profile)}</small>}</div>
+              <div><h3>{profile.name}</h3><p>{profile.role}{profile.state ? ` — ${profile.state}` : ''}</p>{getPoliticalSpectrum(profile) && <small className={`spectrum spectrum-${getPoliticalSpectrum(profile)?.toLocaleLowerCase('pt-BR')}`}>{getPoliticalSpectrum(profile)}</small>}</div>
             </div>
+            {profile.party && profile.party !== 'S/Partido' && (() => {
+              const key = `${profile.institution}:${profile.externalId}`
+              const parties = knownAffiliations[profile.name] || affiliationsData?.items?.[key] || [profile.party]
+              const uniqueParties = [...new Map(parties.filter(Boolean).map(party => [party.trim().toLocaleUpperCase('pt-BR'), party.trim().toLocaleUpperCase('pt-BR')])).values()]
+              return <div className="party-history"><span>{uniqueParties.length > 1 ? 'Filiações registradas' : 'Partido atual'}</span><div>{uniqueParties.map(party => <span className={party === profile.party ? 'party-chip current' : 'party-chip'} key={party} title={`${party}${party === profile.party ? ' — filiação atual' : ' — filiação anterior'}`}><img src={partyLogo(party)} alt={`Logo ${party}`} loading="lazy" onError={event => { event.currentTarget.hidden = true; event.currentTarget.nextElementSibling?.removeAttribute('hidden') }} /><b hidden>{party}</b></span>)}</div></div>
+            })()}
             <div className="profile-links"><button onClick={() => window.open(profile.sourceUrl, '_blank', 'noopener,noreferrer')}>Fonte oficial</button></div>
             <button className="profile-button" onClick={() => profile.url && window.open(profile.url, '_blank', 'noopener,noreferrer')}>Ver perfil oficial <Arrow /></button>
           </article>)}

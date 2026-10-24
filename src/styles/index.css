@@ -654,6 +654,13 @@ select { color: #475569; padding-right: 28px; cursor: pointer }
 .spectrum-esquerda { color: #8a1f2d; background: #fde7ea }
 .spectrum-centro { color: #755513; background: #fff1c9 }
 .spectrum-direita { color: #174c82; background: #e2effd }
+.party-history { min-width: 0; margin: 0 0 20px }
+.party-history > span { display: block; margin-bottom: 10px; color: #667b90; font-size: 10px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase }
+.party-history > div { display: flex; flex-wrap: wrap; align-items: center; gap: 18px; max-width: 100% }
+.party-chip { display: grid; place-items: center; flex: 0 0 72px; width: 72px; height: 54px }
+.party-chip img, .party-chip b { grid-row: 1; grid-column: 1; max-width: 72px; max-height: 54px; object-fit: contain }
+.party-chip b { display: grid; place-items: center; color: #173a5c; font-size: 13px }
+.party-chip b[hidden] { display: none }
 .profile-links { display: flex; justify-content: center; min-height: 42px; margin-top: auto }
 .profile-links button { flex: 1; color: #005fe2; font-size: 14px; padding: 5px 8px; border-right: 1px solid #cbd6e2 }
 .profile-links button:last-child { border-right: 0 }
@@ -756,14 +763,15 @@ select { color: #475569; padding-right: 28px; cursor: pointer }
 .proposals-content .demo-notice { margin-bottom: 26px }
 .proposals-heading { margin-bottom: 14px }
 .proposal-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px }
-.proposal-card { display: flex; flex-direction: column; padding: 18px 20px 16px; min-height: 330px; border: 1px solid #d7e0e9; border-radius: 6px; background: white }
+.proposal-card { display: flex; flex-direction: column; padding: 18px 20px 16px; min-height: 510px; border: 1px solid #d7e0e9; border-radius: 6px; background: white }
 .proposal-card-top { display: flex; justify-content: space-between; align-items: center; gap: 12px }
-.proposal-theme, .proposal-status { padding: 8px 14px; border-radius: 5px; font-size: 11px; line-height: 1; font-weight: 800; text-transform: uppercase }
+.proposal-theme, .proposal-status { padding: 8px 14px; border-radius: 5px; font-size: 11px; line-height: 1.15; font-weight: 800; text-transform: uppercase }
+.proposal-theme { overflow: hidden; max-width: 62%; text-overflow: ellipsis; white-space: nowrap }
 .theme-blue { color: #075bc0; background: #e2f0ff }
 .theme-green { color: #08765b; background: #dff5ea }
 .theme-purple { color: #34209a; background: #eee4ff }
 .theme-red { color: #cd3655; background: #ffe7eb }
-.proposal-status { color: #15365e; background: #e9f0f8; text-transform: none }
+.proposal-status { max-width: 38%; color: #15365e; text-align: right; background: #e9f0f8; text-transform: none }
 .status-progress { color: #604b00; background: #ffeda9 }
 .proposal-main { display: flex; gap: 20px; align-items: flex-start; margin: 16px 0 20px }
 .proposal-icon { display: grid; place-items: center; flex: 0 0 72px; height: 72px; border-radius: 50%; color: #06194a; background: #e8f4ff }
@@ -771,9 +779,57 @@ select { color: #475569; padding-right: 28px; cursor: pointer }
 .proposal-main small { display: block; color: #718096; margin-bottom: 4px }
 .proposal-main h3 { font-size: 18px; letter-spacing: -.35px; margin-bottom: 7px }
 .proposal-main p { color: #395578; font-size: 15px; line-height: 1.4 }
+.proposal-keywords { display: flex; flex-wrap: wrap; gap: 6px; margin: -6px 0 16px 92px }
+.proposal-keywords span { padding: 5px 8px; color: #34516f; background: #f0f4f7; border-radius: 3px; font-size: 10px }
+.proposal-details { display: grid; grid-template-columns: 1fr 1fr; gap: 12px 18px; margin: 0 0 18px; padding: 15px; background: #f7f9fb; border-left: 3px solid #76a9d1 }
+.proposal-details div { min-width: 0 }
+.proposal-details dt { margin-bottom: 3px; color: #6b7f92; font-size: 10px; font-weight: 800; letter-spacing: .04em; text-transform: uppercase }
+.proposal-details dd { margin: 0; color: #193b5e; font-size: 12px; line-height: 1.35 }
 .proposal-meta { display: flex; gap: 26px; margin-top: auto; padding: 4px 2px 10px; color: #294a76; font-size: 14px }
 .proposal-meta span + span { border-left: 1px solid #9eb0c2; padding-left: 26px }
 .proposal-card .profile-button { margin-top: 0 }
+.proposal-links { display: flex; align-items: center; justify-content: space-between; gap: 14px }
+.proposal-links > button:last-child { color: #315e8b; font-size: 12px; font-weight: 700 }
+.campaign-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px }
+.campaign-card { display: flex; align-items: flex-start; flex-direction: column; min-height: 300px; padding: 22px; border: 1px solid #d7e0e9; border-top: 4px solid #1769aa; border-radius: 5px; background: white }
+.campaign-card.party-pt { border-top-color: #d5232a }
+.campaign-card.party-pl { border-top-color: #1654a3 }
+.campaign-candidate { display: flex; align-items: center; gap: 12px }
+.campaign-party-mark { display: grid; overflow: hidden; place-items: center; flex: 0 0 58px; width: 58px; height: 46px; padding: 6px; border: 1px solid #d8e0e7; border-radius: 5px; background: white }
+.campaign-party-mark img { max-width: 100%; max-height: 100%; object-fit: contain }
+.campaign-party-mark b { color: #173a5c; font-size: 15px }
+.campaign-number { display: grid; place-items: center; flex: 0 0 46px; width: 46px; height: 46px; color: white; background: #092f52; border-radius: 5px; font-size: 18px; font-weight: 800 }
+.party-pt .campaign-number { background: #c82026 }
+.party-pl .campaign-number { background: #15509a }
+.campaign-candidate div { display: grid; gap: 2px }
+.campaign-candidate strong { color: #102f50; font-size: 16px }
+.campaign-candidate small { color: #64788d; font-size: 11px }
+.campaign-theme { margin: 22px 0 10px; padding: 6px 9px; color: #175a91; background: #eaf4fb; border-radius: 3px; font-size: 10px; font-weight: 800; letter-spacing: .04em; text-transform: uppercase }
+.campaign-card h3 { color: #102e4d; font-size: 20px; line-height: 1.25 }
+.campaign-card p { margin: 10px 0 20px; color: #587089; font-size: 13px; line-height: 1.45 }
+.campaign-card > a { display: flex; gap: 14px; align-items: center; margin-top: auto; color: #075fa8; font-size: 13px; font-weight: 800 }
+.campaign-card > a:hover { text-decoration: underline }
+.program-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px }
+.program-card { display: flex; flex-direction: column; min-height: 350px; padding: 22px; border: 1px solid #d7e0e9; border-top: 4px solid #0b5d94; border-radius: 5px; background: white }
+.program-card-head { display: flex; align-items: center; gap: 12px }
+.program-card-head .program-party { display: grid; place-items: center; flex: 0 0 58px; min-height: 46px; padding: 6px; color: #123b60; border: 1px solid #d8e0e7; border-radius: 5px; background: #f7fafc; font-size: 12px; font-weight: 900 }
+.program-card-head h3 { color: #102f50; font-size: 18px; line-height: 1.15 }
+.program-card-head p { margin-top: 3px; color: #64788d; font-size: 11px }
+.program-document { display: flex; align-items: center; gap: 16px; margin: 22px 0 16px; padding: 16px; background: #f1f7fb; border-radius: 5px }
+.program-document .proposal-icon { flex-basis: 56px; height: 56px; background: white }
+.program-document .proposal-icon svg { width: 27px; height: 27px }
+.program-document div { display: grid; gap: 3px }
+.program-document small, .program-document span { color: #60758b; font-size: 11px }
+.program-document strong { color: #143a5d; font-size: 15px }
+.program-baseline { margin-bottom: 20px; padding-left: 13px; border-left: 3px solid #f4c542 }
+.program-baseline b { color: #183b5c; font-size: 12px }
+.program-baseline p { margin-top: 4px; color: #587089; font-size: 12px; line-height: 1.45 }
+.program-links { display: flex; align-items: center; justify-content: space-between; gap: 14px; margin-top: auto }
+.program-links .profile-button { margin: 0 }
+.program-links > a:last-child { color: #315e8b; font-size: 12px; font-weight: 700 }
+.program-sources { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin-top: 16px; padding: 16px 18px; border: 1px solid #d7e0e9; background: white }
+.program-sources strong { margin-right: 6px; color: #173a5d }
+.program-sources a { padding: 7px 10px; color: #075fa8; background: #edf5fb; border-radius: 4px; font-size: 12px; font-weight: 700 }
 .progress-section { margin-top: 34px; padding-bottom: 28px }
 .progress-section > h2 { font-size: 32px; letter-spacing: -1.2px; margin-bottom: 3px }
 .progress-section > p { color: #294b76; margin-bottom: 14px }
@@ -792,6 +848,8 @@ select { color: #475569; padding-right: 28px; cursor: pointer }
   .proposal-filters .button { grid-column: auto; grid-row: auto }
   .proposal-filters .clear-filters { grid-column: auto; grid-row: auto; justify-self: stretch }
   .proposal-grid { grid-template-columns: 1fr }
+  .campaign-grid { grid-template-columns: 1fr }
+  .program-grid { grid-template-columns: 1fr }
   .progress-grid { grid-template-columns: 1fr }
   .progress-grid article { min-height: 110px }
 }
@@ -804,6 +862,10 @@ select { color: #475569; padding-right: 28px; cursor: pointer }
   .proposal-query { grid-column: auto }
   .proposal-card { padding: 16px; min-height: 0 }
   .proposal-main { gap: 14px }
+  .proposal-keywords { margin-left: 0 }
+  .proposal-details { grid-template-columns: 1fr }
+  .proposal-links { align-items: flex-start; flex-direction: column }
+  .program-links { align-items: flex-start; flex-direction: column }
   .proposal-icon { flex-basis: 60px; height: 60px }
   .proposal-icon svg { width: 29px; height: 29px }
   .proposal-meta { flex-direction: column; gap: 7px }

@@ -8,7 +8,7 @@ import { databaseEnabled } from './db.js'
 import { collectNews, NEWS_SOURCES } from './newsSources.js'
 import { createEditorialArticle, getDatabaseHealth, getEditorialArticle, ingestNews, listEditorialArticles, listPublishedNews, setArticlePublication, updateEditorialArticle, bulkSetStatus, bulkSetPublication } from './newsRepository.js'
 import { reconcileArticleImages, syncCamaraMediaPool } from './imageDedup.js'
-import { listPublicFigures, syncPublicFigures } from './publicFigures.js'
+import { getPartyAffiliations, listPublicFigures, syncPublicFigures } from './publicFigures.js'
 import { loadTaxMeter } from './taxMeter.js'
 
 const app = express()
@@ -182,11 +182,29 @@ app.post('/api/admin/bulk', async (req, res) => {
 
 app.get('/api/proposals', async (_req, res) => {
   try {
-    const result = await staleWhileRevalidate('proposals', async () => {
+    const result = await staleWhileRevalidate('proposals-v2', async () => {
       const start = new Date(Date.now() - 120 * 86400000).toISOString().slice(0, 10)
       const response = await fetch(`https://dadosabertos.camara.leg.br/api/v2/proposicoes?dataInicio=${start}&ordem=DESC&ordenarPor=id&itens=30`, { signal: AbortSignal.timeout(25_000), headers: { accept: 'application/json' } })
       if (!response.ok) throw new Error(`Câmara respondeu ${response.status}`)
-      return { items: (await response.json()).dados, updatedAt: new Date().toISOString(), source: 'Dados Abertos da Câmara dos Deputados' }
+      const basicItems = (await response.json()).dados
+      const items = []
+      for (let index = 0; index < basicItems.length; index += 6) {
+        const batch = basicItems.slice(index, index + 6)
+        items.push(...await Promise.all(batch.map(async item => {
+          try {
+            const detailResponse = await fetch(item.uri, { signal: AbortSignal.timeout(12_000), headers: { accept: 'application/json' } })
+            if (!detailResponse.ok) throw new Error(`detalhe ${detailResponse.status}`)
+            const detail = (await detailResponse.json()).dados
+            let authors = []
+            if (detail.uriAutores) {
+              const authorsResponse = await fetch(detail.uriAutores, { signal: AbortSignal.timeout(12_000), headers: { accept: 'application/json' } })
+              if (authorsResponse.ok) authors = (await authorsResponse.json()).dados || []
+            }
+            return { ...item, ...detail, authors: authors.slice(0, 4).map(author => author.nome) }
+          } catch { return { ...item, authors: [] } }
+        })))
+      }
+      return { items, updatedAt: new Date().toISOString(), source: 'Dados Abertos da Câmara dos Deputados' }
     })
     res.json(result)
   } catch (error) { res.status(502).json({ error: 'Não foi possível consultar as propostas.', detail: error.message }) }
@@ -198,6 +216,17 @@ app.get('/api/representatives', async (_req, res) => {
     const items = await listPublicFigures()
     res.set('cache-control', 'no-store').json({ items, updatedAt: items[0]?.syncedAt || new Date().toISOString(), sources: ['Planalto', 'Câmara dos Deputados', 'Senado Federal', 'Supremo Tribunal Federal'] })
   } catch (error) { res.status(502).json({ error: 'Não foi possível consultar os representantes.', detail: error.message }) }
+})
+
+app.get('/api/party-affiliations', async (req, res) => {
+  try {
+    const requested = String(req.query.items || '').split(',').filter(Boolean).slice(0, 30).map(value => {
+      const [institution, externalId, currentParty = ''] = value.split(':')
+      return { institution: institution === 'camara' ? 'Câmara dos Deputados' : institution === 'senado' ? 'Senado' : institution, externalId: externalId?.replace(/\D/g, ''), currentParty: currentParty.replace(/[^\p{L}\d.-]/gu, '').toLocaleUpperCase('pt-BR') }
+    }).filter(item => item.externalId && ['Câmara dos Deputados', 'Senado'].includes(item.institution))
+    const items = await getPartyAffiliations(requested)
+    res.set('cache-control', 'public, max-age=300, stale-while-revalidate=86400').json({ items, updatedAt: new Date().toISOString() })
+  } catch (error) { res.status(502).json({ error: 'Não foi possível consultar as filiações partidárias.', detail: error.message }) }
 })
 
 app.post('/api/admin/figures-sync', async (req, res) => {
@@ -213,16 +242,18 @@ app.get('/api/ping', async (_req, res) => {
   catch (error) { res.status(503).json({ message: 'pong', database: { error: error.message } }) }
 })
 
-const IMAGE_HOSTS = new Set(['imagens.ebc.com.br', 'agenciabrasil.ebc.com.br', 'www.camara.leg.br', 'www12.senado.leg.br', 'www.senado.leg.br', 'legis.senado.leg.br', 'portal.stf.jus.br', 'www.stf.jus.br', 'noticias-stf-wp-prd.s3.sa-east-1.amazonaws.com', 'www.gov.br', 'upload.wikimedia.org'])
+const IMAGE_HOSTS = new Set(['imagens.ebc.com.br', 'agenciabrasil.ebc.com.br', 'www.camara.leg.br', 'www12.senado.leg.br', 'www.senado.leg.br', 'legis.senado.leg.br', 'portal.stf.jus.br', 'www.stf.jus.br', 'noticias-stf-wp-prd.s3.sa-east-1.amazonaws.com', 'www.gov.br', 'upload.wikimedia.org', 'commons.wikimedia.org', 'republicanos10.org.br'])
 app.get('/api/image', async (req, res) => {
   try {
     const url = new URL(String(req.query.url || ''))
     if (url.protocol !== 'https:' || !IMAGE_HOSTS.has(url.hostname)) return res.status(400).end()
     const stfImage = url.hostname === 'portal.stf.jus.br' || url.hostname === 'www.stf.jus.br' || url.hostname === 'noticias-stf-wp-prd.s3.sa-east-1.amazonaws.com'
+    const partyImage = url.hostname === 'republicanos10.org.br'
     const response = await fetch(url, { signal: AbortSignal.timeout(12_000), headers: {
-      'user-agent': stfImage ? 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/129 Safari/537.36' : 'RadarPolitico/1.0',
+      'user-agent': stfImage || partyImage ? 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/129 Safari/537.36' : 'RadarPolitico/1.0',
       accept: 'image/avif,image/webp,image/jpeg,image/png,*/*',
       ...(stfImage ? { referer: 'https://portal.stf.jus.br/ostf', 'accept-language': 'pt-BR,pt;q=0.9' } : {}),
+      ...(partyImage ? { referer: 'https://republicanos10.org.br/', 'accept-language': 'pt-BR,pt;q=0.9' } : {}),
     } })
     if (!response.ok) return res.status(response.status).end()
     const contentType = response.headers.get('content-type') || ''

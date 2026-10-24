@@ -16,6 +16,38 @@ async function getJson(url) {
   return response.json()
 }
 
+function collectPartyAcronyms(value, output = []) {
+  if (Array.isArray(value)) value.forEach(item => collectPartyAcronyms(item, output))
+  else if (value && typeof value === 'object') Object.entries(value).forEach(([key, item]) => {
+    if (/sigla.*partido|partido.*sigla/i.test(key) && typeof item === 'string' && /^[\p{L}\d.-]{1,20}$/u.test(item.trim())) output.push(item.trim().toLocaleUpperCase('pt-BR'))
+    else collectPartyAcronyms(item, output)
+  })
+  return output
+}
+
+export async function getPartyAffiliations(entries) {
+  const results = {}
+  for (let offset = 0; offset < entries.length; offset += 6) {
+    const chunk = entries.slice(offset, offset + 6)
+    const loaded = await Promise.allSettled(chunk.map(async ({ institution, externalId, currentParty }) => {
+      let url
+      if (institution === 'Câmara dos Deputados') url = `https://dadosabertos.camara.leg.br/api/v2/deputados/${externalId}/historico`
+      else if (institution === 'Senado') url = `https://legis.senado.leg.br/dadosabertos/senador/${externalId}/filiacoes.json`
+      else return { key: `${institution}:${externalId}`, parties: currentParty ? [currentParty] : [] }
+      const data = await getJson(url)
+      const parties = [...new Set(collectPartyAcronyms(data))]
+      if (currentParty && !parties.includes(currentParty)) parties.push(currentParty)
+      return { key: `${institution}:${externalId}`, parties }
+    }))
+    loaded.forEach((result, index) => {
+      const entry = chunk[index]
+      const key = `${entry.institution}:${entry.externalId}`
+      results[key] = result.status === 'fulfilled' ? result.value.parties : entry.currentParty ? [entry.currentParty] : []
+    })
+  }
+  return results
+}
+
 async function collectDeputies() {
   const items = []
   let url = CAMARA_URL
