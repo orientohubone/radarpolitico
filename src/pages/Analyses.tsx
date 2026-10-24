@@ -31,7 +31,7 @@ export default function Analyses({ onNavigate }: { onNavigate: (page: PageName) 
   const [type, setType] = useState<'Todos' | ContentType>('Todos')
   const [email, setEmail] = useState('')
   const [message, setMessage] = useState('')
-  const { data: newsData, isLoading, isError } = useQuery<{ items: LiveNews[]; updatedAt: string }>({ queryKey: ['live-news-v8'], queryFn: () => fetchWithLocalCache('/api/news', 'news-v8'), initialData: () => loadLocalCache('news-v8'), staleTime: 5 * 60 * 1000, refetchInterval: 5 * 60 * 1000, retry: 2 })
+  const { data: newsData, isLoading, isError } = useQuery<{ items: LiveNews[]; updatedAt: string }>({ queryKey: ['live-news-v9'], queryFn: () => fetchWithLocalCache('/api/news', 'news-v9'), initialData: () => loadLocalCache('news-v9'), staleTime: 5 * 60 * 1000, refetchInterval: 5 * 60 * 1000, retry: 2 })
   const analysisItems: AnalysisItem[] = newsData?.items?.map((item, index) => ({ id: item.id, type: index % 3 === 0 ? 'Explicador' : index % 3 === 1 ? 'Análise' : 'Opinião', title: item.title, description: item.description, image: item.image || analysisFallbackImages[index % analysisFallbackImages.length], theme: item.category || 'Política', institution: item.source, url: item.url, source: item.source })) || []
   const featured = analysisItems[0]
 

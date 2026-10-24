@@ -13,7 +13,17 @@ function normalizeTitle(value = '') {
 }
 
 function digest(value) { return crypto.createHash('sha256').update(value).digest('hex') }
-function slug(value) { return `${normalizeTitle(value).replace(/\s+/g, '-').slice(0, 72)}-${digest(value).slice(0, 8)}` }
+function slug(value) {
+  const stopwords = new Set(['a','as','ao','aos','com','da','das','de','do','dos','e','em','enquanto','faz','na','nas','no','nos','o','os','para','pela','pelas','pelo','pelos','por','que','sobre','um','uma'])
+  const originalWords = normalizeTitle(value).split(' ').filter(Boolean)
+  const words = originalWords.filter(word => !stopwords.has(word))
+  const selected = []
+  for (const word of words) {
+    if (selected.length >= 12 || [...selected, word].join('-').length > 90) break
+    selected.push(word)
+  }
+  return (selected.length ? selected : originalWords.slice(0, 9)).join('-')
+}
 
 export async function ingestNews(items) {
   return withTransaction(async client => {
@@ -87,7 +97,7 @@ export async function listPublishedNews(limit = 36) {
 }
 
 export async function listEditorialArticles() {
-  const result = await query(`select a.id::text, a.headline, a.category, a.editorial_status as "editorialStatus",
+  const result = await query(`select a.id::text, a.slug, a.headline, a.category, a.editorial_status as "editorialStatus",
     a.status, a.published_at as "publishedAt", ns.name as source
     from articles a join source_items si on si.id=a.primary_source_item_id join news_sources ns on ns.id=si.source_id
     order by case a.editorial_status when 'update' then 0 when 'raw' then 1 when 'draft' then 2 when 'review' then 3 else 4 end,
@@ -116,7 +126,7 @@ export async function createEditorialArticle(input) {
        arguments_for, arguments_against, open_questions, what_next, radar_view, key_points, category,
        content_type, status, editorial_status, author_name)
       values ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13::jsonb,$14,$15,'draft','review',$16)
-      returning id::text`, [sourceItem.rows[0].id, slug(`${input.headline}-${Date.now()}`), input.headline,
+      returning id::text`, [sourceItem.rows[0].id, slug(input.headline), input.headline,
       input.summary, input.whatHappened, input.whyItMatters, input.whoIsAffected, input.argumentsFor,
       input.argumentsAgainst, input.openQuestions, input.whatNext, input.radarView,
       JSON.stringify(input.keyPoints), input.category, input.contentType, input.authorName])
@@ -155,9 +165,63 @@ export async function setArticlePublication(id, publish) {
   const result = await query(`update articles set status=$2,
     published_at=case when $2='published' then coalesce(published_at,now()) else null end,
     updated_at=now()
-    where id=$1 and ($2<>'published' or editorial_status='ready')
+    where id=$1 and ($2<>'published' or (
+      editorial_status='ready'
+      and nullif(trim(headline),'') is not null
+      and nullif(trim(summary),'') is not null
+      and nullif(trim(what_happened),'') is not null
+      and nullif(trim(why_it_matters),'') is not null
+      and nullif(trim(who_is_affected),'') is not null
+      and nullif(trim(what_next),'') is not null
+      and jsonb_array_length(coalesce(key_points, '[]'::jsonb)) > 0
+    ))
     returning id::text, status, published_at as "publishedAt"`, [id, publish ? 'published' : 'draft'])
   return result.rows[0] || null
+}
+
+export async function bulkSetStatus(ids, editorialStatus) {
+  if (!ids.length) return { updated: 0 }
+  const result = await query(
+    `update articles set editorial_status=$1, editorial_updated_at=now(), updated_at=now()
+     where id = any($2::bigint[])
+       and ($1<>'ready' or (
+         nullif(trim(headline),'') is not null
+         and nullif(trim(summary),'') is not null
+         and nullif(trim(what_happened),'') is not null
+         and nullif(trim(why_it_matters),'') is not null
+         and nullif(trim(who_is_affected),'') is not null
+         and nullif(trim(what_next),'') is not null
+         and jsonb_array_length(coalesce(key_points, '[]'::jsonb)) > 0
+       )) returning id::text`,
+    [editorialStatus, ids]
+  )
+  const skipped = ids.length - result.rowCount
+  return { updated: result.rowCount, skipped, reason: skipped && editorialStatus === 'ready' ? 'complete_required' : undefined }
+}
+
+export async function bulkSetPublication(ids, publish) {
+  if (!ids.length) return { updated: 0, skipped: 0 }
+  const status = publish ? 'published' : 'draft'
+  const result = await query(
+    `update articles set status=$1,
+      published_at=case when $1='published' then coalesce(published_at,now()) else null end,
+      updated_at=now()
+     where id = any($2::bigint[])
+       and ($1<>'published' or (
+         editorial_status='ready'
+         and nullif(trim(headline),'') is not null
+         and nullif(trim(summary),'') is not null
+         and nullif(trim(what_happened),'') is not null
+         and nullif(trim(why_it_matters),'') is not null
+         and nullif(trim(who_is_affected),'') is not null
+         and nullif(trim(what_next),'') is not null
+         and jsonb_array_length(coalesce(key_points, '[]'::jsonb)) > 0
+       ))
+     returning id::text`,
+    [status, ids]
+  )
+  const skipped = ids.length - result.rowCount
+  return { updated: result.rowCount, skipped, reason: skipped && publish ? 'ready_and_complete_required' : undefined }
 }
 
 export async function getDatabaseHealth() {

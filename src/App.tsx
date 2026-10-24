@@ -44,5 +44,5 @@ export default function App() {
   if (page === 'newsArticle') return <NewsArticle onNavigate={navigate} />
   if (page === 'editorialAdmin') return <EditorialAdmin onNavigate={navigate} />
   if (page === 'taxMeter') return <TaxMeter onNavigate={navigate} />
-  return <Home onNavigate={navigate} onOpenNews={id => { window.history.pushState({}, '', `/noticias/${encodeURIComponent(id)}`); setPage('newsArticle'); window.scrollTo({ top: 0 }) }} />
+  return <Home onNavigate={navigate} onOpenNews={slug => { window.history.pushState({}, '', `/noticias/${encodeURIComponent(slug)}`); setPage('newsArticle'); window.scrollTo({ top: 0 }) }} />
 }

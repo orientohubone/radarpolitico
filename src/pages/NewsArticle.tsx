@@ -3,7 +3,7 @@ import type { PageName } from '../App'
 import { useQuery } from '@tanstack/react-query'
 import { fetchWithLocalCache, loadLocalCache } from '../lib/apiCache'
 
-type LiveNews = { id: string; category: string; title: string; description: string; image: string; url: string; publishedAt: string; source: string; whatHappened?: string; whyItMatters?: string; whatNext?: string; radarView?: string; whoIsAffected?: string; argumentsFor?: string; argumentsAgainst?: string; openQuestions?: string; keyPoints?: string[]; editorialStatus?: string; contentType?: string; imageAuthor?: string; imageLicense?: string; imageLicenseUrl?: string; imagePageUrl?: string; imageAlt?: string; imageIllustrative?: boolean }
+type LiveNews = { id: string; slug: string; category: string; title: string; description: string; image: string; url: string; publishedAt: string; source: string; whatHappened?: string; whyItMatters?: string; whatNext?: string; radarView?: string; whoIsAffected?: string; argumentsFor?: string; argumentsAgainst?: string; openQuestions?: string; keyPoints?: string[]; editorialStatus?: string; contentType?: string; imageAuthor?: string; imageLicense?: string; imageLicenseUrl?: string; imagePageUrl?: string; imageAlt?: string; imageIllustrative?: boolean }
 type NewsPayload = { items: LiveNews[]; updatedAt: string }
 const proxiedImage = (url: string) => url.startsWith('http') ? `/api/image?url=${encodeURIComponent(url)}` : url
 
@@ -11,15 +11,15 @@ function Logo({ small = false }: { small?: boolean }) { return <img src="/logo-r
 
 export default function NewsArticle({ onNavigate }: { onNavigate: (page: PageName) => void }) {
   const [menu, setMenu] = useState(false)
-  const encodedId = window.location.pathname.split('/noticias/')[1] || ''
-  const id = decodeURIComponent(encodedId)
+  const encodedReference = window.location.pathname.split('/noticias/')[1] || ''
+  const reference = decodeURIComponent(encodedReference)
   const { data: payload, isLoading } = useQuery<NewsPayload>({
-    queryKey: ['live-news-v8'],
-    queryFn: () => fetchWithLocalCache('/api/news', 'news-v8'),
-    initialData: () => loadLocalCache<NewsPayload>('news-v8'),
+    queryKey: ['live-news-v9'],
+    queryFn: () => fetchWithLocalCache('/api/news', 'news-v9'),
+    initialData: () => loadLocalCache<NewsPayload>('news-v9'),
     staleTime: 5 * 60 * 1000,
   })
-  const article = payload?.items.find(item => item.id === id)
+  const article = payload?.items.find(item => item.slug === reference || item.id === reference)
 
   if (!article) return <div className="powers-page"><header className="site-header"><div className="header-inner container"><button className="brand" onClick={() => onNavigate('home')}><Logo /></button></div></header><main className="powers-shell missing-article"><p className="breadcrumb">Início / Notícias</p><h1>{isLoading ? 'Carregando notícia…' : 'Conteúdo não encontrado'}</h1><p>{isLoading ? 'Consultando as fontes e preparando a leitura.' : 'A notícia pode ter sido atualizada. Volte para consultar as publicações mais recentes.'}</p>{!isLoading && <button className="button yellow" onClick={() => onNavigate('home')}>Voltar às notícias</button>}</main></div>
 
@@ -33,7 +33,7 @@ export default function NewsArticle({ onNavigate }: { onNavigate: (page: PageNam
     <header className="site-header"><div className="header-inner container">
       <a className="brand" href="/" onClick={event => { event.preventDefault(); onNavigate('home') }}><Logo /></a>
       <nav className={menu ? 'navigation open' : 'navigation'} aria-label="Navegação principal"><a href="/" className="active" onClick={event => { event.preventDefault(); onNavigate('home') }}>Notícias</a><a href="/poderes" onClick={event => { event.preventDefault(); onNavigate('powers') }}>Poderes</a><a href="/propostas" onClick={event => { event.preventDefault(); onNavigate('proposals') }}>Propostas</a><a href="/analises" onClick={event => { event.preventDefault(); onNavigate('analyses') }}>Análises</a><a href="/impostometro" onClick={event => { event.preventDefault(); onNavigate('taxMeter') }}>Impostômetro</a></nav>
-      <div className="header-actions"><button className="header-search" aria-label="Buscar notícias" onClick={() => onNavigate('home')}><span aria-hidden="true">⌕</span></button><button className="mobile-menu" aria-label={menu ? 'Fechar menu' : 'Abrir menu'} aria-expanded={menu} onClick={() => setMenu(!menu)}><span aria-hidden="true">{menu ? '×' : '☰'}</span></button></div>
+      <div className="header-actions"><button className="header-search" aria-label="Buscar notícias" onClick={() => onNavigate('home')}><svg className="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><circle cx="10.5" cy="10.5" r="7" /><path d="m16 16 5 5" /></svg></button><button className="mobile-menu" aria-label={menu ? 'Fechar menu' : 'Abrir menu'} aria-expanded={menu} onClick={() => setMenu(!menu)}><span aria-hidden="true">{menu ? '×' : '☰'}</span></button></div>
     </div></header>
 
     <main className="powers-shell reading-content">

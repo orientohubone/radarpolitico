@@ -32,7 +32,7 @@ function Logo({ size = 'normal' }: { size?: 'normal' | 'small' }) {
 }
 
 type Article = { category: string; title: string; description: string; image: string; alt: string; paragraphs: string[] }
-type LiveNews = { id: string; category: string; title: string; description: string; image: string; url: string; publishedAt: string; source: string }
+type LiveNews = { id: string; slug: string; category: string; title: string; description: string; image: string; url: string; publishedAt: string; source: string }
 const newsFallbackImages = [
   '/images/chamber.jpg', '/images/committee.jpg', '/images/budget.jpg', '/images/congress-evening.jpg', '/images/congress.jpg',
 ]
@@ -76,7 +76,7 @@ const footerInfo: Record<string, string> = {
   'Privacidade': 'Esta versão não envia nem armazena os dados dos formulários em um servidor. O cadastro de atualizações ainda não está conectado a um serviço de envio. A política completa será apresentada antes de ativar a coleta de dados.',
 }
 
-export default function Home({ onNavigate, onOpenNews }: { onNavigate?: (page: 'home' | 'powers' | 'proposals' | 'analyses' | 'taxMeter') => void; onOpenNews?: (id: string) => void }) {
+export default function Home({ onNavigate, onOpenNews }: { onNavigate?: (page: 'home' | 'powers' | 'proposals' | 'analyses' | 'taxMeter') => void; onOpenNews?: (slug: string) => void }) {
   const [active, setActive] = useState('Notícias')
   const [menu, setMenu] = useState(false)
   const [modal, setModal] = useState<{ title: string; paragraphs: string[]; image?: string } | null>(null)
@@ -90,7 +90,7 @@ export default function Home({ onNavigate, onOpenNews }: { onNavigate?: (page: '
   const [showNewsSearch, setShowNewsSearch] = useState(false)
   const searchInput = useRef<HTMLInputElement>(null)
   const dialogRef = useRef<HTMLDialogElement>(null)
-  const { data: liveNewsData, isLoading: newsLoading, isError: newsError } = useQuery<{ items: LiveNews[]; updatedAt: string }>({ queryKey: ['live-news-v8'], queryFn: () => fetchWithLocalCache('/api/news', 'news-v8'), initialData: () => loadLocalCache('news-v8'), staleTime: 5 * 60 * 1000, refetchInterval: 5 * 60 * 1000, retry: 2 })
+  const { data: liveNewsData, isLoading: newsLoading, isError: newsError } = useQuery<{ items: LiveNews[]; updatedAt: string }>({ queryKey: ['live-news-v9'], queryFn: () => fetchWithLocalCache('/api/news', 'news-v9'), initialData: () => loadLocalCache('news-v9'), staleTime: 5 * 60 * 1000, refetchInterval: 5 * 60 * 1000, retry: 2 })
   function navigate(label: string, id: string) { setActive(label); setMenu(false); document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' }) }
   function openModal(content: NonNullable<typeof modal>) { setModal(content); dialogRef.current?.showModal() }
   function articleModal(article: Article) { openModal({ title: article.title, paragraphs: article.paragraphs, image: article.image }) }
@@ -138,7 +138,7 @@ export default function Home({ onNavigate, onOpenNews }: { onNavigate?: (page: '
       {/* HERO */}
       <section className="hero" aria-label="Em destaque">
         <div className="hero-inner">
-          <button className="hero-story" disabled={!heroNews} onClick={() => heroNews && onOpenNews?.(heroNews.id)}>
+          <button className="hero-story" disabled={!heroNews} onClick={() => heroNews && onOpenNews?.(heroNews.slug)}>
             <img className="hero-image" src={heroNews?.image ? proxiedImage(heroNews.image) : '/images/congress.jpg'} onError={event => { event.currentTarget.onerror = null; event.currentTarget.src = '/images/congress.jpg' }} alt={heroNews?.title || 'Congresso Nacional de Brasília e espelho d’água'} fetchPriority="high" />
             <div className="hero-caption">
               <span className="eyebrow">{heroNews ? heroNews.category : 'Atualização'}</span>
@@ -193,7 +193,7 @@ export default function Home({ onNavigate, onOpenNews }: { onNavigate?: (page: '
           {newsError && <p className="empty-state" role="alert">Não foi possível consultar as fontes agora. Tente novamente em alguns minutos.</p>}
           <div className="news-grid">
             {visualNews.map((article) => (
-              <button className="article-card" key={article.id} onClick={() => onOpenNews?.(article.id)}>
+              <button className="article-card" key={article.id} onClick={() => onOpenNews?.(article.slug)}>
                 <img src={proxiedImage(article.visualImage)} onError={event => { event.currentTarget.onerror = null; event.currentTarget.src = article.fallbackImage }} alt={article.title} loading="lazy" />
                 <span className="article-body">
                   <span className="eyebrow">{article.category}</span>

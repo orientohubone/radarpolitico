@@ -82,7 +82,14 @@ function buildDraft(item, sourceText) {
 const articles = (await query(`select a.id, a.headline, a.summary, a.status, a.editorial_status,
   si.description as source_description, si.canonical_url as source_url, ns.name as source
   from articles a join source_items si on si.id=a.primary_source_item_id
-  join news_sources ns on ns.id=si.source_id order by a.id`)).rows
+  join news_sources ns on ns.id=si.source_id
+  where nullif(trim(a.summary),'') is null
+     or nullif(trim(a.what_happened),'') is null
+     or nullif(trim(a.why_it_matters),'') is null
+     or nullif(trim(a.who_is_affected),'') is null
+     or nullif(trim(a.what_next),'') is null
+     or jsonb_array_length(coalesce(a.key_points, '[]'::jsonb)) = 0
+  order by a.id`)).rows
 
 const enriched = []
 for (let index = 0; index < articles.length; index += 4) {
@@ -95,17 +102,17 @@ for (let index = 0; index < articles.length; index += 4) {
 const batchKey = `editorial-rebuild-${new Date().toISOString()}`
 await withTransaction(async client => {
   await client.query(`insert into editorial_content_backups (batch_key, article_id, snapshot)
-    select $1, id, to_jsonb(articles) from articles`, [batchKey])
+    select $1, id, to_jsonb(articles) from articles where id = any($2::bigint[])`, [batchKey, articles.map(item => item.id)])
   for (const { item, draft } of enriched) {
     await client.query(`update articles set summary=$2, what_happened=$3, why_it_matters=$4,
       who_is_affected=$5, arguments_for=$6, arguments_against=$7, open_questions=$8,
-      what_next=$9, radar_view=$10, key_points=$11::jsonb, editorial_status='update',
-      editorial_updated_at=now(), updated_at=now() where id=$1`, [item.id, draft.summary,
+      what_next=$9, radar_view=$10, key_points=$11::jsonb, editorial_status='review',
+      status='draft', published_at=null, editorial_updated_at=now(), updated_at=now() where id=$1`, [item.id, draft.summary,
       draft.whatHappened, draft.whyItMatters, draft.whoIsAffected, draft.argumentsFor,
       draft.argumentsAgainst, draft.openQuestions, draft.whatNext, draft.radarView,
       JSON.stringify(draft.keyPoints)])
   }
 })
 
-console.log(JSON.stringify({ batchKey, backedUp: articles.length, rebuilt: enriched.length, publicationStatusesPreserved: true }, null, 2))
+console.log(JSON.stringify({ batchKey, backedUp: articles.length, rebuilt: enriched.length, movedToReview: true, unpublishedForReview: true }, null, 2))
 await pool.end()

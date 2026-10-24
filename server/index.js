@@ -6,7 +6,7 @@ import fs from 'node:fs/promises'
 import sharp from 'sharp'
 import { databaseEnabled } from './db.js'
 import { collectNews, NEWS_SOURCES } from './newsSources.js'
-import { createEditorialArticle, getDatabaseHealth, getEditorialArticle, ingestNews, listEditorialArticles, listPublishedNews, setArticlePublication, updateEditorialArticle } from './newsRepository.js'
+import { createEditorialArticle, getDatabaseHealth, getEditorialArticle, ingestNews, listEditorialArticles, listPublishedNews, setArticlePublication, updateEditorialArticle, bulkSetStatus, bulkSetPublication } from './newsRepository.js'
 import { reconcileArticleImages, syncCamaraMediaPool } from './imageDedup.js'
 import { listPublicFigures, syncPublicFigures } from './publicFigures.js'
 import { loadTaxMeter } from './taxMeter.js'
@@ -53,9 +53,9 @@ async function staleWhileRevalidate(key, loader) {
 
 app.get('/api/news', async (_req, res) => {
   try {
-    const result = await staleWhileRevalidate('news-v8', async () => {
+    const result = await staleWhileRevalidate('news-v9', async () => {
       if (databaseEnabled) {
-        return { items: await listPublishedNews(36), errors: [], updatedAt: new Date().toISOString(), storage: 'neon', sources: NEWS_SOURCES.map(({ name, url }) => ({ name, url })) }
+        return { items: await listPublishedNews(500), errors: [], updatedAt: new Date().toISOString(), storage: 'neon', sources: NEWS_SOURCES.map(({ name, url }) => ({ name, url })) }
       }
       const collected = await collectNews()
       return { items: collected.items.slice(0, 36).map((item, index) => ({ ...item, id: `${item.sourceId}-${index}-${item.url}` })), errors: collected.errors, updatedAt: new Date().toISOString(), storage: 'fallback', sources: NEWS_SOURCES.map(({ name, url }) => ({ name, url })) }
@@ -78,7 +78,7 @@ app.post('/api/admin/ingest', async (req, res) => {
     const collected = await collectNews()
     const result = await ingestNews(collected.items)
     const images = await reconcileArticleImages()
-    await clearCache('news-v8')
+    await clearCache('news-v9')
     res.json({ ...result, images, errors: collected.errors, completedAt: new Date().toISOString() })
   } catch (error) { res.status(502).json({ error: 'Falha na ingestão.', detail: error.message }) }
 })
@@ -141,7 +141,7 @@ app.put('/api/admin/articles/:id', async (req, res) => {
   try {
     const saved = await updateEditorialArticle(req.params.id, input)
     if (!saved) return res.status(404).json({ error: 'Matéria não encontrada.' })
-    await clearCache('news-v8'); res.json({ ok: true, id: saved.id })
+    await clearCache('news-v9'); res.json({ ok: true, id: saved.id })
   } catch (error) { res.status(500).json({ error: 'Falha ao salvar a matéria.', detail: error.message }) }
 })
 
@@ -151,10 +151,33 @@ app.post('/api/admin/articles/:id/publication', async (req, res) => {
   if (!publish && req.body.action !== 'unpublish') return res.status(400).json({ error: 'Ação de publicação inválida.' })
   try {
     const saved = await setArticlePublication(req.params.id, publish)
-    if (!saved) return res.status(409).json({ error: publish ? 'Marque e salve o conteúdo como Editorial pronto antes de publicar.' : 'Matéria não encontrada.' })
-    await clearCache('news-v8')
+    if (!saved) return res.status(409).json({ error: publish ? 'Marque como Editorial pronto e preencha todos os campos essenciais antes de publicar.' : 'Matéria não encontrada.' })
+    await clearCache('news-v9')
     res.json({ ok: true, ...saved })
   } catch (error) { res.status(500).json({ error: 'Falha ao alterar a publicação.', detail: error.message }) }
+})
+
+app.post('/api/admin/bulk', async (req, res) => {
+  if (!isAdmin(req)) return res.status(401).json({ error: 'Não autorizado.' })
+  const ids = Array.isArray(req.body.ids)
+    ? [...new Set(req.body.ids.map(String).filter(id => /^\d+$/.test(id)))].slice(0, 200)
+    : []
+  if (!ids.length) return res.status(400).json({ error: 'Informe ao menos um id.' })
+  const { action } = req.body
+  try {
+    if (action === 'publish' || action === 'unpublish') {
+      const result = await bulkSetPublication(ids, action === 'publish')
+      await clearCache('news-v9')
+      return res.json({ ok: true, ...result })
+    }
+    const validStatuses = ['update', 'raw', 'draft', 'review', 'ready']
+    if (validStatuses.includes(action)) {
+      const result = await bulkSetStatus(ids, action)
+      await clearCache('news-v9')
+      return res.json({ ok: true, ...result })
+    }
+    res.status(400).json({ error: 'Ação inválida. Use: publish, unpublish, update, raw, draft, review, ready.' })
+  } catch (error) { res.status(500).json({ error: 'Falha na operação em massa.', detail: error.message }) }
 })
 
 app.get('/api/proposals', async (_req, res) => {

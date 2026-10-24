@@ -4,7 +4,9 @@ import pg from 'pg'
 const { Pool } = pg
 
 export const databaseEnabled = Boolean(process.env.DATABASE_URL)
-const connectionString = process.env.DATABASE_URL?.replace(/([?&])sslmode=require(?=&|$)/, '$1sslmode=verify-full')
+const connectionString = process.env.DATABASE_URL
+  ?.replace(/([?&])sslmode=require(?=&|$)/, '$1sslmode=verify-full')
+  ?.replace(/[?&]channel_binding=[^&]*/g, '')
 
 export const pool = databaseEnabled
   ? new Pool({

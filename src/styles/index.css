@@ -1276,6 +1276,24 @@ select { color: #475569; padding-right: 28px; cursor: pointer }
 .editorial-admin aside .queue-list > button { position: relative; gap: 8px; padding: 15px 14px; border: 0; border-left: 3px solid transparent; border-radius: 2px; background: #f7f9fb }
 .editorial-admin aside .queue-list > button:hover { background: #edf5fb }
 .editorial-admin aside .queue-list > button.active { border-left-color: #0f6bc0; background: #e7f2fb }
+.queue-select-bar { display: grid; gap: 10px; margin-top: 14px; padding: 12px; border: 1px solid #d5dfe7; background: #f7f9fb }
+.queue-select-all { display: flex; align-items: center; gap: 9px; color: #274866; font-size: 12px; font-weight: 700; cursor: pointer }
+.queue-select-all input, .queue-checkbox input { width: 16px; height: 16px; margin: 0; accent-color: #0f6bc0; cursor: pointer }
+.bulk-actions { display: flex; flex-wrap: wrap; gap: 6px; align-items: center }
+.bulk-count { display: grid; place-items: center; min-width: 25px; height: 25px; color: white; background: #0f6bc0; border-radius: 50%; font-size: 11px; font-weight: 800 }
+.bulk-actions button, .bulk-status-select { min-height: 31px; border: 1px solid #bfcbd6; padding: 6px 8px; color: #173b5d; background: white; font-size: 11px; font-weight: 700; cursor: pointer }
+.bulk-actions button:hover, .bulk-status-select:hover { border-color: #0f6bc0 }
+.bulk-actions button:disabled, .bulk-status-select:disabled { opacity: .55; cursor: wait }
+.bulk-actions .bulk-publish { color: #12653c; border-color: #a9d1bd; background: #edf8f2 }
+.bulk-actions .bulk-unpublish { color: #8a3d34; border-color: #dfbbb5; background: #fff3f1 }
+.bulk-actions .bulk-ready { color: #0d5798; border-color: #abc9e3; background: #eef7ff }
+.bulk-actions .bulk-clear { margin-left: auto; border: 0; background: transparent; font-size: 15px }
+.queue-item { display: grid; grid-template-columns: 31px minmax(0, 1fr); overflow: hidden; border-left: 3px solid transparent; border-radius: 2px; background: #f7f9fb }
+.queue-item:hover { background: #edf5fb }
+.queue-item.active { border-left-color: #0f6bc0; background: #e7f2fb }
+.queue-item.selected { box-shadow: inset 0 0 0 1px #78abd5 }
+.queue-checkbox { display: grid; place-items: start center; padding-top: 17px }
+.queue-item-content { min-width: 0; padding: 15px 14px 15px 0 !important; border: 0 !important; background: transparent !important }
 .queue-list button > span { display: flex; justify-content: space-between; gap: 8px }
 .queue-list button > span b { color: #155d9f; text-transform: uppercase }
 .queue-list .queue-live { margin-left: auto; color: #138449; font-size: 9px; font-style: normal; font-weight: 800; letter-spacing: .04em; text-transform: uppercase }
