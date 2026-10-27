@@ -128,6 +128,7 @@ export default function Home({ onNavigate, onOpenNews }: { onNavigate?: (page: '
             return <a key={id} href={href} className={active === label ? 'active' : ''} onClick={e => { e.preventDefault(); label === 'Poderes' ? onNavigate?.('powers') : label === 'Propostas' ? onNavigate?.('proposals') : label === 'Análises' ? onNavigate?.('analyses') : navigate(label, id) }}>{label}</a>
           })}
           <DossiersMenu />
+          <a href="/relatorios/fiscal-e-cortes-lula-2026-2030">Relatórios</a>
           <a href="/impostometro" className={active === 'Impostômetro' ? 'active' : ''} onClick={e => { e.preventDefault(); onNavigate?.('taxMeter') }}>Impostômetro</a>
         </nav>
         <div className="header-actions">

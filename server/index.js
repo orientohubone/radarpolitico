@@ -269,6 +269,8 @@ app.get('/api/image', async (req, res) => {
 
 const distDir = path.resolve(currentDir, '..', 'dist')
 app.get('/dossies/esquerda-brasileira', (_req, res) => res.sendFile(path.resolve(currentDir, '..', 'dossi_a_esquerda_brasileira_radar_pol_tico.html')))
+app.get('/relatorios/fiscal-e-cortes-lula-2026-2030', (_req, res) => res.sendFile(path.resolve(currentDir, '..', 'relat_rio_fiscal_e_cortes_lula_2026_2030_radar_pol_tico.html')))
+app.get('/relatorios', (_req, res) => res.redirect(302, '/relatorios/fiscal-e-cortes-lula-2026-2030'))
 app.use(express.static(distDir))
 app.get('*', (_req, res) => res.sendFile(path.join(distDir, 'index.html')))
 const port = process.env.RADAR_PORT || process.env.PORT || 4000

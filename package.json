@@ -6,11 +6,12 @@
   "scripts": {
     "dev": "node server/dev.js",
     "dev:client": "vite",
-    "build": "vite build",
+    "build": "tailwindcss -c tailwind.report.config.cjs -i src/styles/report-tailwind.css -o public/report-fiscal.css --minify && vite build",
     "typecheck": "tsc --noEmit",
     "db:migrate": "node server/migrate.js",
     "db:check": "node server/checkDatabase.js",
     "news:ingest": "node server/ingest.js",
+    "news:update": "npm run news:ingest && npm run editorial:rebuild",
     "news:repair-descriptions": "node server/repairNewsDescriptions.js",
     "editorial:submit": "node .agents/skills/radar-editorial/scripts/submit-draft.mjs",
     "editorial:rebuild": "node server/rebuildEditorialDrafts.js",

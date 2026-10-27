@@ -1,0 +1,1077 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Relatório Fiscal 2026–2030: gastos, dívida e cortes | Radar Político</title>
+    <meta name="description" content="Relatório semanal do Radar Político sobre gastos, dívida pública, medidas fiscais e impactos previstos para Saúde e Educação entre 2026 e 2030.">
+    <link rel="canonical" href="/relatorios/fiscal-e-cortes-lula-2026-2030">
+    <link rel="stylesheet" href="/report-fiscal.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background-color: #ffffff;
+            color: #0f172a;
+            -webkit-font-smoothing: antialiased;
+        }
+        .radar-ribbon-bg {
+            background-color: #07192f;
+            position: relative;
+            overflow: hidden;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col font-sans selection:bg-blue-100 selection:text-blue-900">
+
+    <header class="bg-radar-navy text-white sticky top-0 z-50 shadow-lg">
+        <div class="max-w-[1480px] mx-auto px-4 sm:px-6 lg:px-8 h-[74px] flex items-center justify-between">
+            <a href="/" class="shrink-0" aria-label="Radar Político - Início"><img src="/logo-radar.png" alt="Radar Político" class="w-[158px] brightness-0 invert"></a>
+            <nav class="hidden lg:flex items-center gap-7 text-sm font-semibold text-slate-200 h-full" aria-label="Navegação principal">
+                <a href="/#noticias" class="hover:text-white">Notícias</a><a href="/poderes" class="hover:text-white">Poderes</a><a href="/propostas" class="hover:text-white">Propostas</a><a href="/analises" class="hover:text-white">Análises</a><a href="/dossies/esquerda-brasileira" class="hover:text-white">Dossiês</a><a href="/relatorios" class="h-full flex items-center border-b-[3px] border-radar-yellow text-white">Relatórios</a><a href="/impostometro" class="hover:text-white">Impostômetro</a>
+            </nav>
+            <button id="mobileMenuBtn" class="lg:hidden p-2 text-white" aria-label="Abrir menu"><svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" d="M4 6h16M4 12h16M4 18h16"/></svg></button>
+        </div>
+        <div id="mobileMenuContainer" class="hidden lg:hidden bg-radar-navyLight border-t border-slate-700 px-5 py-4 grid grid-cols-2 gap-3 text-sm"><a href="/#noticias">Notícias</a><a href="/poderes">Poderes</a><a href="/propostas">Propostas</a><a href="/analises">Análises</a><a href="/dossies/esquerda-brasileira">Dossiês</a><a href="/impostometro">Impostômetro</a></div>
+        <nav class="hidden md:flex bg-white text-slate-600 border-b border-slate-200 h-11 items-center justify-center gap-7 text-xs font-bold" aria-label="Capítulos do relatório"><a href="#choque-mercado">01 Choque pós-urna</a><a href="#canais-midia">02 Imprensa e agências</a><a href="#cortes-saude-educacao">03 Saúde e Educação</a><a href="#plano-2027-2030">04 Plano 2027–2030</a><a href="#infografico">05 Infográficos</a></nav>
+    </header>
+
+    <!-- Main Content Container -->
+    <main class="flex-grow max-w-[1480px] w-full mx-auto px-4 sm:px-6 lg:px-8 pt-8 pb-16">
+        <section class="bg-gradient-to-br from-slate-50 to-blue-50/60 border border-slate-200 rounded-2xl px-5 sm:px-8 lg:px-10 pt-7 pb-8 mb-10 shadow-sm">
+
+        <!-- Breadcrumb -->
+        <nav aria-label="Breadcrumb" class="text-xs sm:text-sm font-medium text-blue-600 mb-4 flex items-center space-x-2">
+            <a href="/" class="hover:underline">Início</a>
+            <span class="text-slate-400">/</span>
+            <a href="#choque-mercado" class="hover:underline">Inteligência Econômica</a>
+            <span class="text-slate-400">/</span>
+            <span class="text-red-700 font-semibold">Relatório Fiscal e Cortes 2026–2030</span>
+        </nav>
+
+        <!-- Category Pill -->
+        <div class="mb-3 flex flex-wrap items-center gap-2">
+            <span class="inline-flex items-center gap-1.5 bg-red-600 text-white text-[11px] font-extrabold tracking-wider uppercase px-2.5 py-1 rounded">
+                <span class="w-2 h-2 rounded-full bg-white animate-pulse"></span>
+                RELATÓRIO DE INTELIGÊNCIA • ATUALIZADO EM 27/10/2026
+            </span>
+            <span class="inline-block bg-amber-100 text-amber-900 text-[11px] font-bold tracking-wider uppercase px-2.5 py-1 rounded">
+                FONTES: JOVEM PAN • CNN BRASIL • FITCH • IFI SENADO • PODER360
+            </span>
+        </div>
+
+        <!-- Main Title & Subtitle -->
+        <h1 class="font-display font-extrabold text-3xl sm:text-4xl lg:text-[48px] text-radar-navy leading-[1.08] tracking-tight max-w-6xl mb-4">
+            O ajuste fiscal depois da eleição: R$ 178,1 bilhões em medidas, pressão sobre a dívida e impacto de até R$ 16,6 bilhões na Saúde e Educação
+        </h1>
+        <p class="text-base sm:text-xl text-slate-600 max-w-5xl leading-relaxed mb-7">
+            O relatório reúne os indicadores das primeiras 48 horas após o pleito — dólar em <strong class="text-red-700">+8,21%</strong> e Ibovespa em <strong class="text-red-700">-13,88%</strong> —, as medidas de contingenciamento anunciadas pela equipe econômica e os efeitos estimados da <strong>Lei Complementar 235/2026</strong> sobre Saúde e Educação. Também apresenta os cinco eixos fiscais em discussão para o período de 2027 a 2030.
+        </p>
+
+        <!-- Author & Metadata Row -->
+        <div class="flex flex-wrap items-center justify-between gap-4 py-3 border-y border-slate-200 mb-6 text-xs sm:text-sm text-slate-500">
+            <div class="flex flex-wrap items-center gap-y-2">
+                <div class="flex items-center mr-4">
+                    <div class="w-8 h-8 rounded-full bg-slate-200 text-slate-500 flex items-center justify-center mr-2.5 shrink-0">
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 12c2.7 0 5-2.3 5-5s-2.3-5-5-5-5 2.3-5 5 2.3 5 5 5zm0 2c-3.3 0-10 1.7-10 5v3h20v-3c0-3.3-6.7-5-10-5z"/>
+                        </svg>
+                    </div>
+                    <span class="font-bold text-radar-navy">Núcleo Econômico • Radar Político</span>
+                </div>
+                <span class="hidden sm:inline text-slate-300 mx-2">|</span>
+                <span class="mr-4">Data-base: <strong class="font-medium text-slate-700">27 Out 2026</strong></span>
+                <span class="hidden sm:inline text-slate-300 mx-2">|</span>
+                <span>Legislação analisada: <strong class="font-medium text-red-700">LC nº 235/2026 & MPs 1.391 e 1.395</strong></span>
+            </div>
+
+            <div class="flex items-center space-x-2">
+                <button id="shareBtn" class="w-9 h-9 rounded-full border border-slate-200 flex items-center justify-center text-slate-600 hover:bg-slate-50 hover:text-radar-navy transition" title="Compartilhar relatório">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"/>
+                    </svg>
+                </button>
+                <button id="copyLinkBtn" class="w-9 h-9 rounded-full border border-slate-200 flex items-center justify-center text-slate-600 hover:bg-slate-50 hover:text-radar-navy transition" title="Copiar síntese">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+        <!-- Top Executive KPI Strip -->
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-3.5">
+            <div class="bg-red-50/80 border border-red-200 rounded-xl p-4">
+                <span class="text-[11px] font-extrabold uppercase text-red-800 block">Medidas anunciadas em 2026 (JP)</span>
+                <strong class="text-xl sm:text-2xl font-display font-extrabold text-red-950">R$ 178,1 Bi</strong>
+                <span class="text-xs text-red-700 block mt-0.5">Subsídios, crédito e renúncias fiscais</span>
+            </div>
+            <div class="bg-amber-50/80 border border-amber-200 rounded-xl p-4">
+                <span class="text-[11px] font-extrabold uppercase text-amber-900 block">Impacto estimado em Saúde e Educação</span>
+                <strong class="text-xl sm:text-2xl font-display font-extrabold text-amber-950">-R$ 16,6 Bi</strong>
+                <span class="text-xs text-amber-800 block mt-0.5">Já sancionado (LC 235/2026)</span>
+            </div>
+            <div class="bg-slate-900 text-white rounded-xl p-4">
+                <span class="text-[11px] font-extrabold uppercase text-radar-yellow block">Dívida Bruta Recorde</span>
+                <strong class="text-xl sm:text-2xl font-display font-extrabold text-white">R$ 9,27 Tri</strong>
+                <span class="text-xs text-slate-300 block mt-0.5">+50% atrelada à taxa Selic</span>
+            </div>
+            <div class="bg-blue-50/80 border border-blue-200 rounded-xl p-4">
+                <span class="text-[11px] font-extrabold uppercase text-blue-900 block">Choque Pós-Urna (26–27/10)</span>
+                <strong class="text-xl sm:text-2xl font-display font-extrabold text-blue-950">Dólar +8,21%</strong>
+                <span class="text-xs text-blue-800 block mt-0.5">Queda de -13,88% no Ibovespa</span>
+            </div>
+        </div>
+        </section>
+
+        <!-- Two-Column Layout -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
+
+            <!-- Left Column: Main Report Content (8 cols on lg) -->
+            <article class="lg:col-span-9 space-y-10">
+
+                <!-- ========================================================================= -->
+                <!-- SECTION 1: O CENÁRIO DO MOMENTO E RESSACA ELEITORAL (26 E 27/10/2026)      -->
+                <!-- ========================================================================= -->
+                <section id="choque-mercado" class="scroll-mt-24 space-y-5">
+                    <div class="bg-gradient-to-br from-[#1f0808] via-[#07192f] to-[#0c2544] rounded-2xl p-6 sm:p-8 text-white shadow-lg border border-red-900/40">
+                        <div class="flex flex-wrap items-center justify-between gap-2 mb-3">
+                            <span class="bg-radar-yellow text-radar-navy text-xs font-extrabold uppercase px-3 py-1 rounded tracking-wide">
+                                CENÁRIO ECONÔMICO • 26 E 27 DE OUTUBRO DE 2026
+                            </span>
+                            <span class="text-xs text-red-300 font-mono">TESOURO & FAZENDA</span>
+                        </div>
+                        <h2 class="font-display font-extrabold text-xl sm:text-2xl text-white mb-2">
+                            1. Reação dos mercados e resposta da equipe econômica
+                        </h2>
+                        <p class="text-xs sm:text-sm text-slate-200 leading-relaxed">
+                            Logo após a confirmação da reeleição de Luiz Inácio Lula da Silva no domingo (25/10), o cenário econômico entre segunda-feira (26/10) e esta terça-feira (27/10) é de <strong>forte estresse financeiro e corrida do Ministério da Fazenda para tentar conter a fuga de capitais</strong>:
+                        </p>
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 mt-5 pt-4 border-t border-white/15 text-xs">
+                            <div class="bg-white/5 p-3 rounded-lg border border-white/10">
+                                <strong class="text-radar-yellow block mb-1">Recompra Extraordinária</strong>
+                                <span class="text-slate-300">Com o dólar subindo $+8,21\%$ e a Bolsa caindo $-13,88\%$, o Tesouro Nacional precisou anunciar hoje (27/10) operação extraordinária de recompra de títulos públicos para conter os juros futuros.</span>
+                            </div>
+                            <div class="bg-white/5 p-3 rounded-lg border border-white/10">
+                                <strong class="text-radar-yellow block mb-1">Dario Durigan (13h04)</strong>
+                                <span class="text-slate-300">O ministro da Fazenda (que assumiu após a saída de Haddad para disputar o governo de SP) declarou hoje que o governo <em>"já tem medidas prontas"</em> de ajuste e ampliação do contingenciamento.</span>
+                            </div>
+                            <div class="bg-white/5 p-3 rounded-lg border border-white/10">
+                                <strong class="text-radar-yellow block mb-1">Dívida de R$ 9,27 Tri</strong>
+                                <span class="text-slate-300">O Brasil encerra o ciclo eleitoral de 2026 com a Dívida Bruta do Governo Geral no patamar recorde de R$ 9,27 trilhões, comprimindo a margem de manobra para 2027.</span>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ========================================================================= -->
+                <!-- SECTION 2: O QUE DIZEM OS CANAIS (JOVEM PAN, CNN BRASIL E FITCH)          -->
+                <!-- ========================================================================= -->
+                <section id="canais-midia" class="scroll-mt-24 space-y-6 pt-4 border-t border-slate-200">
+                    <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-2">
+                        <div>
+                            <span class="inline-block bg-blue-50 text-blue-700 text-[11px] font-extrabold uppercase px-2.5 py-0.5 rounded mb-1">
+                                MONITORAMENTO DE IMPRENSA
+                            </span>
+                            <h2 class="font-display font-extrabold text-2xl sm:text-[26px] text-radar-navy">
+                                2. O que estão falando a Jovem Pan, a CNN Brasil e a Agência Fitch
+                            </h2>
+                        </div>
+                    </div>
+
+                    <!-- Card A: Jovem Pan -->
+                    <div class="border-2 border-red-200 bg-red-50/30 rounded-2xl p-5 sm:p-6 space-y-4">
+                        <div class="flex flex-wrap items-center justify-between gap-2 border-b border-red-200 pb-3">
+                            <div class="flex items-center gap-2.5">
+                                <span class="px-2.5 py-1 rounded bg-red-600 text-white font-extrabold text-xs uppercase">JOVEM PAN NEWS</span>
+                                <h3 class="font-display font-extrabold text-lg text-radar-navy">
+                                    Medidas anunciadas em 2026 somam R$ 178,1 bilhões, segundo levantamento
+                                </h3>
+                            </div>
+                            <span class="text-xs font-mono text-slate-500">Levantamento de 26 e 27/10/2026</span>
+                        </div>
+
+                        <p class="text-xs sm:text-sm text-slate-700 leading-relaxed">
+                            Segundo levantamento da <strong>Jovem Pan</strong>, medidas adotadas pelo governo federal ao longo de 2026 somaram <strong>R$ 178,1 bilhões</strong> entre subsídios, linhas de crédito de bancos públicos e renúncias fiscais. A estimativa e seus possíveis efeitos entre 2027 e 2030 devem ser confrontados com os documentos orçamentários e a execução efetiva de cada programa:
+                        </p>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs sm:text-sm">
+                            <div class="bg-white p-4 rounded-xl border border-red-100 shadow-xs">
+                                <span class="text-[10px] font-extrabold uppercase text-red-700 bg-red-100 px-2 py-0.5 rounded">1. COMBUSTÍVEIS ARTIFICIAIS</span>
+                                <h4 class="font-bold text-radar-navy mt-1.5 mb-1">R$ 40 Bilhões em Subsídios (MPs 1.391 e 1.395/2026)</h4>
+                                <p class="text-slate-600 leading-relaxed">
+                                    O governo abriu R$ 7,52 bilhões em créditos extraordinários fora da regra fiscal e destinou R$ 40 bilhões a subsídios. Em 27/10, prorrogou por mais 30 dias a subvenção de <strong>R$ 2,12 por litro de óleo diesel</strong>. A justificativa oficial relaciona a medida à contenção de preços; o custo fiscal deve ser acompanhado na execução.
+                                </p>
+                            </div>
+
+                            <div class="bg-white p-4 rounded-xl border border-red-100 shadow-xs">
+                                <span class="text-[10px] font-extrabold uppercase text-red-700 bg-red-100 px-2 py-0.5 rounded">2. RECUO ELEITORAL</span>
+                                <h4 class="font-bold text-radar-navy mt-1.5 mb-1">Suspensão Eleitoral da "Taxa das Blusinhas" (MP 1.357/2026)</h4>
+                                <p class="text-slate-600 leading-relaxed">
+                                    Para estancar a perda de votos nas classes C e D, o Planalto recuou temporariamente na tributação de compras internacionais de até US$ 50 em 2026, gerando perda de arrecadação estimada em <strong>R$ 1,94 bilhão em 2026</strong> e <strong>R$ 9,72 bilhões até 2028</strong>.
+                                </p>
+                            </div>
+
+                            <div class="bg-white p-4 rounded-xl border border-red-100 shadow-xs">
+                                <span class="text-[10px] font-extrabold uppercase text-red-700 bg-red-100 px-2 py-0.5 rounded">3. CRÉDITO ESTATAL E FGTS</span>
+                                <h4 class="font-bold text-radar-navy mt-1.5 mb-1">Mais de R$ 50 Bilhões via BNDES, FAT e FGTS</h4>
+                                <p class="text-slate-600 leading-relaxed">
+                                    Injeção maciça às vésperas do pleito: <strong>Brasil Soberano II</strong> (R$ 21 bi via FGE/BNDES), <strong>Move Brasil</strong> (R$ 21,2 bi para caminhões e ônibus), <strong>BNDES Mais Inovação</strong> (R$ 10 bi via FAT) e <strong>Desenrola 2.0</strong> (R$ 8,2 bi usando o saldo do FGTS dos trabalhadores).
+                                </p>
+                            </div>
+
+                            <div class="bg-white p-4 rounded-xl border border-red-100 shadow-xs">
+                                <span class="text-[10px] font-extrabold uppercase text-red-700 bg-red-100 px-2 py-0.5 rounded">4. REPRESAMENTO OCULTO</span>
+                                <h4 class="font-bold text-radar-navy mt-1.5 mb-1">Restrição de R$ 105,5 Bilhões nos Ministérios</h4>
+                                <p class="text-slate-600 leading-relaxed">
+                                    A execução orçamentária acumula restrição estimada em <strong>R$ 105,5 bilhões (31,9% das despesas discricionárias)</strong>, com efeitos sobre o fluxo de caixa do <strong>MEC (R$ 13,8 bilhões)</strong>, da <strong>Saúde</strong> e do Ministério das <strong>Cidades (R$ 7,13 bilhões)</strong>.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Card B: CNN Brasil & Fitch Ratings -->
+                    <div class="border border-slate-200 bg-slate-50 rounded-2xl p-5 sm:p-6 space-y-4">
+                        <div class="flex flex-wrap items-center justify-between gap-2 border-b border-slate-200 pb-3">
+                            <div class="flex items-center gap-2.5">
+                                <span class="px-2.5 py-1 rounded bg-radar-navy text-radar-yellow font-extrabold text-xs uppercase">CNN BRASIL & FITCH RATINGS</span>
+                                <h3 class="font-display font-extrabold text-lg text-radar-navy">
+                                    "Reeleição de Lula eleva incerteza fiscal e ameaça dívida pública"
+                                </h3>
+                            </div>
+                            <span class="text-xs font-mono text-slate-500">Relatório Internacional 26/10</span>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs sm:text-sm">
+                            <div class="bg-white p-4 rounded-xl border border-slate-200">
+                                <strong class="text-radar-navy block mb-1">O Paradoxo das Promessas de Última Hora vs. Tesouraço:</strong>
+                                <p class="text-slate-600 leading-relaxed">
+                                    A cobertura da <strong>CNN Brasil</strong> e o relatório da agência <strong>Fitch Ratings</strong> destacam que Lula prometeu na reta final do segundo turno <strong>reajustar o Bolsa Família</strong>, lançar o <strong>Desenrola 3.0</strong> e ampliar a faixa dos <strong>MEIs</strong>. Como essas despesas são permanentes, o governo será forçado a executar um <strong>"Tesouraço Fiscal"</strong> em outras áreas obrigatórias já no 1º trimestre de 2027.
+                                </p>
+                            </div>
+                            <div class="bg-white p-4 rounded-xl border border-slate-200">
+                                <strong class="text-radar-navy block mb-1">Congresso de Centro-Direita como Trava Tributária:</strong>
+                                <p class="text-slate-600 leading-relaxed">
+                                    A análise aponta que o novo Congresso eleito para 2027–2030 é ainda mais inclinado à centro-direita e resistente ao aumento de impostos. Sem conseguir aprovar facilmente novas altas tributárias no Parlamento, a equipe econômica terá de cortar pisos constitucionais (Saúde e Educação) ou mudar novamente a meta fiscal de 2027.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ========================================================================= -->
+                <!-- SECTION 3: CORTES NA SAÚDE E EDUCAÇÃO (LC 235/2026)                        -->
+                <!-- ========================================================================= -->
+                <section id="cortes-saude-educacao" class="scroll-mt-24 space-y-5 pt-6 border-t border-slate-200">
+                    <div class="bg-amber-50 border-2 border-amber-300 rounded-2xl p-5 sm:p-6 space-y-5">
+                        <div class="flex flex-wrap items-center justify-between gap-2">
+                            <span class="bg-red-600 text-white text-[11px] font-extrabold uppercase px-3 py-1 rounded">
+                                BASE LEGAL • LEI COMPLEMENTAR Nº 235/2026
+                            </span>
+                            <span class="text-xs font-mono text-amber-950 font-bold">Sancionada sem vetos por Lula</span>
+                        </div>
+
+                        <div>
+                            <h2 class="font-display font-extrabold text-2xl sm:text-[26px] text-radar-navy">
+                                3. Cortes na Saúde e Educação: A Manobra de até R$ 16,6 Bilhões já Sancionada para 2027
+                            </h2>
+                            <p class="text-xs sm:text-sm text-slate-700 mt-1 leading-relaxed">
+                                A <strong>Lei Complementar nº 235/2026</strong> alterou parâmetros com impacto potencial sobre os recursos destinados à Saúde e à Educação em 2027. O texto foi apresentado pelo líder do governo, Paulo Pimenta, recebeu o apoio dos nove senadores do PT e foi sancionado sem vetos. A dimensão efetiva da redução dependerá da arrecadação e da execução orçamentária.
+                            </p>
+                        </div>
+
+                        <!-- Os 3 Mecanismos da LC 235/2026 -->
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs sm:text-sm">
+                            <div class="bg-white p-4 rounded-xl border border-amber-200 shadow-xs">
+                                <span class="text-[10px] font-extrabold uppercase text-red-700 bg-red-100 px-2 py-0.5 rounded">MECANISMO 01 • SAÚDE</span>
+                                <h3 class="font-bold text-radar-navy text-sm sm:text-base mt-1.5 mb-1">
+                                    Retirada do Petróleo da Base do Piso (-R$ 4,7 bi a -R$ 8 bi)
+                                </h3>
+                                <p class="text-slate-600 leading-relaxed">
+                                    A LC 235 alterou a base de cálculo da Receita Líquida sobre a qual incide o piso constitucional de $15\%$ da Saúde, excluindo *royalties* e participações especiais do petróleo. Mantiveram os $15\%$ no discurso, mas <strong>encolheram o bolo</strong>: a IFI do Senado calcula perda imediata de <strong>R$ 4,7 bilhões</strong> e a XP estima corte de até <strong>R$ 8 bilhões em 2027</strong>.
+                                </p>
+                            </div>
+
+                            <div class="bg-white p-4 rounded-xl border border-amber-200 shadow-xs">
+                                <span class="text-[10px] font-extrabold uppercase text-amber-900 bg-amber-100 px-2 py-0.5 rounded">MECANISMO 02 • PRÉ-SAL</span>
+                                <h3 class="font-bold text-radar-navy text-sm sm:text-base mt-1.5 mb-1">
+                                    Queima Antecipada de R$ 3 Bilhões de 2027 em 2026
+                                </h3>
+                                <p class="text-slate-600 leading-relaxed">
+                                    A Lei 15.164/2025 determinava que recursos do Fundo Social do Pré-Sal fossem adicionais aos pisos de Saúde e Educação. Porém, o <strong>Artigo 13 da LC 235</strong> autorizou Lula a <strong>antecipar R$ 3 bilhões da verba de 2027 para gastar em 2026 (ano eleitoral)</strong>, deixando um buraco no caixa do próximo ano.
+                                </p>
+                            </div>
+
+                            <div class="bg-white p-4 rounded-xl border border-amber-200 shadow-xs">
+                                <span class="text-[10px] font-extrabold uppercase text-blue-900 bg-blue-100 px-2 py-0.5 rounded">MECANISMO 03 • EDUCAÇÃO (MEC)</span>
+                                <h3 class="font-bold text-radar-navy text-sm sm:text-base mt-1.5 mb-1">
+                                    Trava de R$ 13,8 Bi no MEC e Perda Combinada de R$ 16,6 Bi
+                                </h3>
+                                <p class="text-slate-600 leading-relaxed">
+                                    Somando a mudança da base na Saúde com a trava sobre despesas da Educação, levantamentos do <em>Poder360</em> e do <em>Estadão</em> apontam que <strong>Saúde e Educação perderão entre R$ 8,6 bilhões e R$ 16,6 bilhões em 2027</strong> — além do represamento atual de <strong>R$ 13,8 bilhões no MEC</strong> (afetando livros didáticos, universidades e creches).
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ========================================================================= -->
+                <!-- SECTION 4: OS 5 EIXOS DO PLANO DE CONTENÇÃO 2027-2030 ("LULA 4")          -->
+                <!-- ========================================================================= -->
+                <section id="plano-2027-2030" class="scroll-mt-24 space-y-5 pt-6 border-t border-slate-200">
+                    <div class="inline-block bg-radar-navy text-radar-yellow text-[11px] font-extrabold uppercase px-2.5 py-0.5 rounded">
+                        ROTEIRO ECONÔMICO 2027–2030
+                    </div>
+                    <h2 class="font-display font-extrabold text-2xl sm:text-[26px] text-radar-navy">
+                        4. Como será o Plano de Contenção de Gastos de 2027 a 2030 ("Lula 4")?
+                    </h2>
+                    <p class="text-slate-700 leading-relaxed text-base">
+                        Com base nas declarações de hoje (27/10) de <strong>Dario Durigan (Fazenda)</strong>, <strong>Simone Tebet (Planejamento)</strong> e nos documentos técnicos da equipe econômica, o ajuste pós-eleitoral para o ciclo 2027–2030 está estruturado em <strong>5 eixos</strong>:
+                    </p>
+
+                    <div class="space-y-4">
+                        <!-- Eixo 1 -->
+                        <div class="p-5 rounded-xl border border-slate-200 bg-white shadow-xs flex flex-col sm:flex-row gap-4 items-start">
+                            <span class="w-10 h-10 rounded-xl bg-red-600 text-white font-display font-extrabold text-base flex items-center justify-center shrink-0">01</span>
+                            <div>
+                                <span class="text-[11px] font-extrabold uppercase text-red-700">Fim do Crescimento Acelerado</span>
+                                <h3 class="font-bold text-radar-navy text-base sm:text-lg mb-1">Desvinculação dos Pisos da Saúde e da Educação (Teto de $2,5\%$)</h3>
+                                <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                                    A LC 235/2026 foi apenas o primeiro passo. A equipe econômica prepara uma PEC/PLP para <strong>travar o crescimento dos pisos da Saúde e da Educação ao mesmo limite do Arcabouço Fiscal (máximo de $2,5\%$ acima da inflação)</strong> e incluir o <strong>FUNDEB</strong> dentro desse subteto, retirando dezenas de bilhões dessas duas áreas até 2030.
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- Eixo 2 -->
+                        <div class="p-5 rounded-xl border border-slate-200 bg-white shadow-xs flex flex-col sm:flex-row gap-4 items-start">
+                            <span class="w-10 h-10 rounded-xl bg-amber-500 text-radar-navy font-display font-extrabold text-base flex items-center justify-center shrink-0">02</span>
+                            <div>
+                                <span class="text-[11px] font-extrabold uppercase text-amber-800">Benefícios Assistenciais e Previdência</span>
+                                <h3 class="font-bold text-radar-navy text-base sm:text-lg mb-1">Trava no BPC (Idosos e Deficientes), Abono Salarial e Desindexação</h3>
+                                <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                                    Como confirmado por Simone Tebet, o governo fará um endurecimento severo nas regras de concessão médica e cadastral do <strong>BPC/Loas</strong>, revisão de auxílios no INSS e estuda <strong>desindexar benefícios assistenciais da política de valorização real do salário mínimo</strong> (para que subam apenas pela inflação).
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- Eixo 3 -->
+                        <div class="p-5 rounded-xl border border-slate-200 bg-white shadow-xs flex flex-col sm:flex-row gap-4 items-start">
+                            <span class="w-10 h-10 rounded-xl bg-blue-600 text-white font-display font-extrabold text-base flex items-center justify-center shrink-0">03</span>
+                            <div>
+                                <span class="text-[11px] font-extrabold uppercase text-blue-700">Mudança de Regra</span>
+                                <h3 class="font-bold text-radar-navy text-base sm:text-lg mb-1">Reforma do Próprio Arcabouço Fiscal e Flexibilização da Meta de 2027</h3>
+                                <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                                    O próprio ministro Dario Durigan admitiu que o Arcabouço Fiscal criado por Haddad <em>"teve impacto neutro entre 2024 e 2026"</em> e precisará ser reformulado. Bastidores indicam que o governo estuda <strong>reduzir a meta fiscal de 2027</strong> já nos primeiros meses do ano que vem para acomodar o custo do Bolsa Família e do Desenrola 3.0.
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- Eixo 4 -->
+                        <div class="p-5 rounded-xl border border-slate-200 bg-white shadow-xs flex flex-col sm:flex-row gap-4 items-start">
+                            <span class="w-10 h-10 rounded-xl bg-purple-600 text-white font-display font-extrabold text-base flex items-center justify-center shrink-0">04</span>
+                            <div>
+                                <span class="text-[11px] font-extrabold uppercase text-purple-700">Mais Carga Tributária</span>
+                                <h3 class="font-bold text-radar-navy text-base sm:text-lg mb-1">Novo Corte Linear de $10\%$ em Benefícios Fiscais, IOF e Imposto Seletivo</h3>
+                                <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                                    Durigan confirmou hoje (27/10) que repetirá o <strong>corte linear de $10\%$ em benefícios tributários</strong> do setor produtivo e enviará ao Congresso <strong>dois projetos de lei alternativos à MP do IOF</strong>, além de uma nova <strong>MP do Imposto Seletivo ("Imposto do Pecado")</strong> para recompor o caixa esvaziado na campanha.
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- Eixo 5 -->
+                        <div class="p-5 rounded-xl border border-slate-200 bg-white shadow-xs flex flex-col sm:flex-row gap-4 items-start">
+                            <span class="w-10 h-10 rounded-xl bg-radar-navy text-radar-yellow font-display font-extrabold text-base flex items-center justify-center shrink-0">05</span>
+                            <div>
+                                <span class="text-[11px] font-extrabold uppercase text-slate-600">Confronto com o Parlamento</span>
+                                <h3 class="font-bold text-radar-navy text-base sm:text-lg mb-1">Bloqueio de R$ 11 Bilhões em Emendas Parlamentares</h3>
+                                <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                                    Para preservar os programas de vitrine do Planalto, o governo tentará manter um corte/bloqueio de cerca de <strong>R$ 11 bilhões sobre emendas parlamentares</strong>, abrindo um foco de tensão imediata com o novo Congresso a partir de fevereiro de 2027.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Quadro Comparativo: Promessa de Campanha vs. Realidade 2027 -->
+                    <div class="overflow-x-auto rounded-xl border border-slate-200 shadow-xs mt-4">
+                        <table class="w-full text-left border-collapse text-xs sm:text-sm">
+                            <thead>
+                                <tr class="bg-radar-navy text-white">
+                                    <th class="py-3 px-4 font-bold">Área / Tema</th>
+                                    <th class="py-3 px-4 font-bold">Discurso na Campanha (Até 25/10/2026)</th>
+                                    <th class="py-3 px-4 font-bold text-radar-yellow">Realidade Orçamentária (2027–2030)</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-slate-200 bg-white">
+                                <tr>
+                                    <td class="py-3 px-4 font-bold text-radar-navy">Saúde e Educação</td>
+                                    <td class="py-3 px-4 text-slate-600">Acusou a oposição de planejar cortes nos pisos constitucionais.</td>
+                                    <td class="py-3 px-4 text-red-900 font-semibold">Sancionou a LC 235/2026 cortando até R$ 16,6 bi em 2027 e prepara trava de $2,5\%$.</td>
+                                </tr>
+                                <tr>
+                                    <td class="py-3 px-4 font-bold text-radar-navy">Combustíveis e Consumo</td>
+                                    <td class="py-3 px-4 text-slate-600">R$ 40 bi em subsídios de diesel e recuo na "taxa das blusinhas".</td>
+                                    <td class="py-3 px-4 text-red-900 font-semibold">Envio de 2 PLs do IOF, MP do Imposto Seletivo e fim gradual dos subsídios.</td>
+                                </tr>
+                                <tr>
+                                    <td class="py-3 px-4 font-bold text-radar-navy">BPC e Previdência</td>
+                                    <td class="py-3 px-4 text-slate-600">Promessa de proteção intocável aos aposentados e vulneráveis.</td>
+                                    <td class="py-3 px-4 text-red-900 font-semibold">Pente-fino severo no BPC/INSS e estudo para desindexar benefícios do salário mínimo.</td>
+                                </tr>
+                                <tr>
+                                    <td class="py-3 px-4 font-bold text-radar-navy">Dívida e Câmbio</td>
+                                    <td class="py-3 px-4 text-slate-600">Discurso de estabilidade econômica e queda de juros.</td>
+                                    <td class="py-3 px-4 text-red-900 font-semibold">Dívida recorde de R$ 9,27 trilhões, dólar $+8,21\%$ e Bolsa $-13,88\%$ pós-urna.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <!-- ========================================================================= -->
+                <!-- SECTION 5: CRIATIVOS 1080x1920 PRONTOS PARA BAIXAR                        -->
+                <!-- ========================================================================= -->
+                <section id="infografico" class="scroll-mt-24 space-y-5 pt-6 border-t border-slate-200">
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-gradient-to-r from-[#1e0808] via-radar-navy to-radar-navyLight p-5 sm:p-6 rounded-2xl text-white shadow-md">
+                        <div>
+                            <span class="inline-block bg-radar-yellow text-radar-navy text-[10px] font-extrabold uppercase tracking-wider px-2.5 py-0.5 rounded mb-2">
+                                2 CRIATIVOS PARA STORIES / REELS / STATUS (1080×1920)
+                            </span>
+                            <h2 class="font-display font-extrabold text-xl sm:text-2xl text-white">
+                                Infográficos: O Corte na Saúde/Educação & A Conta de 2027–2030
+                            </h2>
+                            <p class="text-xs sm:text-sm text-slate-300 mt-1 max-w-xl">
+                                Escolha abaixo entre a <strong>Arte 1 (O Corte de R$ 16,6 Bi na Saúde e Educação via LC 235/2026)</strong> e a <strong>Arte 2 (A Conta de R$ 178,1 Bi da Reeleição e os 5 Eixos do Ajuste 2027–2030)</strong> em 1080×1920 px.
+                            </p>
+                        </div>
+
+                        <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5 shrink-0">
+                            <button id="downloadInfographicBtn" class="bg-radar-yellow hover:bg-radar-yellowHover text-radar-navy font-extrabold text-xs sm:text-sm px-5 py-3 rounded-xl shadow-lg transition flex items-center justify-center gap-2 cursor-pointer">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2M7 10l5 5m0 0l5-5m-5 5V4"/>
+                                </svg>
+                                <span>Baixar PNG (1080x1920)</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Mode & Theme Selector -->
+                    <div class="flex flex-wrap items-center justify-between gap-3 bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-xs">
+                        <div class="flex flex-wrap items-center gap-2">
+                            <span class="text-slate-600 font-semibold">Escolha a Arte:</span>
+                            <button type="button" data-mode="cortes" class="creative-mode-btn bg-radar-yellow text-radar-navy px-3.5 py-1.5 rounded-lg font-extrabold shadow-xs transition">
+                                Arte 1: O Corte de R$ 16,6 Bi na Saúde e Educação (LC 235/2026)
+                            </button>
+                            <button type="button" data-mode="pacote" class="creative-mode-btn bg-white border border-slate-300 text-slate-700 px-3.5 py-1.5 rounded-lg font-semibold hover:bg-slate-100 transition">
+                                Arte 2: A Conta de R$ 178,1 Bi e o Ajuste 2027–2030
+                            </button>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <span class="text-slate-600 font-semibold">Fundo:</span>
+                            <button type="button" data-theme="navy" class="creative-theme-btn bg-radar-navy text-white px-3 py-1.5 rounded-lg font-bold transition">Escuro</button>
+                            <button type="button" data-theme="light" class="creative-theme-btn bg-white border border-slate-300 text-slate-700 px-3 py-1.5 rounded-lg font-semibold hover:bg-slate-100 transition">Claro</button>
+                        </div>
+                    </div>
+
+                    <!-- Responsive Preview Wrapper for the 1080x1920 Canvas -->
+                    <div class="bg-slate-900/95 border border-slate-800 rounded-2xl p-4 sm:p-8 flex flex-col items-center justify-center shadow-inner">
+                        <div class="w-full max-w-[420px] aspect-[9/16] rounded-xl overflow-hidden shadow-2xl border border-white/15 relative bg-radar-navy">
+                            <canvas id="fiscalReportCanvas" width="1080" height="1920" class="w-full h-full block"></canvas>
+                        </div>
+                        <div class="mt-4 flex flex-wrap items-center justify-center gap-4 text-xs text-slate-300">
+                            <span>Pré-visualização proporcional (9:16)</span>
+                            <span>•</span>
+                            <button id="downloadInfographicBottomBtn" class="text-radar-yellow hover:underline font-bold flex items-center gap-1">
+                                Clique aqui para baixar o arquivo original 1080x1920
+                            </button>
+                        </div>
+                    </div>
+                </section>
+
+            </article>
+
+            <!-- Right Column: Sticky Sidebar (4 cols on lg) -->
+            <aside class="lg:col-span-3 space-y-6 lg:sticky lg:top-32">
+
+                <!-- Box 1: Neste relatório -->
+                <div class="border border-slate-200 rounded-xl p-5 bg-white shadow-sm">
+                    <h3 class="font-display font-extrabold text-base text-radar-navy mb-3">
+                        Neste relatório fiscal
+                    </h3>
+                    <nav class="flex flex-col divide-y divide-slate-100 text-sm">
+                        <a href="#choque-mercado" class="py-2.5 font-bold text-red-700 hover:text-red-900 transition flex items-center justify-between">
+                            <span>1. Choque no Câmbio e Bolsa</span>
+                            <span class="bg-red-100 text-red-800 text-[10px] font-extrabold px-1.5 py-0.5 rounded">27/10</span>
+                        </a>
+                        <a href="#canais-midia" class="py-2.5 text-blue-600 hover:text-blue-800 transition">
+                            2. Jovem Pan (R$ 178,1 bi) & CNN/Fitch
+                        </a>
+                        <a href="#cortes-saude-educacao" class="py-2.5 font-bold text-amber-900 hover:text-amber-700 transition flex items-center justify-between">
+                            <span>3. Corte R$ 16,6 bi (Saúde/Educação)</span>
+                            <span class="bg-amber-100 text-amber-900 text-[10px] font-extrabold px-1.5 py-0.5 rounded">LC 235</span>
+                        </a>
+                        <a href="#plano-2027-2030" class="py-2.5 text-blue-600 hover:text-blue-800 transition">
+                            4. Os 5 Eixos de Contenção 2027–2030
+                        </a>
+                        <a href="#infografico" class="py-2.5 font-bold text-radar-navy hover:text-blue-800 transition flex items-center justify-between">
+                            <span>5. Criativos 1080x1920 (Download)</span>
+                            <span class="bg-radar-yellow text-radar-navy text-[10px] font-extrabold px-1.5 py-0.5 rounded">PNG</span>
+                        </a>
+                    </nav>
+                </div>
+
+                <!-- Box 2: Resumo Rápido para Gravacão / Post -->
+                <div class="radar-ribbon-bg rounded-xl p-6 text-white shadow-md border border-slate-800">
+                    <svg class="absolute -right-6 -bottom-6 w-44 h-44 pointer-events-none opacity-95" viewBox="0 0 200 200" fill="none">
+                        <path d="M190 25C130 45 85 95 140 125C185 150 110 185 60 195" stroke="#f5b800" stroke-width="26" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    <div class="relative z-10 max-w-[250px]">
+                        <span class="text-[10px] font-extrabold uppercase tracking-widest text-radar-yellow block mb-2">SÍNTESE PARA VÍDEO / REELS</span>
+                        <h3 class="font-display font-extrabold text-lg text-white leading-snug mb-2">
+                            Quatro números para acompanhar nesta edição:
+                        </h3>
+                        <ul class="text-xs text-slate-300 space-y-2 mb-4">
+                            <li>• <strong>R$ 178,1 bilhões:</strong> total das medidas de 2026 estimado pela Jovem Pan.</li>
+                            <li>• <strong>-R$ 16,6 bi:</strong> corte em Saúde e Educação já sancionado para 2027 (LC 235/2026).</li>
+                            <li>• <strong>R$ 13,8 bi:</strong> verba travada hoje no Ministério da Educação (MEC).</li>
+                            <li>• <strong>R$ 9,27 trilhões:</strong> recorde histórico da Dívida Pública Bruta.</li>
+                        </ul>
+                        <a href="#infografico" class="inline-block bg-radar-yellow hover:bg-radar-yellowHover text-radar-navy font-bold text-xs px-4 py-2.5 rounded-lg shadow transition">
+                            Baixar Infográficos
+                        </a>
+                    </div>
+                </div>
+
+            </aside>
+
+        </div>
+    </main>
+
+    <section class="relative overflow-hidden bg-[#0d2240] text-white isolate" aria-labelledby="newsletter-title">
+        <img src="/elemento-radar.png" alt="" aria-hidden="true" class="absolute z-0 h-[360px] max-w-none right-[-25px] top-1/2 -translate-y-1/2 opacity-100 max-md:right-[-105px] max-md:h-[310px] max-md:opacity-20">
+        <div class="relative z-10 max-w-[1480px] mx-auto px-4 sm:px-6 lg:px-8 py-10">
+            <h2 id="newsletter-title" class="font-display font-extrabold text-[34px] tracking-[-1.1px] leading-[1.08]">Acompanhe os próximos<br>movimentos</h2>
+            <p class="mt-2 mb-[18px] text-base text-white/75">Receba análises, conteúdos e destaques sobre o cenário político.</p>
+            <form id="reportNewsletter" class="flex max-w-[560px] gap-3 max-sm:flex-col">
+                <div class="relative flex-1 min-w-0"><svg class="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-white/50" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 4h16v16H4zM4 6l8 7 8-7"/></svg><label for="reportEmail" class="sr-only">Seu e-mail</label><input id="reportEmail" type="email" required maxlength="254" placeholder="Seu e-mail" class="w-full h-12 rounded-[5px] border border-white/25 bg-white/10 pl-12 pr-4 text-white placeholder:text-white/50 focus:outline-none focus:border-white/50"></div>
+                <button type="submit" class="min-h-12 rounded-[5px] bg-radar-yellow px-[22px] text-sm font-extrabold text-radar-navy hover:bg-radar-yellowHover">Receber atualizações</button>
+            </form>
+            <p id="newsletterMessage" class="hidden mt-3 text-[13px] text-white/75" role="status">O cadastro de atualizações ainda está em preparação. Seu e-mail não foi enviado nem armazenado.</p>
+        </div>
+    </section>
+    <footer class="bg-[#0d2240] text-white border-t border-white/10">
+        <div class="max-w-[1480px] mx-auto min-h-20 flex items-center gap-10 px-4 sm:px-6 lg:px-8 py-[18px] max-md:flex-col max-md:items-start max-md:gap-[18px] max-md:py-[22px]">
+            <a href="/" class="shrink-0 pr-9 border-r border-white/15 max-md:border-0 max-md:p-0" aria-label="Radar Político, início"><img src="/logo-radar.png" alt="Radar Político" class="h-[30px] w-auto brightness-0 invert"></a>
+            <nav class="flex flex-1 flex-wrap items-center gap-x-1.5 gap-y-1" aria-label="Informações institucionais"><a href="/" class="px-2.5 py-1.5 text-[13px] text-white/75 hover:text-white">Sobre o Radar</a><a href="/" class="px-2.5 py-1.5 text-[13px] text-white/75 hover:text-white">Critérios editoriais</a><a href="/" class="px-2.5 py-1.5 text-[13px] text-white/75 hover:text-white">Fontes e metodologia</a><a href="/" class="px-2.5 py-1.5 text-[13px] text-white/75 hover:text-white">Correções</a><a href="/" class="px-2.5 py-1.5 text-[13px] text-white/75 hover:text-white">Contato</a><a href="/" class="px-2.5 py-1.5 text-[13px] text-white/75 hover:text-white">Privacidade</a></nav>
+        </div>
+    </footer>
+
+    <!-- Toast Notification -->
+    <div id="toastNotification" class="fixed bottom-5 right-5 z-50 hidden bg-radar-navy text-white border border-slate-700 px-4 py-3 rounded-xl shadow-xl flex items-center gap-3 text-xs sm:text-sm max-w-sm">
+        <span class="w-2.5 h-2.5 rounded-full bg-radar-yellow shrink-0"></span>
+        <span id="toastMessage">Ação concluída!</span>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const toast = document.getElementById('toastNotification');
+            const toastMsg = document.getElementById('toastMessage');
+            let toastTimeout;
+            const newsletterForm = document.getElementById('reportNewsletter');
+            const newsletterMessage = document.getElementById('newsletterMessage');
+            newsletterForm?.addEventListener('submit', function (event) {
+                event.preventDefault();
+                newsletterMessage?.classList.remove('hidden');
+            });
+
+            function showToast(message) {
+                toastMsg.textContent = message;
+                toast.classList.remove('hidden');
+                clearTimeout(toastTimeout);
+                toastTimeout = setTimeout(() => {
+                    toast.classList.add('hidden');
+                }, 3500);
+            }
+
+            // Mobile menu
+            const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+            const mobileMenuContainer = document.getElementById('mobileMenuContainer');
+            mobileMenuBtn.addEventListener('click', () => {
+                mobileMenuContainer.classList.toggle('hidden');
+            });
+
+            // Copy & Share
+            function copyText(text, msg) {
+                const temp = document.createElement('textarea');
+                temp.value = text;
+                document.body.appendChild(temp);
+                temp.select();
+                try {
+                    document.execCommand('copy');
+                    showToast(msg);
+                } catch (e) {
+                    showToast('Erro ao copiar.');
+                }
+                document.body.removeChild(temp);
+            }
+
+            document.getElementById('copyLinkBtn').addEventListener('click', () => {
+                copyText(
+                    'Radar Político | Relatório Fiscal 2026–2030: medidas estimadas em R$ 178,1 bilhões, dívida de R$ 9,27 trilhões e impacto potencial de até R$ 16,6 bilhões sobre Saúde e Educação em 2027.',
+                    'Síntese do relatório copiada!'
+                );
+            });
+
+            document.getElementById('shareBtn').addEventListener('click', () => {
+                copyText(
+                    'A CONTA CHEGOU — Veja como funciona a LC 235/2026 que retira até R$ 16,6 bilhões da Saúde e da Educação em 2027 e os 5 eixos do pacote de contenção de gastos até 2030.',
+                    'Texto de compartilhamento copiado!'
+                );
+            });
+
+            // =========================================================================
+            // 1080x1920 INFOGRAPHIC GENERATOR (2 MODES: CORTES LC 235 & PACOTE 2027-30)
+            // =========================================================================
+            const canvas = document.getElementById('fiscalReportCanvas');
+            const ctx = canvas.getContext('2d');
+            let currentTheme = 'navy';
+            let currentMode = 'cortes';
+
+            function roundRect(ctx, x, y, width, height, radius) {
+                ctx.beginPath();
+                ctx.moveTo(x + radius, y);
+                ctx.lineTo(x + width - radius, y);
+                ctx.quadraticCurveTo(x + width, y, x + width, y + radius);
+                ctx.lineTo(x + width, y + height - radius);
+                ctx.quadraticCurveTo(x + width, y + height, x + width - radius, y + height);
+                ctx.lineTo(x + radius, y + height);
+                ctx.quadraticCurveTo(x, y + height, x, y + height - radius);
+                ctx.lineTo(x, y + radius);
+                ctx.quadraticCurveTo(x, y, x + radius, y);
+                ctx.closePath();
+            }
+
+            function drawWrappedText(ctx, text, x, y, maxWidth, lineHeight) {
+                const words = text.split(' ');
+                let line = '';
+                let currentY = y;
+                for (let n = 0; n < words.length; n++) {
+                    const testLine = line + words[n] + ' ';
+                    if (ctx.measureText(testLine).width > maxWidth && n > 0) {
+                        ctx.fillText(line.trim(), x, currentY);
+                        line = words[n] + ' ';
+                        currentY += lineHeight;
+                    } else {
+                        line = testLine;
+                    }
+                }
+                ctx.fillText(line.trim(), x, currentY);
+                return currentY + lineHeight;
+            }
+
+            function drawRadarLogo(ctx, centerX, topY, scale = 1, textColor = '#ffffff', subColor = '#cbd5e1') {
+                ctx.save();
+                ctx.translate(centerX, topY);
+                ctx.scale(scale, scale);
+
+                ctx.font = '800 54px "Plus Jakarta Sans", "Inter", sans-serif';
+                ctx.fillStyle = textColor;
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'top';
+                ctx.fillText('Radar', 0, 0);
+
+                ctx.strokeStyle = '#f5b800';
+                ctx.lineWidth = 4;
+                ctx.lineCap = 'round';
+                ctx.lineJoin = 'round';
+                ctx.beginPath();
+                ctx.moveTo(-8, 30);
+                ctx.lineTo(10, 30);
+                ctx.lineTo(4, 24);
+                ctx.moveTo(10, 30);
+                ctx.lineTo(4, 36);
+                ctx.stroke();
+
+                ctx.font = '700 16px "Inter", sans-serif';
+                ctx.fillStyle = subColor;
+                ctx.fillText('P O L Í T I C O', 0, 58);
+                ctx.restore();
+            }
+
+            function renderCreative(theme = currentTheme, mode = currentMode) {
+                const isNavy = (theme === 'navy');
+                ctx.clearRect(0, 0, 1080, 1920);
+
+                // Background
+                const bgGrad = ctx.createLinearGradient(0, 0, 1080, 1920);
+                if (isNavy) {
+                    bgGrad.addColorStop(0, '#180606');
+                    bgGrad.addColorStop(0.35, '#07192f');
+                    bgGrad.addColorStop(1, '#0b213f');
+                } else {
+                    bgGrad.addColorStop(0, '#fff5f5');
+                    bgGrad.addColorStop(0.4, '#f8fafc');
+                    bgGrad.addColorStop(1, '#eef2ff');
+                }
+                ctx.fillStyle = bgGrad;
+                ctx.fillRect(0, 0, 1080, 1920);
+
+                // Subtle Grid
+                ctx.strokeStyle = isNavy ? 'rgba(239, 68, 68, 0.07)' : 'rgba(15, 23, 42, 0.05)';
+                ctx.lineWidth = 1;
+                for (let gx = 90; gx < 1080; gx += 90) {
+                    ctx.beginPath(); ctx.moveTo(gx, 0); ctx.lineTo(gx, 1920); ctx.stroke();
+                }
+                for (let gy = 90; gy < 1920; gy += 90) {
+                    ctx.beginPath(); ctx.moveTo(0, gy); ctx.lineTo(1080, gy); ctx.stroke();
+                }
+
+                // Decorative Yellow Ribbon
+                ctx.save();
+                ctx.strokeStyle = '#f5b800';
+                ctx.lineWidth = 38;
+                ctx.lineCap = 'round';
+                ctx.beginPath();
+                ctx.moveTo(1130, 40);
+                ctx.bezierCurveTo(960, 80, 910, 190, 1010, 250);
+                ctx.bezierCurveTo(1090, 290, 980, 360, 900, 390);
+                ctx.stroke();
+                ctx.restore();
+
+                // Header Logo
+                drawRadarLogo(ctx, 145, 56, 1.05, isNavy ? '#ffffff' : '#07192f', isNavy ? '#cbd5e1' : '#334155');
+
+                // =========================================================================
+                // MODE 1: O CORTE DE R$ 16,6 BI NA SAÚDE E EDUCAÇÃO (LC 235/2026)
+                // =========================================================================
+                if (mode === 'cortes') {
+                    roundRect(ctx, 510, 68, 500, 46, 23);
+                    ctx.fillStyle = '#dc2626';
+                    ctx.fill();
+                    ctx.font = '800 18px "Inter", sans-serif';
+                    ctx.fillStyle = '#ffffff';
+                    ctx.textAlign = 'center';
+                    ctx.textBaseline = 'middle';
+                    ctx.fillText('LEI COMPLEMENTAR 235/2026 • SANCIONADA', 760, 91);
+
+                    ctx.textAlign = 'left';
+                    ctx.textBaseline = 'top';
+                    ctx.font = '800 47px "Plus Jakarta Sans", "Inter", sans-serif';
+                    ctx.fillStyle = isNavy ? '#ffffff' : '#07192f';
+                    ctx.fillText('CORTES EM SAÚDE E EDUCAÇÃO:', 70, 156);
+
+                    ctx.font = '800 44px "Plus Jakarta Sans", "Inter", sans-serif';
+                    ctx.fillStyle = isNavy ? '#f5b800' : '#dc2626';
+                    ctx.fillText('A MANOBRA DE R$ 16,6 BILHÕES', 70, 214);
+
+                    ctx.font = '500 22px "Inter", sans-serif';
+                    ctx.fillStyle = isNavy ? '#cbd5e1' : '#475569';
+                    drawWrappedText(
+                        ctx,
+                        'Enquanto acusava a oposição na campanha, Lula sancionou sem vetos a LC 235/2026 e prepara o pacote 2027–2030. Veja o que dizem IFI, CNN e Jovem Pan:',
+                        70,
+                        276,
+                        940,
+                        30
+                    );
+
+                    const items = [
+                        {
+                            tag: 'MECANISMO 01 • GOLPE NA BASE DA SAÚDE',
+                            title: '1. Retirada do Petróleo do Piso (-R$ 4,7 bi a -R$ 8 bi)',
+                            lead: 'LC 235/2026 excluiu royalties de petróleo da Receita Líquida.',
+                            desc: 'Mantiveram os 15% da Saúde no papel, mas encolheram o bolo sobre o qual os 15% incidem. Todos os 9 senadores do PT votaram a favor do corte para 2027.',
+                            color: '#ef4444'
+                        },
+                        {
+                            tag: 'MECANISMO 02 • QUEIMA ANTECIPADA (ART. 13)',
+                            title: '2. Anteciparam R$ 3 Bi de 2027 para o Ano Eleitoral',
+                            lead: 'Verba do Fundo Social do Pré-Sal de 2027 foi gasta em 2026.',
+                            desc: 'O Artigo 13 da LC 235 permitiu queimar em 2026 recursos carimbados da Saúde e Educação de 2027. Somado à trava do MEC, a perda chega a R$ 16,6 bilhões.',
+                            color: '#f59e0b'
+                        },
+                        {
+                            tag: 'BLOQUEIO ATUAL • EXECUÇÃO ORÇAMENTÁRIA',
+                            title: '3. R$ 13,8 Bilhões Represados Hoje no MEC',
+                            lead: 'Orçamento federal acumula R$ 105,5 bi de restrição total.',
+                            desc: 'Levantamento da Jovem Pan mostra que o Ministério da Educação sofre represamento de R$ 13,8 bi, afetando universidades, livros didáticos e obras de creches.',
+                            color: '#3b82f6'
+                        },
+                        {
+                            tag: 'PLANO 2027–2030 • DESVINCULAÇÃO DOS PISOS',
+                            title: '4. Trava de 2,5% na Saúde, Educação e FUNDEB',
+                            lead: 'Dario Durigan (Fazenda) anuncia pacote pronto pós-eleição.',
+                            desc: 'Para evitar o colapso do Arcabouço Fiscal entre 2027 e 2030, a equipe econômica quer limitar o crescimento da Saúde e Educação a no máximo 2,5% ao ano.',
+                            color: '#a855f7'
+                        },
+                        {
+                            tag: 'PENTE-FINO • BPC E APOSENTADORIAS',
+                            title: '5. Endurecimento no BPC e Volta do IOF / Impostos',
+                            lead: 'Revisão severa de benefícios para idosos e pessoas com deficiência.',
+                            desc: 'Além de tentar desindexar benefícios do salário mínimo, a Fazenda enviará ao Congresso 2 PLs alternativos ao IOF e a nova MP do Imposto Seletivo.',
+                            color: '#dc2626'
+                        }
+                    ];
+
+                    let yPos = 358;
+                    items.forEach((b) => {
+                        roundRect(ctx, 70, yPos, 940, 232, 20);
+                        ctx.fillStyle = isNavy ? 'rgba(15, 39, 71, 0.94)' : '#ffffff';
+                        ctx.fill();
+                        ctx.lineWidth = 2;
+                        ctx.strokeStyle = isNavy ? 'rgba(245, 184, 0, 0.28)' : '#cbd5e1';
+                        ctx.stroke();
+
+                        roundRect(ctx, 70, yPos, 15, 232, 7);
+                        ctx.fillStyle = b.color;
+                        ctx.fill();
+
+                        roundRect(ctx, 106, yPos + 18, 430, 34, 9);
+                        ctx.fillStyle = b.color;
+                        ctx.fill();
+                        ctx.font = '800 15px "Inter", sans-serif';
+                        ctx.fillStyle = '#ffffff';
+                        ctx.textAlign = 'center';
+                        ctx.textBaseline = 'middle';
+                        ctx.fillText(b.tag, 321, yPos + 35);
+
+                        ctx.textAlign = 'left';
+                        ctx.textBaseline = 'top';
+                        ctx.font = '800 27px "Plus Jakarta Sans", "Inter", sans-serif';
+                        ctx.fillStyle = isNavy ? '#ffffff' : '#07192f';
+                        ctx.fillText(b.title, 106, yPos + 64);
+
+                        ctx.font = '700 20px "Inter", sans-serif';
+                        ctx.fillStyle = isNavy ? '#fde047' : '#b91c1c';
+                        ctx.fillText(b.lead, 106, yPos + 104);
+
+                        ctx.font = '500 20px "Inter", sans-serif';
+                        ctx.fillStyle = isNavy ? '#e2e8f0' : '#334155';
+                        drawWrappedText(ctx, b.desc, 106, yPos + 138, 880, 28);
+
+                        yPos += 248;
+                    });
+
+                    const synY = 1612;
+                    roundRect(ctx, 70, synY, 940, 200, 22);
+                    ctx.fillStyle = isNavy ? '#230b11' : '#fef2f2';
+                    ctx.fill();
+                    ctx.lineWidth = 3;
+                    ctx.strokeStyle = '#f5b800';
+                    ctx.stroke();
+
+                    ctx.font = '800 24px "Plus Jakarta Sans", "Inter", sans-serif';
+                    ctx.fillStyle = isNavy ? '#f5b800' : '#991b1b';
+                    ctx.fillText('A CONTRADIÇÃO EXPOSTA NO DIA SEGUINTE À URNA:', 104, synY + 24);
+
+                    ctx.font = '600 21px "Inter", sans-serif';
+                    ctx.fillStyle = isNavy ? '#ffffff' : '#1e293b';
+                    drawWrappedText(
+                        ctx,
+                        'Medidas anunciadas em 2026 somam R$ 178,1 bilhões, enquanto mudanças fiscais podem afetar Saúde e Educação e a dívida pública alcança R$ 9,27 trilhões.',
+                        104,
+                        synY + 64,
+                        875,
+                        31
+                    );
+
+                    ctx.fillStyle = isNavy ? '#cbd5e1' : '#475569';
+                    ctx.font = '600 20px "Inter", sans-serif';
+                    ctx.fillText('Radar Político • Fontes: IFI Senado, LC 235/2026, Jovem Pan e CNN (27/10/2026)', 70, 1852);
+                    return;
+                }
+
+                // =========================================================================
+                // MODE 2: A CONTA DE R$ 178,1 BI E OS 5 EIXOS DO AJUSTE 2027-2030
+                // =========================================================================
+                roundRect(ctx, 520, 68, 490, 46, 23);
+                ctx.fillStyle = '#f5b800';
+                ctx.fill();
+                ctx.font = '800 18px "Inter", sans-serif';
+                ctx.fillStyle = '#07192f';
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                ctx.fillText('RELATÓRIO ECONÔMICO • CICLO 2026–2030', 765, 91);
+
+                ctx.textAlign = 'left';
+                ctx.textBaseline = 'top';
+                ctx.font = '800 48px "Plus Jakarta Sans", "Inter", sans-serif';
+                ctx.fillStyle = isNavy ? '#ffffff' : '#07192f';
+                ctx.fillText('A CONTA DE R$ 178,1 BILHÕES', 70, 156);
+
+                ctx.font = '800 43px "Plus Jakarta Sans", "Inter", sans-serif';
+                ctx.fillStyle = isNavy ? '#f5b800' : '#dc2626';
+                ctx.fillText('E O CHOQUE FISCAL DE 2027 A 2030', 70, 214);
+
+                ctx.font = '500 22px "Inter", sans-serif';
+                ctx.fillStyle = isNavy ? '#cbd5e1' : '#475569';
+                drawWrappedText(
+                    ctx,
+                    'Raio-X do estresse pós-eleição (26 e 27/10): Dólar dispara +8,21%, Bolsa tomba -13,88% e agência Fitch alerta para explosão da dívida de R$ 9,27 trilhões:',
+                    70,
+                    276,
+                    940,
+                    30
+                );
+
+                const blocks = [
+                    {
+                        tag: 'LEVANTAMENTO JOVEM PAN • R$ 178,1 BILHÕES',
+                        title: '1. Medidas fiscais e de crédito anunciadas em 2026',
+                        lead: 'R$ 40 bi em subsídio de combustível + recuo na Taxa das Blusinhas.',
+                        desc: 'Governo usou créditos fora da regra fiscal (MPs 1.391 e 1.395), suspendeu imposto de importados até US$ 50 (-R$ 9,72 bi até 2028) e liberou R$ 50 bi via BNDES/FGTS.',
+                        color: '#ef4444'
+                    },
+                    {
+                        tag: 'CHOQUE NO MERCADO • 26 E 27 DE OUTUBRO',
+                        title: '2. Dólar +8,21%, Bolsa -13,88% e Recompra do Tesouro',
+                        lead: 'Dívida Bruta bate recorde histórico de R$ 9,27 trilhões.',
+                        desc: 'Diante da fuga de investidores após o resultado da urna, o Tesouro Nacional precisou intervir hoje (27/10) recomprando títulos e Durigan convocou coletiva de emergência.',
+                        color: '#f59e0b'
+                    },
+                    {
+                        tag: 'ALERTA CNN BRASIL & AGÊNCIA FITCH RATINGS',
+                        title: '3. O Paradoxo: Promessas de Campanha vs. Tesouraço',
+                        lead: 'Novo Congresso de centro-direita barrará aumentos fáceis de impostos.',
+                        desc: 'Fitch alerta que reajuste do Bolsa Família e Desenrola 3.0 exigirão corte drástico em despesas obrigatórias ou mudança da meta fiscal logo no início de 2027.',
+                        color: '#3b82f6'
+                    },
+                    {
+                        tag: 'CONTENÇÃO 2027–2030 • PISOS E PREVIDÊNCIA',
+                        title: '4. Desvinculação da Saúde/Educação e Trava no BPC',
+                        lead: 'Pisos sociais limitados a 2,5% e pente-fino severo no INSS.',
+                        desc: 'Após cortar até R$ 16,6 bi via LC 235/2026, plano para o 4º mandato prevê desvincular pisos da receita e rever critérios de idosos e deficientes no BPC.',
+                        color: '#a855f7'
+                    },
+                    {
+                        tag: 'RECOMPOSIÇÃO DE CAIXA • MAIS TRIBUTOS',
+                        title: '5. Corte de 10% em Benefícios Fiscais, IOF e Pecado',
+                        lead: 'Fazenda enviará 2 projetos do IOF e nova MP do Imposto Seletivo.',
+                        desc: 'Para fechar o rombo deixado pela campanha, Durigan confirmou novo corte linear de 10% sobre incentivos do setor produtivo e trava de R$ 11 bi em emendas.',
+                        color: '#dc2626'
+                    }
+                ];
+
+                let yPos = 358;
+                blocks.forEach((b) => {
+                    roundRect(ctx, 70, yPos, 940, 232, 20);
+                    ctx.fillStyle = isNavy ? 'rgba(15, 39, 71, 0.94)' : '#ffffff';
+                    ctx.fill();
+                    ctx.lineWidth = 2;
+                    ctx.strokeStyle = isNavy ? 'rgba(239, 68, 68, 0.28)' : '#cbd5e1';
+                    ctx.stroke();
+
+                    roundRect(ctx, 70, yPos, 15, 232, 7);
+                    ctx.fillStyle = b.color;
+                    ctx.fill();
+
+                    roundRect(ctx, 106, yPos + 18, 435, 34, 9);
+                    ctx.fillStyle = b.color;
+                    ctx.fill();
+                    ctx.font = '800 15px "Inter", sans-serif';
+                    ctx.fillStyle = '#ffffff';
+                    ctx.textAlign = 'center';
+                    ctx.textBaseline = 'middle';
+                    ctx.fillText(b.tag, 323, yPos + 35);
+
+                    ctx.textAlign = 'left';
+                    ctx.textBaseline = 'top';
+                    ctx.font = '800 27px "Plus Jakarta Sans", "Inter", sans-serif';
+                    ctx.fillStyle = isNavy ? '#ffffff' : '#07192f';
+                    ctx.fillText(b.title, 106, yPos + 64);
+
+                    ctx.font = '700 20px "Inter", sans-serif';
+                    ctx.fillStyle = isNavy ? '#fde047' : '#b91c1c';
+                    ctx.fillText(b.lead, 106, yPos + 104);
+
+                    ctx.font = '500 20px "Inter", sans-serif';
+                    ctx.fillStyle = isNavy ? '#e2e8f0' : '#334155';
+                    drawWrappedText(ctx, b.desc, 106, yPos + 138, 880, 28);
+
+                    yPos += 248;
+                });
+
+                const synY = 1612;
+                roundRect(ctx, 70, synY, 940, 200, 22);
+                ctx.fillStyle = isNavy ? '#230b11' : '#fef2f2';
+                ctx.fill();
+                ctx.lineWidth = 3;
+                ctx.strokeStyle = '#f5b800';
+                ctx.stroke();
+
+                ctx.font = '800 24px "Plus Jakarta Sans", "Inter", sans-serif';
+                ctx.fillStyle = isNavy ? '#f5b800' : '#991b1b';
+                ctx.fillText('RESUMO EXECUTIVO: POPULISMO NA URNA, CONTA EM 2027', 104, synY + 24);
+
+                ctx.font = '600 21px "Inter", sans-serif';
+                ctx.fillStyle = isNavy ? '#ffffff' : '#1e293b';
+                drawWrappedText(
+                    ctx,
+                    'A engrenagem de 2026 repetiu o roteiro clássico: injetou R$ 178,1 bilhões antes do voto para simular fartura e, 48 horas após a urna fechar, anunciou contingenciamento, alta de impostos e cortes na Saúde e Educação.',
+                    104,
+                    synY + 64,
+                    875,
+                    31
+                );
+
+                ctx.fillStyle = isNavy ? '#cbd5e1' : '#475569';
+                ctx.font = '600 20px "Inter", sans-serif';
+                ctx.fillText('Radar Político • Monitoramento: Jovem Pan, CNN Brasil, Fitch e Fazenda (27/10/2026)', 70, 1852);
+            }
+
+            if (document.fonts && document.fonts.ready) {
+                document.fonts.ready.then(() => renderCreative(currentTheme, currentMode));
+            } else {
+                renderCreative(currentTheme, currentMode);
+            }
+
+            const modeBtns = document.querySelectorAll('.creative-mode-btn');
+            modeBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    currentMode = btn.getAttribute('data-mode');
+                    modeBtns.forEach(b => {
+                        b.classList.remove('bg-radar-yellow', 'text-radar-navy', 'font-extrabold');
+                        b.classList.add('bg-white', 'border', 'border-slate-300', 'text-slate-700', 'font-semibold');
+                    });
+                    btn.classList.remove('bg-white', 'border', 'border-slate-300', 'text-slate-700', 'font-semibold');
+                    btn.classList.add('bg-radar-yellow', 'text-radar-navy', 'font-extrabold');
+                    renderCreative(currentTheme, currentMode);
+                });
+            });
+
+            const themeBtns = document.querySelectorAll('.creative-theme-btn');
+            themeBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    currentTheme = btn.getAttribute('data-theme');
+                    themeBtns.forEach(b => {
+                        b.classList.remove('bg-radar-navy', 'text-white', 'font-bold');
+                        b.classList.add('bg-white', 'border', 'border-slate-300', 'text-slate-700', 'font-semibold');
+                    });
+                    btn.classList.remove('bg-white', 'border', 'border-slate-300', 'text-slate-700', 'font-semibold');
+                    btn.classList.add('bg-radar-navy', 'text-white', 'font-bold');
+                    renderCreative(currentTheme, currentMode);
+                });
+            });
+
+            function downloadPNG() {
+                renderCreative(currentTheme, currentMode);
+                try {
+                    const dataUrl = canvas.toDataURL('image/png', 1.0);
+                    const link = document.createElement('a');
+                    link.download = `radar-politico-fiscal-${currentMode}-1080x1920-${currentTheme}.png`;
+                    link.href = dataUrl;
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                    showToast('Download iniciado! Criativo 1080x1920 gerado com sucesso.');
+                } catch (e) {
+                    showToast('Erro ao gerar a imagem.');
+                }
+            }
+
+            document.getElementById('downloadInfographicBtn').addEventListener('click', downloadPNG);
+            document.getElementById('downloadInfographicBottomBtn').addEventListener('click', downloadPNG);
+        });
+    </script>
+</body>
+</html>
