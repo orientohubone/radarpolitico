@@ -74,7 +74,7 @@ export default function Analyses({ onNavigate }: { onNavigate: (page: PageName) 
     </div></header>
 
     <main>
-      <section className="powers-hero analyses-hero"><div className="powers-shell powers-hero-inner"><div className="powers-intro"><p className="breadcrumb"><a href="/" onClick={e => { e.preventDefault(); onNavigate('home') }}>Início</a><span>/</span>Análises</p><h1>Análises</h1><p>Contexto para compreender os fatos e seus desdobramentos.</p></div><div className="powers-ribbon hero-radar-element" aria-hidden="true"><img src="/elemento-radar.png" alt="" /></div></div></section>
+      <section className="powers-hero analyses-hero"><img className="powers-hero-art" src="/images/banner-analises-editorial.png" alt="Ilustração editorial de analistas examinando documentos políticos" /><div className="powers-shell powers-hero-inner"><div className="powers-intro"><p className="breadcrumb"><a href="/" onClick={e => { e.preventDefault(); onNavigate('home') }}>Início</a><span>/</span>Análises</p><h1>Análises</h1><p>Contexto para compreender os fatos e seus desdobramentos.</p></div></div></section>
 
       <section className="powers-shell analyses-content">
         <form className="analysis-filters" onSubmit={e => { e.preventDefault(); setSubmittedQuery(query) }}>

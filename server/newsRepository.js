@@ -64,8 +64,8 @@ export async function ingestNews(items) {
       let articleId = article.rows[0]?.id
       if (!articleId) {
         const createdArticle = await client.query(`insert into articles
-          (primary_source_item_id, slug, headline, summary, what_happened, why_it_matters, what_next, category, content_type, status, cover_image_url, published_at)
-          values ($1,$2,$3,$4,$5,$6,$7,$8,'noticia','published',$9,coalesce($10,now())) returning id`,
+          (primary_source_item_id, slug, headline, summary, what_happened, why_it_matters, what_next, category, content_type, status, editorial_status, cover_image_url, published_at)
+          values ($1,$2,$3,$4,$5,$6,$7,$8,'noticia','draft','raw',$9,null) returning id`,
           [sourceItemId, slug(item.title), item.title, item.description || '', item.description || '',
             'Contextualização editorial pendente de revisão pela equipe do Radar Político.',
             'Novas informações serão incorporadas após verificação pela equipe editorial.', item.category || 'Política', item.image || '', item.publishedAt || null])

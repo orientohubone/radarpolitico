@@ -3,6 +3,7 @@ import type { PageName } from '../App'
 
 type QueueItem = { id: string; slug: string; headline: string; category: string; source: string; editorialStatus: string; status: string; publishedAt: string }
 type Editorial = { id: string; headline: string; summary: string; whatHappened: string; whyItMatters: string; whoIsAffected: string; argumentsFor: string; argumentsAgainst: string; openQuestions: string; whatNext: string; radarView: string; keyPoints: string[]; editorialStatus: string; status: string; slug: string; publishedAt: string; authorName: string; reviewedBy: string; source: string; sourceTitle: string; sourceDescription: string; sourceUrl: string }
+type NewsHealth = { intervalMs: number; running: boolean; lastSuccessAt: string | null; lastError: string | null }
 
 const blank: Editorial = { id: '', headline: '', summary: '', whatHappened: '', whyItMatters: '', whoIsAffected: '', argumentsFor: '', argumentsAgainst: '', openQuestions: '', whatNext: '', radarView: '', keyPoints: [], editorialStatus: 'draft', status: 'draft', slug: '', publishedAt: '', authorName: 'Redação Radar Político', reviewedBy: '', source: '', sourceTitle: '', sourceDescription: '', sourceUrl: '' }
 const statusLabel: Record<string, string> = { update: 'Atualizar', raw: 'Conteúdo bruto', draft: 'Rascunho', review: 'Em revisão', ready: 'Editorial pronto' }
@@ -20,15 +21,17 @@ export default function EditorialAdmin({ onNavigate }: { onNavigate: (page: Page
   const [importJson, setImportJson] = useState('')
   const [selected, setSelected] = useState<Set<string>>(new Set())
   const [bulkLoading, setBulkLoading] = useState(false)
+  const [newsHealth, setNewsHealth] = useState<NewsHealth | null>(null)
   const headers = { 'content-type': 'application/json', authorization: `Bearer ${token}` }
 
   async function loadQueue() {
     if (!token) return
     setLoading(true)
     try {
-      const response = await fetch('/api/admin/articles', { headers })
-      if (!response.ok) throw new Error('Token inválido ou sessão expirada.')
+      const [response, healthResponse] = await Promise.all([fetch('/api/admin/articles', { headers }), fetch('/api/admin/news-health', { headers })])
+      if (!response.ok || !healthResponse.ok) throw new Error('Token inválido ou sessão expirada.')
       setItems((await response.json()).items)
+      setNewsHealth(await healthResponse.json())
     } catch (error) {
       setMessage(error instanceof Error ? error.message : 'Falha ao carregar.')
       setToken(''); sessionStorage.removeItem('radar:editorial-token')
@@ -119,7 +122,7 @@ export default function EditorialAdmin({ onNavigate }: { onNavigate: (page: Page
   if (!token) return <main className="editorial-login"><form onSubmit={event => { event.preventDefault(); sessionStorage.setItem('radar:editorial-token', inputToken); setToken(inputToken) }}><img src="/logo-radar.png" alt="Radar Político" /><span className="editorial-login-kicker">Área restrita</span><h1>Mesa editorial</h1><p>Revise fontes, aprimore rascunhos e prepare conteúdos antes da publicação.</p><input type="password" value={inputToken} onChange={event => setInputToken(event.target.value)} placeholder="Token editorial" required /><button className="button yellow">Entrar no painel</button>{message && <small>{message}</small>}</form></main>
 
   return <div className="editorial-admin">
-    <header><button className="editorial-brand" onClick={() => onNavigate('home')}><img src="/logo-radar.png" alt="Radar Político" /></button><div><span>Mesa editorial</span><button className="editorial-import-trigger" onClick={() => setImportOpen(true)}>+ Importar rascunho IA</button><button onClick={() => { sessionStorage.removeItem('radar:editorial-token'); setToken('') }}>Sair</button></div></header>
+    <header><button className="editorial-brand" onClick={() => onNavigate('home')}><img src="/logo-radar.png" alt="Radar Político" /></button><div><span>Mesa editorial</span><small className={newsHealth?.lastError ? 'pipeline-health has-error' : 'pipeline-health'}>{newsHealth?.running ? '● Atualizando notícias…' : newsHealth?.lastError ? '● Falha no último ciclo' : `● Ciclo automático ativo · ${Math.round((newsHealth?.intervalMs || 900000) / 60000)} min`}</small><button className="editorial-import-trigger" onClick={() => setImportOpen(true)}>+ Importar rascunho IA</button><button onClick={() => { sessionStorage.removeItem('radar:editorial-token'); setToken('') }}>Sair</button></div></header>
     <section className="editorial-overview"><div><span>Fila total</span><strong>{items.length}</strong></div>{(['update','raw','draft','review','ready'] as const).map(status => <button key={status} className={filter === status ? 'active' : ''} onClick={() => setFilter(filter === status ? 'all' : status)}><span>{statusLabel[status]}</span><strong>{counts[status] || 0}</strong></button>)}</section>
     <main>
       <aside>

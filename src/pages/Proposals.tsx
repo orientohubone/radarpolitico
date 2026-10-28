@@ -153,13 +153,13 @@ export default function Proposals({ onNavigate }: { onNavigate: (page: PageName)
 
     <main>
       <section className="powers-hero proposals-hero">
+        <img className="powers-hero-art" src="/images/banner-propostas-editorial.png" alt="Ilustração editorial de propostas sendo analisadas no Congresso" />
         <div className="powers-shell powers-hero-inner">
           <div className="powers-intro">
             <p className="breadcrumb"><a href="/" onClick={e => { e.preventDefault(); onNavigate('home') }}>Início</a><span>/</span>Propostas</p>
             <h1>Propostas</h1>
             <p>Acompanhe o que é proposto e como cada iniciativa avança.</p>
           </div>
-          <div className="powers-ribbon hero-radar-element" aria-hidden="true"><img src="/elemento-radar.png" alt="" /></div>
         </div>
       </section>
 

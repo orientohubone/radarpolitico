@@ -150,14 +150,14 @@ export default function Powers({ onNavigate }: { onNavigate: (page: 'home' | 'po
     </header>
 
     <main>
-      <section className="powers-hero">
+      <section className="powers-hero powers-hero--institutions">
+        <img className="powers-hero-art" src="/images/banner-poderes-editorial.png" alt="Ilustração editorial dos três Poderes em Brasília" />
         <div className="powers-shell powers-hero-inner">
           <div className="powers-intro">
             <p className="breadcrumb"><a href="/" onClick={e => { e.preventDefault(); onNavigate('home') }}>Início</a><span>/</span>Poderes</p>
             <h1>Poderes e representantes</h1>
             <p>Conheça as instituições e acompanhe a atuação de seus integrantes.</p>
           </div>
-          <div className="powers-ribbon hero-radar-element" aria-hidden="true"><img src="/elemento-radar.png" alt="" /></div>
         </div>
       </section>
 

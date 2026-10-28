@@ -25,17 +25,24 @@
 </head>
 <body class="min-h-screen flex flex-col font-sans selection:bg-blue-100 selection:text-blue-900">
 
-    <header class="bg-radar-navy text-white sticky top-0 z-50 shadow-lg">
-        <div class="max-w-[1480px] mx-auto px-4 sm:px-6 lg:px-8 h-[74px] flex items-center justify-between">
-            <a href="/" class="shrink-0" aria-label="Radar Político - Início"><img src="/logo-radar.png" alt="Radar Político" class="w-[158px] brightness-0 invert"></a>
-            <nav class="hidden lg:flex items-center gap-7 text-sm font-semibold text-slate-200 h-full" aria-label="Navegação principal">
-                <a href="/#noticias" class="hover:text-white">Notícias</a><a href="/poderes" class="hover:text-white">Poderes</a><a href="/propostas" class="hover:text-white">Propostas</a><a href="/analises" class="hover:text-white">Análises</a><a href="/dossies/esquerda-brasileira" class="hover:text-white">Dossiês</a><a href="/relatorios" class="h-full flex items-center border-b-[3px] border-radar-yellow text-white">Relatórios</a><a href="/impostometro" class="hover:text-white">Impostômetro</a>
+    <header class="sticky top-0 z-50 bg-[#0d2240] text-white shadow-[0_1px_0_rgba(255,255,255,.08)]">
+        <a href="/impostometro" id="reportTaxTicker" class="min-h-[34px] px-4 py-1.5 flex items-center justify-center gap-[15px] bg-[#f5c800] text-[#09192e] text-xs border-b border-black/15 hover:bg-[#ffd740] max-md:flex-wrap max-md:gap-x-2">
+            <span class="inline-flex items-center gap-[7px] font-extrabold uppercase tracking-[.7px]"><i class="w-[7px] h-[7px] rounded-full bg-[#16834b] shadow-[0_0_0_3px_rgba(22,131,75,.14)]"></i> Impostômetro do Radar</span>
+            <strong id="reportTaxValue" class="text-[15px] tabular-nums whitespace-nowrap">Carregando arrecadação…</strong>
+            <span id="reportTaxMeta" class="text-[#3e4651] max-md:hidden"></span><span class="ml-2 font-extrabold whitespace-nowrap">Ver painel →</span>
+        </a>
+        <div class="w-[min(1200px,calc(100%-32px))] mx-auto h-[70px] flex items-center justify-between gap-8 max-md:h-[62px]">
+            <a href="/" class="inline-flex shrink-0 items-center" aria-label="Radar Político, início"><img src="/logo-radar.png" alt="Radar Político" class="h-[38px] w-auto"></a>
+            <nav class="hidden md:flex items-center gap-1 ml-12 text-[15px] font-semibold text-white/80" aria-label="Navegação principal">
+                <a href="/#noticias" class="relative px-3.5 py-2 hover:text-white">Notícias</a><a href="/poderes" class="relative px-3.5 py-2 hover:text-white">Poderes</a><a href="/propostas" class="relative px-3.5 py-2 hover:text-white">Propostas</a><a href="/analises" class="relative px-3.5 py-2 hover:text-white">Análises</a>
+                <details class="relative"><summary class="flex items-center gap-1.5 px-3.5 py-2 cursor-pointer list-none hover:text-white">Dossiês <span class="text-xs">⌄</span></summary><div class="absolute top-[calc(100%+12px)] right-0 w-[286px] p-2.5 text-[#183b5c] bg-white border border-[#d8e1e9] rounded-[7px] shadow-[0_16px_40px_rgba(0,20,42,.24)]"><small class="block px-2 py-2 text-[9px] font-extrabold tracking-wider uppercase text-[#718296]">Sistemas políticos e espectros</small><a href="/dossies/esquerda-brasileira" class="flex justify-between gap-2.5 p-2.5 rounded bg-[#edf6ff]"><span>Esquerda brasileira</span><b class="text-[9px] uppercase text-[#075fa8]">Acessar →</b></a></div></details>
+                <a href="/relatorios/fiscal-e-cortes-lula-2026-2030" class="relative px-3.5 py-2 text-white border-b-2 border-[#f5c800]">Relatórios</a><a href="/impostometro" class="relative px-3.5 py-2 hover:text-white">Impostômetro</a>
             </nav>
-            <button id="mobileMenuBtn" class="lg:hidden p-2 text-white" aria-label="Abrir menu"><svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" d="M4 6h16M4 12h16M4 18h16"/></svg></button>
+            <div class="ml-auto flex items-center gap-1"><a href="/#noticias" class="flex items-center justify-center px-3.5 py-2 border-l border-white/15 text-white/85" aria-label="Buscar notícias"><svg class="w-[22px] h-[22px]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg></a><button id="mobileMenuBtn" class="hidden max-md:flex p-2.5" aria-label="Abrir menu"><svg class="w-[22px] h-[22px]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" d="M4 6h16M4 12h16M4 18h16"/></svg></button></div>
         </div>
-        <div id="mobileMenuContainer" class="hidden lg:hidden bg-radar-navyLight border-t border-slate-700 px-5 py-4 grid grid-cols-2 gap-3 text-sm"><a href="/#noticias">Notícias</a><a href="/poderes">Poderes</a><a href="/propostas">Propostas</a><a href="/analises">Análises</a><a href="/dossies/esquerda-brasileira">Dossiês</a><a href="/impostometro">Impostômetro</a></div>
-        <nav class="hidden md:flex bg-white text-slate-600 border-b border-slate-200 h-11 items-center justify-center gap-7 text-xs font-bold" aria-label="Capítulos do relatório"><a href="#choque-mercado">01 Choque pós-urna</a><a href="#canais-midia">02 Imprensa e agências</a><a href="#cortes-saude-educacao">03 Saúde e Educação</a><a href="#plano-2027-2030">04 Plano 2027–2030</a><a href="#infografico">05 Infográficos</a></nav>
+        <div id="mobileMenuContainer" class="hidden md:hidden bg-[#0d2240] px-5 pt-2 pb-4 flex-col text-[15px] font-semibold"><a class="py-3" href="/#noticias">Notícias</a><a class="py-3" href="/poderes">Poderes</a><a class="py-3" href="/propostas">Propostas</a><a class="py-3" href="/analises">Análises</a><a class="py-3" href="/dossies/esquerda-brasileira">Dossiês</a><a class="py-3" href="/relatorios">Relatórios</a><a class="py-3" href="/impostometro">Impostômetro</a></div>
     </header>
+    <nav class="hidden md:flex sticky top-[104px] z-40 bg-white text-slate-600 border-b border-slate-200 h-11 items-center justify-center gap-7 text-xs font-bold shadow-sm" aria-label="Capítulos do relatório"><a href="#choque-mercado">01 Choque pós-urna</a><a href="#canais-midia">02 Imprensa e agências</a><a href="#cortes-saude-educacao">03 Saúde e Educação</a><a href="#plano-2027-2030">04 Plano 2027–2030</a><a href="#infografico">05 Stories</a></nav>
 
     <!-- Main Content Container -->
     <main class="flex-grow max-w-[1480px] w-full mx-auto px-4 sm:px-6 lg:px-8 pt-8 pb-16">
@@ -575,6 +582,15 @@
                 event.preventDefault();
                 newsletterMessage?.classList.remove('hidden');
             });
+            fetch('/api/tax-meter').then(response => response.ok ? response.json() : Promise.reject()).then(data => {
+                const value = document.getElementById('reportTaxValue');
+                const meta = document.getElementById('reportTaxMeta');
+                const started = Date.now();
+                const money = amount => new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL', maximumFractionDigits: 2 }).format(amount);
+                const update = () => { if (value) value.textContent = money(data.estimatedTotal + ((Date.now() - started) / 86400000) * data.dailyPace); };
+                update(); window.setInterval(update, 250);
+                if (meta) meta.textContent = `Estimativa federal em ${data.year} • oficial até ${String(data.lastClosedMonth).toLocaleLowerCase('pt-BR')}`;
+            }).catch(() => {});
 
             function showToast(message) {
                 toastMsg.textContent = message;

@@ -4,6 +4,8 @@ import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import fs from 'node:fs/promises'
 import sharp from 'sharp'
+import { execFile } from 'node:child_process'
+import { promisify } from 'node:util'
 import { databaseEnabled } from './db.js'
 import { collectNews, NEWS_SOURCES } from './newsSources.js'
 import { createEditorialArticle, getDatabaseHealth, getEditorialArticle, ingestNews, listEditorialArticles, listPublishedNews, setArticlePublication, updateEditorialArticle, bulkSetStatus, bulkSetPublication } from './newsRepository.js'
@@ -18,6 +20,9 @@ const cacheDir = path.join(currentDir, '.cache')
 const cache = new Map()
 const refreshing = new Map()
 const CACHE_MS = 5 * 60 * 1000
+const NEWS_PIPELINE_MS = Math.max(5 * 60 * 1000, Number(process.env.NEWS_PIPELINE_MS) || 15 * 60 * 1000)
+const execFileAsync = promisify(execFile)
+const pipelineState = { running: false, lastStartedAt: null, lastCompletedAt: null, lastSuccessAt: null, lastError: null, result: null }
 const isAdmin = req => Boolean(process.env.INGEST_TOKEN) && req.get('authorization') === `Bearer ${process.env.INGEST_TOKEN}`
 
 async function readDiskCache(key) {
@@ -30,6 +35,25 @@ async function writeDiskCache(key, entry) {
 async function clearCache(key) {
   cache.delete(key)
   await fs.rm(path.join(cacheDir, `${key}.json`), { force: true }).catch(() => {})
+}
+async function runNewsPipeline() {
+  if (pipelineState.running) return { skipped: true, reason: 'already_running', state: pipelineState }
+  pipelineState.running = true; pipelineState.lastStartedAt = new Date().toISOString(); pipelineState.lastError = null
+  try {
+    const collected = await collectNews()
+    const ingest = await ingestNews(collected.items)
+    const images = await reconcileArticleImages()
+    const rebuild = await execFileAsync(process.execPath, [path.join(currentDir, 'rebuildEditorialDrafts.js')], { cwd: path.resolve(currentDir, '..'), timeout: 10 * 60 * 1000, maxBuffer: 1024 * 1024 })
+    await clearCache('news-v9')
+    pipelineState.result = { ingest, images, sourceErrors: collected.errors, editorial: rebuild.stdout.trim().split(/\r?\n/).slice(-8).join('\n') }
+    pipelineState.lastSuccessAt = new Date().toISOString()
+    return { ok: true, ...pipelineState.result }
+  } catch (error) {
+    pipelineState.lastError = error.message
+    throw error
+  } finally {
+    pipelineState.running = false; pipelineState.lastCompletedAt = new Date().toISOString()
+  }
 }
 async function refreshCache(key, loader) {
   if (refreshing.has(key)) return refreshing.get(key)
@@ -75,12 +99,14 @@ app.post('/api/admin/ingest', async (req, res) => {
   if (!databaseEnabled) return res.status(503).json({ error: 'DATABASE_URL não configurada.' })
   if (!process.env.INGEST_TOKEN || req.get('authorization') !== `Bearer ${process.env.INGEST_TOKEN}`) return res.status(401).json({ error: 'Não autorizado.' })
   try {
-    const collected = await collectNews()
-    const result = await ingestNews(collected.items)
-    const images = await reconcileArticleImages()
-    await clearCache('news-v9')
-    res.json({ ...result, images, errors: collected.errors, completedAt: new Date().toISOString() })
+    const result = await runNewsPipeline()
+    res.json({ ...result, completedAt: new Date().toISOString() })
   } catch (error) { res.status(502).json({ error: 'Falha na ingestão.', detail: error.message }) }
+})
+
+app.get('/api/admin/news-health', (req, res) => {
+  if (!isAdmin(req)) return res.status(401).json({ error: 'Não autorizado.' })
+  res.json({ intervalMs: NEWS_PIPELINE_MS, ...pipelineState })
 })
 
 app.post('/api/admin/media-sync', async (req, res) => {
@@ -275,3 +301,7 @@ app.use(express.static(distDir))
 app.get('*', (_req, res) => res.sendFile(path.join(distDir, 'index.html')))
 const port = process.env.RADAR_PORT || process.env.PORT || 4000
 app.listen(port, () => console.log(`Radar Político em http://localhost:${port} (${databaseEnabled ? 'Neon Postgres' : 'fallback sem banco'})`))
+if (databaseEnabled) {
+  const pipelineTimer = setInterval(() => runNewsPipeline().catch(error => console.error('Falha no ciclo automático de notícias:', error.message)), NEWS_PIPELINE_MS)
+  pipelineTimer.unref()
+}

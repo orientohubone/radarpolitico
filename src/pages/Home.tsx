@@ -150,7 +150,7 @@ export default function Home({ onNavigate, onOpenNews }: { onNavigate?: (page: '
             </div>
           </button>
           <aside className="politician-banner">
-            <img className="brand-element brand-element--card" src="/elemento-radar.png" alt="" aria-hidden="true" />
+            <img className="politician-banner-art" src="/images/card-representantes-editorial.png" alt="" aria-hidden="true" />
             <h2>Conheça quem<br />representa você</h2>
             <a className="button yellow" href="/poderes" onClick={e => { e.preventDefault(); onNavigate?.('powers') }}>Explorar poderes <Icon name="arrow" /></a>
           </aside>

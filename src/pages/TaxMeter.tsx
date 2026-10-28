@@ -43,7 +43,7 @@ export default function TaxMeter({ onNavigate }: { onNavigate?: (page: 'home' | 
     </div></header>
     <main id="conteudo">
       <section className="tax-hero">
-        <img className="tax-hero-element" src="/elemento-radar.png" alt="" aria-hidden="true" />
+        <img className="tax-hero-art" src="/images/banner-impostometro-editorial.png" alt="" aria-hidden="true" />
         <div className="container tax-hero-inner">
           <div className="tax-kicker"><span aria-hidden="true" /> Dados públicos • Brasil</div>
           <h1>Impostômetro do Radar</h1>
